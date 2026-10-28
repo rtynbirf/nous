@@ -44,7 +44,7 @@ tools:
   shellcheck:
     ref: "0.10.0"
     verified_at: "2026-10-29"
-    method: ".mise.toml"
+    method: ".mise.toml (локально); CI использует предустановленный shellcheck раннера — калибровка при смене образа"
 
 forge: # R1 (тикет 0001): заполняется калибровкой; сейчас — сознательно pending
   windows-image:
@@ -54,4 +54,4 @@ forge: # R1 (тикет 0001): заполняется калибровкой; с
     note: "источник pbatard/Fido, пин по релизу + SHA256"
   debian-netinst:
     status: pending-calibration
-    note: "вариант с firmware для Debian 12"
+    note: "официальный netinst 12 (non-free-firmware включён)"

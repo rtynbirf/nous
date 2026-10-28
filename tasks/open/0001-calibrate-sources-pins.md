@@ -4,7 +4,8 @@
 
 ## Роль
 
-forge-architect (спека проверки) → forge-librarian (фиксация пинов).
+forge-architect — исполнитель калибровки (контракт даёт право на секцию `forge:` пинов);
+forge-librarian — state-снимок после приёмки. Приёмка — forge-verifier.
 
 ## Цель
 
@@ -15,8 +16,8 @@ windows-image (официальный канал Microsoft), fido (pbatard/Fido:
 
 ## Границы
 
-Разрешено: `manifests/pins.yaml` (секция forge), `docs/spec/implementation/01-sources.md`
-(уточнения методов проверки). Запрещено: код, workflows, тесты.
+Разрешено: `manifests/pins.yaml` (секция `forge:`), `docs/spec/implementation/01-sources.md`
+(уточнения методов проверки), `state/` (снимок). Запрещено: код, workflows, тесты.
 
 ## Критерии приёмки
 

@@ -39,7 +39,7 @@ REQUIRED_FILES = [
     "scripts/bootstrap.sh", "scripts/verify.sh", "scripts/state.sh",
     "scripts/gen_llms.sh", "scripts/pin_action.sh",
     "manifests/pins.yaml", "manifests/safe-defaults.yaml",
-    "state/README.md", "tasks/README.md",
+    "state/README.md", "tasks/README.md", "tasks/done/.gitkeep",
     "src/forge/README.md", "templates/README.md",
 ]
 
@@ -67,6 +67,28 @@ class TestStructure(unittest.TestCase):
         for name in ("README.md", "AGENTS.md", "CONTRIBUTING.md", "SECURITY.md"):
             text = (ROOT / name).read_text(encoding="utf-8")
             self.assertGreater(len(text), 500, f"{name} подозрительно пуст")
+
+    def test_task_numbering_continuous(self):
+        nums = sorted(
+            int(m.group(1))
+            for p in (ROOT / "tasks" / "open").glob("*.md")
+            if (m := re.match(r"(\d{4})", p.name))
+        )
+        self.assertGreaterEqual(len(nums), 5)
+        self.assertEqual(nums, list(range(1, len(nums) + 1)),
+                         "нумерация тикетов tasks/open разорвана")
+
+    def test_pins_not_stale(self):
+        from datetime import date, datetime
+        pins = yaml.safe_load((ROOT / "manifests" / "pins.yaml").read_text(encoding="utf-8"))
+        today = date.today()
+        sections = [pins["actions"], pins["tools"]]
+        for section in sections:
+            for name, pin in section.items():
+                checked = datetime.strptime(str(pin["verified_at"]), "%Y-%m-%d").date()
+                age_days = (today - checked).days
+                self.assertLess(age_days, 90,
+                                f"{name}: пин устарел ({age_days} дн.) — нужна калибровка")
 
     def test_adr_numbering_continuous(self):
         adr_dir = ROOT / "docs" / "decisions"

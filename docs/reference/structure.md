@@ -33,7 +33,7 @@
 | `docs/guides/` | руководства: субъект, ветка исполнения, релиз |
 | `docs/concepts/` | аксиомы, карта=территория, субъекты, контур, дефолты |
 | `docs/spec/` | ТЗ, roadmap, реализация 01–07 |
-| `docs/decisions/` | ADR (MADR, непрерывная нумерация) |
+| `docs/decisions/` | ADR (MADR-подобные, непрерывная нумерация) |
 | `docs/reference/` | этот референс, команды, security baseline |
 | `src/forge/` | целевой код форжа (появляется по тикетам R2–R4) |
 | `tests/` | исполняемая карта: test_structure, test_workflows, test_docs |

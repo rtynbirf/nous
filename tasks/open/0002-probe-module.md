@@ -4,8 +4,8 @@
 
 ## Роль
 
-forge-architect (спека уже есть: `docs/spec/implementation/02-probe.md`) →
-forge-builder-win + forge-builder-linux (реализация своих частей), forge-verifier (приёмка).
+forge-builder-win + forge-builder-linux — совместная реализация общего модуля
+(контракты обоих сборщиков дают право на `src/forge/probe/**`); приёмка — forge-verifier.
 
 ## Цель
 

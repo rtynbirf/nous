@@ -11,7 +11,7 @@
 | `bash scripts/state.sh` | снимок состояния → `state/snapshot-<дата>.md` | после значимых фаз |
 | `bash scripts/gen_llms.sh` | генерирует `llms.txt` из `docs/` | локально и в CI |
 | `bash scripts/pin_action.sh <owner/repo> <tag>` | резолв commit-SHA для пина | при добавлении/обновлении action |
-| `make bootstrap` / `make verify` / `make state` | алиасы через Makefile | по вкусу |
+| `make bootstrap` / `make verify` / `make state` / `make release` | алиасы через Makefile | по вкусу |
 
 ## Git-поток (субъекты)
 

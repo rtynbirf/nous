@@ -56,7 +56,7 @@ make bootstrap | verify | state
 5. **Conventional Commits.** `feat|fix|docs|test|chore|refactor|ci|build: суть`. Скоуп — орган:
    `feat(forge-win): …`, `docs(adr): …`.
 6. **Решение изменено — ADR обновлён.** Новое «ПОЧЕМУ ТОЛЬКО ТАК» → `docs/decisions/NNNN-*.md`
-   (формат MADR, нумерация непрерывна — тест `tests/` следит).
+   (MADR-подобный формат, нумерация непрерывна — тест `tests/` следит).
 7. **Отчёт по тикету** = ссылка на коммит + сырые выводы verify + изменённые файлы + что НЕ
    проверено. Без доказательств тикет не переносится в `done/`.
 
@@ -72,7 +72,7 @@ make bootstrap | verify | state
 ## 6. Знание по требованию
 
 - Как добавить субъекта: `docs/guides/new-subject.md`
-- Как устроен контур эмержентности: `docs/concepts/emergence.md`
+- Как устроен контур эмерджентности: `docs/concepts/emergence.md`
 - ТЗ форжа (цель всего): `docs/spec/tz-nous-forge.md`
 - Дорожная карта и текущая фаза: `docs/spec/roadmap.md`
 - Полный референс структуры: `docs/reference/structure.md`

@@ -4,8 +4,8 @@
 
 ## Роль
 
-forge-architect (спека уже есть: 05-verify) → forge-verifier (внедрение чек-листа),
-forge-librarian (state-снимки после фаз).
+forge-verifier — исполнитель (модуль верификации — собственная зона роли);
+forge-architect — правки спеки 05 при отклонениях.
 
 ## Цель
 
@@ -17,9 +17,9 @@ forge-librarian (state-снимки после фаз).
 
 ## Границы
 
-Разрешено: `src/forge/**` (только verify-часть), `tests/test_forge_verify*`,
-`docs/spec/implementation/05-verify.md` (уточнения). Запрещено: ослабление
-`tests/` корня, изменения manifests.
+Разрешено: `src/forge/verify/**`, `tests/test_forge_verify*`,
+`docs/spec/implementation/05-verify.md` (уточнения), `state/` (снимки).
+Запрещено: ослабление `tests/` корня, изменения manifests.
 
 ## Критерии приёмки
 

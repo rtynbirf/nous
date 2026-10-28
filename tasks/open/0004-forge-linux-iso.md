@@ -8,7 +8,7 @@ forge-builder-linux (реализация), forge-architect (ADR при откл
 
 ## Цель
 
-Модуль `src/forge/linux/`: netinst по пинам (Debian 12 firmware-вариант,
+Модуль `src/forge/linux/`: netinst по пинам (Debian 12, non-free-firmware включён,
 SHA256 сверен с официальным SHA256SUMS), рендер preseed с безопасными
 дефолтами (confirm_nooverwrite=true, без автостирания), гибрид xorriso
 (BIOS+UEFI: `-isohybrid-mbr` + `-eltorito-alt-boot`), SHA256SUMS, лог.

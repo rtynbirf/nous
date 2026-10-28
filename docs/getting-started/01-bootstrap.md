@@ -16,7 +16,7 @@ cd nous
 bash scripts/bootstrap.sh
 ```
 
-Скрипт идемпотентен: проверяет `git` и `python3` (3.12+), ставит зависимости из
+Скрипт идемпотентен: проверяет `git` и `python3` (минимум 3.11, рекомендуем 3.12), ставит зависимости из
 `requirements-dev.txt` (pyyaml, pre-commit, mkdocs-material, zizmor) и активирует
 git-хуки pre-commit. Повторный запуск безопасен. Пользователи mise/direnv могут
 использовать `.mise.toml` и скопировать `.envrc.example` в `.envrc`.
@@ -33,7 +33,7 @@ bash scripts/verify.sh
    целостность ссылок документов.
 2. `shellcheck scripts/*.sh` — рефлексы без дефектов.
 3. `pre-commit run --all-files` — gitleaks (нет секретов) и гигиена файлов.
-4. `zizmor .github/workflows` — аудited воркфлоу.
+4. `zizmor .github/workflows` — аудит воркфлоу.
 5. `mkdocs build --strict` — документация собирается без предупреждений.
 
 ## Шаг 4. Снять состояние организма

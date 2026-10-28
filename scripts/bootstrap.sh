@@ -9,7 +9,11 @@ command -v git >/dev/null 2>&1 || { echo "FAIL: git не найден"; exit 1; 
 command -v python3 >/dev/null 2>&1 || { echo "FAIL: python3 не найден"; exit 1; }
 
 pyver=$(python3 -c 'import sys; print(f"{sys.version_info[0]}.{sys.version_info[1]}")')
-echo "[bootstrap] python3 = ${pyver} (минимум 3.11)"
+echo "[bootstrap] python3 = ${pyver} (минимум 3.11, рекомендуем 3.12)"
+if ! python3 -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)'; then
+  echo "FAIL: требуется python3 >= 3.11 (найден ${pyver})"
+  exit 1
+fi
 
 # Изолированное окружение: не портим системный python
 if [ ! -x .venv/bin/python ]; then

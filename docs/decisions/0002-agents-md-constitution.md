@@ -37,3 +37,10 @@ N субъектов-агентов (Claude Code, Codex, Copilot, Cursor, Gemini
 - Правило размера: файл правится только с проверкой, что он остался плотным.
 - Свежие инструменты, читающие AGENTS.md, работают из коробки; новые контракты
   ролей добавляются в `.claude/agents/` без изменения конституции.
+
+## Источники (проверено 2026-10-29)
+
+- Стандарт и экосистема: https://agents.md (60k+ проектов, стюард — Agentic AI
+  Foundation под Linux Foundation).
+- Эвалы Vercel (индекс в AGENTS.md против skills):
+  https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals

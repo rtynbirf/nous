@@ -19,8 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write
-      attestations: write
+      id-token: write     # под аттестационный шаг за гейтом ENABLE_ATTESTATION (ADR-0003)
+      attestations: write # без сработавшего гейта шаг не исполняется
     steps:
       - name: checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
