@@ -1,0 +1,32 @@
+# Среда и сборка
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+site/
+dist/
+build/
+*.egg-info/
+
+# Секреты и локальное (никогда не коммитится)
+.envrc
+.env
+*.pem
+*.key
+token*.txt
+*credentials*
+
+# Инструменты
+node_modules/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Снимки state во временном виде (финальные снимки коммитятся)
+state/*.tmp
+
+# ОС
+.DS_Store
+Thumbs.db
+*.log
+llms.txt

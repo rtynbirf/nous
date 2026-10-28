@@ -1,0 +1,8 @@
+# Скопируй в .envrc (файл в .gitignore, секреты не коммитятся) и отредактируй.
+# Требуется direnv (https://direnv.net). Интеграция с mise: `mise activate direnv`.
+
+# Пример (НЕ заполняй секретами здесь):
+# export NOUS_TARGET_DIR="${HOME}/nous-out"   # каталог вывода артефактов форжа
+# export NOUS_LOG_LEVEL="info"
+
+use mise

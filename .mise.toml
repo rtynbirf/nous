@@ -1,0 +1,16 @@
+# НОУС: инструменты среды. Политика: версии = пины из manifests/pins.yaml.
+[tools]
+python = "3.12"
+shellcheck = "0.10.0"
+
+[tasks.bootstrap]
+description = "подготовить среду"
+run = "bash scripts/bootstrap.sh"
+
+[tasks.verify]
+description = "сверить карту с территорией"
+run = "bash scripts/verify.sh"
+
+[tasks.state]
+description = "снимок состояния"
+run = "bash scripts/state.sh"
