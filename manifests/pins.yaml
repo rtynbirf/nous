@@ -1,0 +1,57 @@
+# НОУС · manifests/pins.yaml — канонический реестр пинов (ADR-0006)
+# Правило: код не содержит пинов; каждая запись имеет source/версию, SHA, дату и метод проверки.
+meta:
+  last_calibration: "2026-10-29"
+  policy: "обновление только через тикет калибровки; дата и метод обязательны"
+
+actions: # полное имя action → тег + commit-SHA (проверено scripts/pin_action.sh)
+  actions/checkout:
+    tag: v5.0.0
+    sha: "08c6903cd8c0fde910a37f88322edcfb5dd907a8"
+    verified_at: "2026-10-29"
+    method: "git ls-remote с дереференсом тега"
+  actions/setup-python:
+    tag: v6.0.0
+    sha: "e797f83bcb11b83ae66e0230d6156d7c80228e7c"
+    verified_at: "2026-10-29"
+    method: "git ls-remote с дереференсом тега"
+  actions/upload-artifact:
+    tag: v7.0.2
+    sha: "cf430e030ddbb5b0abf93d22962f4752f3646cd9"
+    verified_at: "2026-10-29"
+    method: "git ls-remote (лёгкий тег)"
+  actions/attest-build-provenance:
+    tag: v2.3.0
+    sha: "db473fddc028af60658334401dc6fa3ffd8669fd"
+    verified_at: "2026-10-29"
+    method: "git ls-remote с дереференсом тега"
+  pre-commit/pre-commit-hooks:
+    tag: v5.0.0
+    sha: "cef0300fd0fc4d2a87a85fa2093c6b283ea36f4b"
+    verified_at: "2026-10-29"
+    method: "git ls-remote с дереференсом тега"
+  gitleaks/gitleaks:
+    tag: v8.30.1
+    sha: "83d9cd684c87d95d656c1458ef04895a7f1cbd8e"
+    verified_at: "2026-10-29"
+    method: "git ls-remote с дереференсом тега"
+
+tools:
+  python:
+    ref: "3.12"
+    verified_at: "2026-10-29"
+    method: "образ CI ubuntu-latest + .mise.toml"
+  shellcheck:
+    ref: "0.10.0"
+    verified_at: "2026-10-29"
+    method: ".mise.toml"
+
+forge: # R1 (тикет 0001): заполняется калибровкой; сейчас — сознательно pending
+  windows-image:
+    status: pending-calibration
+  fido:
+    status: pending-calibration
+    note: "источник pbatard/Fido, пин по релизу + SHA256"
+  debian-netinst:
+    status: pending-calibration
+    note: "вариант с firmware для Debian 12"

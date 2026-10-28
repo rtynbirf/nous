@@ -1,0 +1,16 @@
+# Канонический реестр опасных дефолтов НОУС (см. ADR-0006, спека 06).
+# Изменение любого ключа — только через ADR с подтверждением владельца.
+# Ослабление в коде без ADR = блокировка PR верификатором.
+
+wipe_disk: false                  # форж никогда не стирает носители по умолчанию
+write_to_physical_media: false    # запись на реальные USB/CD запрещена
+auto_publish: false               # артефакты не покидают репо автоматически
+repo_visibility: private          # публикация репо — явное решение владельца
+push_force: false                 # история — карта решений, не переписывается
+destructive_ops: require-explicit-approval  # 4 гейта спеки 06, не выборочно
+secrets_in_repo: forbidden        # секретов нет нигде; .envrc в .gitignore
+actions_pinning: sha-required     # только полные 40-символьные SHA (ADR-0004)
+
+# Инварианты генерируемых конфигураций (спека 06)
+oobe_will_wipe_disk: false        # autounattend.xml → DiskConfiguration/WillWipeDisk
+partman_confirm_nooverwrite: true # preseed → d-i partman/confirm_nooverwrite
