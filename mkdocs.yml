@@ -1,0 +1,60 @@
+site_name: НОУС
+site_description: Эмерджентное сингулярное репо — конституция для человека и агентов
+site_author: rtynbirf
+repo_url: https://github.com/rtynbirf/nous
+repo_name: rtynbirf/nous
+
+theme:
+  name: material
+  language: ru
+  features:
+    - content.code.copy
+    - navigation.sections
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: amber
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Витрина: index.md
+  - Начало:
+      - bootstrap: getting-started/01-bootstrap.md
+  - Практика:
+      - Новый субъект: guides/new-subject.md
+      - Ветка исполнения: guides/execution-branch.md
+      - Релиз: guides/release.md
+  - Понятия:
+      - Аксиомы: concepts/axioms.md
+      - Карта = территория: concepts/map-territory.md
+      - N=СУБЪЕКТ≠ИНДИВИД: concepts/subjects.md
+      - Эмерджентный контур: concepts/emergence.md
+      - Безопасные дефолты: concepts/safe-defaults.md
+  - Спеки:
+      - ТЗ форжа: spec/tz-nous-forge.md
+      - Дорожная карта: spec/roadmap.md
+      - Реализация 01 Источники: spec/implementation/01-sources.md
+      - Реализация 02 Probe: spec/implementation/02-probe.md
+      - Реализация 03 Windows ISO: spec/implementation/03-windows-iso.md
+      - Реализация 04 Linux ISO: spec/implementation/04-linux-iso.md
+      - Реализация 05 Verify: spec/implementation/05-verify.md
+      - Реализация 06 Безопасные дефолты: spec/implementation/06-safe-defaults.md
+      - Реализация 07 Диспетчеризация: spec/implementation/07-agent-dispatch.md
+  - Решения (ADR):
+      - 0001 SSOT-монорепо: decisions/0001-ssot-monorepo.md
+      - 0002 AGENTS.md-конституция: decisions/0002-agents-md-constitution.md
+      - 0003 Разделение CI и release: decisions/0003-split-ci-release.md
+      - 0004 Пин actions по SHA: decisions/0004-pin-actions-by-sha.md
+      - 0005 Русский язык документов: decisions/0005-russian-language.md
+      - 0006 manifests как калибровка: decisions/0006-manifests-pins.md
+      - 0007 Ветка исполнения агентов: decisions/0007-agents-branch-dispatch.md
+      - 0008 actions.lock позже: decisions/0008-actions-lock-deferred.md
+  - Референс:
+      - Структура: reference/structure.md
+      - Команды: reference/commands.md
+      - Базовый уровень безопасности: reference/security-baseline.md
