@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~)",
+      "Bash(git push --force*)",
+      "Bash(diskpart*)",
+      "Bash(dd if=*of=/dev/*)"
+    ]
+  },
+  "hooks": {}
+}

@@ -1,0 +1,20 @@
+{
+  "name": "nous",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "postCreateCommand": "bash scripts/bootstrap.sh",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "editorconfig.editorconfig",
+        "ms-python.python",
+        "gitleaks.gitleaks"
+      ]
+    }
+  },
+  "remoteEnv": {
+    "SHELL": "/bin/bash"
+  }
+}

@@ -1,0 +1,16 @@
+---
+description: НОУС — конституция, команды, карта репы (всегда в контексте)
+alwaysApply: true
+---
+
+# НОУС: базовые правила
+
+1. Полная конституция — `AGENTS.md` в корне. При конфликте она сильнее.
+2. Работа — только по тикету `tasks/open/`, только в ветке `agents/execution`.
+3. Команды: `bash scripts/bootstrap.sh` (среда), `bash scripts/verify.sh` (все проверки,
+   обязателен зелёный), `bash scripts/state.sh` (снимок), `bash scripts/pin_action.sh`
+   (резолв SHA).
+4. Коммиты — Conventional Commits: `feat|fix|docs|test|chore|refactor|ci|build(скоуп): суть`.
+5. Знание: `docs/` — Диатаксис; решения — `docs/decisions/NNNN-*.md` (MADR); ТЗ и план —
+   `docs/spec/`.
+6. Отчёт — сырые выводы команд + список файлов + что не проверено. Пересказ не принимается.
