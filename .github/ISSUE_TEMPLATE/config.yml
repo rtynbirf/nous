@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Уязвимость / безопасность
+    url: https://github.com/rtynbirf/nous/security/advisories/new
+    about: Только приватное сообщение о безопасности. Секреты в issue не публикуются.
+  - name: Конституция и правила
+    url: https://github.com/rtynbirf/nous/blob/main/AGENTS.md
+    about: Прежде чем открыть тикет — прочитай AGENTS.md.
