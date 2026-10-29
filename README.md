@@ -4,7 +4,7 @@
 > НОУС (греч. Νοῦς — мировой Разум): порядок, вносимый в хаос. Здесь порядок вносится контуром
 > «контракт → исполнение → верификация → память».
 
-**Статус:** приватное репо-конституция + живая территория форжа · ветка исполнения: `agents/execution` · версия: `0.2.0`
+**Статус:** приватное репо-конституция + живая территория форжа · ветка исполнения: `agents/execution` · версия: `0.4.0`
 **Проверено:** 2026-10-29 · все внешние пины — в [`manifests/pins.yaml`](manifests/pins.yaml) · генеалогия гейта — [`docs/genesis/revision-0.md`](docs/genesis/revision-0.md)
 
 ---
@@ -44,6 +44,14 @@ NOUS_PW_HASH="$(openssl passwd -6)" bash src/forge/forge.sh ubuntu-2404
 # CI: workflow forge.yml — ночью и вручную (ADR-0009)
 ```
 
+### Скан (сенсор территории, v0.4.0)
+
+```bash
+NOUS_TARGET_DIR=dist bash src/scan/scan.sh examples-scan/urls.txt
+# анонимный клон в чистой среде (токены вырезаны, ssh выключен), инвентарь,
+# статусы GAP<UNKNOWN<PARTIAL<CONFIRMED, журнал evidence.jsonl (ADR-0011)
+```
+
 ## Карта тела
 
 | Путь | Орган | Зачем |
@@ -52,7 +60,8 @@ NOUS_PW_HASH="$(openssl passwd -6)" bash src/forge/forge.sh ubuntu-2404
 | `.claude/agents/*.md` | Генофонд субъектов | контракты: роль/права/граница/запреты/отчёт |
 | `docs/` | Знание | Диатаксис + ADR (решения с «ПОЧЕМУ ТОЛЬКО ТАК») |
 | `docs/spec/` | ТЗ + дорожная карта + пакет реализации | что и в каком порядке строят агенты |
-| `src/forge/` | Территория (v0.2.0) | форж ISO: probe · win (Fido+autounattend+oscdimg) · linux (preseed/autoinstall+xorriso) · `src/lib/` (каркас+верификатор) |
+| `src/forge/` | Территория (v0.2.0) | форж ISO: probe · win (Fido+autounattend+oscdimg) · linux (preseed/autoinstall+xorriso) · `src/lib/` (каркас+верификатор+журнал ADR-0011) |
+| `src/scan/` | Сенсор (v0.4.0) | анонимный скан публичных репо: allowlist, чистая среда, статусы, журнал |
 | `tests/` | Иммунитет | структура, workflows, связи документов — исполняемые |
 | `scripts/` | Рефлексы | bootstrap / verify / state — по одной команде на задачу |
 | `manifests/` | Калибровка | пины версий, SHA, безопасные дефолты |
