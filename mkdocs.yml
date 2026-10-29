@@ -28,6 +28,7 @@ nav:
   - Генеалогия:
       - Ревизия-0 (аудит и дифф): genesis/revision-0.md
       - Аудит 15 репо (2026-10-29): genesis/audit-2026-10-29.md
+      - Синтез «Public Repo Synthesis»: genesis/sintez-public-repo-synthesis.md
   - Практика:
       - Новый субъект: guides/new-subject.md
       - Ветка исполнения: guides/execution-branch.md
@@ -59,7 +60,10 @@ nav:
       - 0008 actions.lock позже: decisions/0008-actions-lock-deferred.md
       - 0009 CI-раннер = одноразовый хост: decisions/0009-ci-forge-runner.md
       - 0010 pins.yaml — единственный lockfile: decisions/0010-pins-yaml-single-lockfile.md
+      - 0011 Журнал доказательств: decisions/0011-evidence-ledger.md
+      - 0012 Доктрина секретов: decisions/0012-secrets-doctrine.md
   - Референс:
       - Структура: reference/structure.md
       - Команды: reference/commands.md
       - Базовый уровень безопасности: reference/security-baseline.md
+      - Каталог инструментов: reference/tools-catalog.md
