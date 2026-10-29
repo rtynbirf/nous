@@ -16,6 +16,11 @@ readonly NOUS_ROOT
 NOUS_TARGET_DIR="${NOUS_TARGET_DIR:-${NOUS_ROOT}/dist}"
 readonly NOUS_TARGET_DIR
 
+# Экспорт обязателен: python-сниппеты каркаса (nous::pin) читают NOUS_ROOT из
+# окружения потомка; неэкспортированная bash-переменная потомку невидима
+# (упавший прогон 40864534651 — KeyError: 'NOUS_ROOT').
+export NOUS_ROOT NOUS_TARGET_DIR
+
 nous::log()  { printf '[forge] %s\n' "$*"; }
 nous::warn() { printf '[forge] WARN: %s\n' "$*" >&2; }
 nous::die()  { printf '[forge] FAIL: %s\n' "$*" >&2; exit 1; }
