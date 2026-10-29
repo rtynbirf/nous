@@ -1,0 +1,4 @@
+# НОУС · meta-data для nocloud-источника autoinstall Ubuntu 24.04 (спека 04).
+# Рендерится без параметров: токенов нет, содержание минимально и стабильно.
+instance-id: nous-forge-0001
+local-hostname: nous-host

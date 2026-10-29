@@ -1,0 +1,37 @@
+#cloud-config
+# НОУС · autoinstall Ubuntu 24.04 (server) — ответ установки Linux-ветки форжа.
+# Спека: docs/spec/implementation/04-linux-iso.md. Рендерится nous::render;
+# токены __PW_HASH__/__USER__/__HOSTNAME__ — из окружения владельца в момент
+# рендера. Пароли в репо ЗАПРЕЩЕНЫ (safe-defaults: secrets_in_repo=forbidden).
+# Инвариант спеки 06: стирание чужих носителей отсутствует; storage layout lvm
+# размечает диск, назначенный инсталлятором.
+
+version: 1
+
+locale: ru_RU.UTF-8
+keyboard:
+  layout: ru
+
+identity:
+  realname: НОУС-хост
+  username: __USER__
+  hostname: __HOSTNAME__
+  # Криптохеш из NOUS_PW_HASH (openssl passwd -6). Токен обязателен к замене:
+  # build.sh отказывает, если в отрендеренном файле остались __-токены.
+  crypted-password: __PW_HASH__
+
+# Разметка: guided LVM — назначенный установщиком диск, никакого ручного wipe.
+storage:
+  layout:
+    name: lvm
+
+ssh:
+  install-server: true
+  allow-pw: true
+
+packages:
+  - openssh-server
+
+# Глушим взаимодействия, требующие ответа пользователя.
+late-commands:
+  - echo 'nous: forge linux ветка установилась' > /target/root/forge-late.log

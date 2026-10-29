@@ -1,0 +1,68 @@
+# НОУС · preseed Debian 12 (amd64 netinst) — ответ установки Linux-ветки форжа.
+# Спека: docs/spec/implementation/04-linux-iso.md. Рендеритсяnous::render из
+# src/forge/linux/build.sh; токен __PW_HASH__ подставляется из NOUS_PW_HASH
+# (криптохеш владельца в момент рендера). Пароли в репо ЗАПРЕЩЕНЫ
+# (manifests/safe-defaults.yaml: secrets_in_repo=forbidden).
+#
+# Инварианты безопасности (спека 06, тест-гейт tests/test_forge_linux.py):
+#   wipe_disk=false — инсталлятор размечает диск, выбранный самим установщиком;
+#   физические носители и чужие данные не затрагиваются; стирание не форсируется.
+#   partman/confirm_nooverwrite=true — подтверждение без перезаписи спрашивается
+#   и принимается только для НАЗНАЧЕННОГО установщиком диска авторазметки.
+
+#### Локализация (ru — ветка развивается владельцем-русскоязычным, ADR-0005)
+d-i debian-installer/locale string ru_RU.UTF-8
+d-i keyboard-configuration/xkb-keymap select ru
+d-i console-setup/ask_detect boolean false
+
+#### Сеть: DHCP, короткие таймауты — netinst без сети невозможен по определению
+d-i netcfg/choose_interface select auto
+d-i netcfg/dhcp_timeout string 15
+d-i netcfg/get_hostname string nous-host
+d-i netcfg/get_domain string uninitialized
+
+#### Зеркало: официальное, из пинов по духу спеки 01 (deb.debian.org = официальный CDN Debian)
+d-i mirror/country string manual
+d-i mirror/http/hostname string deb.debian.org
+d-i mirror/http/directory string /debian
+d-i mirror/http/proxy string
+
+#### Часы: NTP включён; зона правится владельцем после установки (не секрет)
+d-i clock-setup/utc boolean true
+d-i time/zone string Europe/Moscow
+d-i clock-setup/ntp boolean true
+
+#### Учётные записи: только криптохеш из окружения владельца (AXIOM 4: без секретов в репо)
+d-i passwd/root-login boolean true
+d-i passwd/root-password-crypted string __PW_HASH__
+d-i passwd/make-user boolean false
+d-i passwd/user-default-groups string
+
+#### Разметка: авто-LVM на диск, НАЗНАЧЕННЫЙ УСТАНОВЩИКОМ (не by-path, не жёстко)
+d-i partman-auto/method string lvm
+d-i partman-auto-lvm/guided_size string max
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-md/device_remove_md boolean true
+# Спека 06: подтверждение — для назначенного диска; инверсии (wipe всех носителей) нет.
+d-i partman-auto/choose_recipe select atomic
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+#### APT: non-free-firmware нужен ряду контроллеров (спека 04, ТЗ §6)
+d-i apt-setup/non-free-firmware boolean true
+d-i apt-setup/services-select multiselect security, updates
+tasksel tasksel/first multiselect standard, ssh-server
+d-i pkgsel/update-policy select unattended-upgrades
+popularity-contest popularity-contest/participate boolean false
+
+#### Загрузчик: GRUB в назначенный диск; принуждение к носителю запрещено
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean false
+
+#### Финал: eject и выключение — без интеракции
+d-i finish-install/keep-consoles boolean false
+d-i finish-install/reboot_in_progress note
+d-i cdrom-detect/eject boolean true
+d-i debian-installer/exit/poweroff boolean true
