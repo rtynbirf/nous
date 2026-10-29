@@ -2,6 +2,28 @@
 
 Формат: Keep a Changelog · версии: SemVer · до внедрения release-please (R6) — руками, по Conventional Commits.
 
+## [0.5.0] — 2026-10-29
+
+### Added
+- SINGULARIS: онтологический контур 2.0 влит в организм (ADR-0013). Прототип
+  (`nous-singularis-prototype.zip`, онтигаллюцинация + синтез практик 2025–2026) больше не
+  внешний ZIP — теперь это органы репо, покрытые иммунитетом:
+  - `docs/singularis/` — манифест, видение (4 слоя организма), аксиомы 2.0 (A7 эволюция
+    под контролем, A8 budget-закон — кандидаты до Фазы 1), архитектура контура
+    (orchestrator → subjects → verifier → evidence), уровни автономии L0–L4, threat model.
+  - `docs/spec/singularis/` — ТЗ (FR-1…FR-7), runtime-спека (DISPATCH→EXECUTE→PROPOSE→
+    VERIFY→COMMIT), evidence-before-effect протокол (эволюция ADR-0011 на ledger.sh),
+    схема контракта субъекта.
+  - `schemas/` — машиночитаемые JSON-схемы (draft 2020-12): subject-contract,
+    evidence-entry, task-ticket; иммунитет следит: `tests/test_singularis.py` +
+    органы в REQUIRED_FILES (`tests/test_structure.py`).
+  - `docs/spec/roadmap-singularis.md` — 5 фаз 2026-Q4→2027-Q2; Фаза 0 закрыта этим релизом.
+- Тикеты 0010–0015 (очередь воли под Фазу 1–4): runtime MVP, evidence-gate,
+  status-самоощущение, closed-loop scan→тикет, contract-schema CI, provenance.
+- forge-linux (тикет 0008): рецепт ubuntu-2404 семейства grub-mkrescue — ESP 20MiB
+  из EFI/boot/ дерева, BIOS grub2-mbr + eltorito из дерева, серийная консоль grub
+  (доказуемость загрузки); CI-инструменты: qemu-system-x86, ovmf, grub-pc-bin, mtools.
+
 ## [0.4.0] — 2026-10-29
 
 ### Added

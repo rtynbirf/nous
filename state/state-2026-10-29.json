@@ -1,15 +1,15 @@
 {
   "schema": 1,
   "generated": "2026-10-29",
-  "commit": "b33b0c03fe24cd7e4fe38eb371842a8b7a13320b",
+  "commit": "04edd322eb33f7cc987f190122dd3eb1a05c9573",
   "branch": "main",
   "metrics": {
-    "adr": 10,
+    "adr": 13,
     "agent_contracts": 5,
     "workflows": 3,
-    "tasks_open": 7,
-    "tasks_done": 1,
-    "docs": 34,
+    "tasks_open": 13,
+    "tasks_done": 2,
+    "docs": 50,
     "scripts": 5,
     "python": "3.12"
   },

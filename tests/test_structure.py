@@ -53,6 +53,20 @@ REQUIRED_FILES = [
     ".github/workflows/forge.yml",
     "tests/test_forge_win.py", "tests/test_forge_linux.py", "tests/test_forge_probe.py",
     "docs/genesis/revision-0.md",
+    # SINGULARIS (v0.5.0, ADR-0013): онтологический контур 2.0
+    "schemas/subject-contract.schema.json",
+    "schemas/evidence-entry.schema.json",
+    "schemas/task-ticket.schema.json",
+    "docs/singularis/index.md", "docs/singularis/manifest.md",
+    "docs/singularis/vision.md", "docs/singularis/axioms-v2.md",
+    "docs/singularis/architecture.md", "docs/singularis/safety-governance.md",
+    "docs/spec/singularis/tz-singularis.md",
+    "docs/spec/singularis/runtime-spec.md",
+    "docs/spec/singularis/evidence-protocol.md",
+    "docs/spec/singularis/contract-schema.md",
+    "docs/spec/roadmap-singularis.md",
+    "docs/decisions/0013-singularis-adoption.md",
+    "tests/test_singularis.py",
 ]
 
 REQUIRED_DIRS = [
