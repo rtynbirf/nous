@@ -47,7 +47,7 @@ NOUS_PW_HASH="$(openssl passwd -6)" bash src/forge/forge.sh ubuntu-2404
 ### Скан (сенсор территории, v0.4.0)
 
 ```bash
-NOUS_TARGET_DIR=dist bash src/scan/scan.sh examples-scan/urls.txt
+NOUS_TARGET_DIR=dist bash src/scan/scan.sh examples-scan/urls.txt   # пример: examples-scan/urls.txt
 # анонимный клон в чистой среде (токены вырезаны, ssh выключен), инвентарь,
 # статусы GAP<UNKNOWN<PARTIAL<CONFIRMED, журнал evidence.jsonl (ADR-0011)
 ```
