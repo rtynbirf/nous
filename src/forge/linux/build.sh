@@ -387,18 +387,43 @@ phase_build() {
   OUT_ISO="${WORK_DIR}/${ISO_NAME%.iso}-nous.iso"
   local -a xorriso_args=()
 
-  if [ -f "${TREE_DIR}/isolinux/isolinux.bin" ] && [ -f "${TREE_DIR}/isolinux/isohdpfx.bin" ] \
+  # isohdpfx.bin (isohybrid-MBR для BIOS-загрузки с USB): в современных Debian ISO
+  # (12.x) его в дереве НЕТ (прогон 40866199152 + локальное воспроизведение) —
+  # берём из пакета syslinux-common каркаса сборки; происхождение пишем в лог
+  # (карта=территория). Дерево содержит isolinux.bin — BIOS El Torito работает
+  # и для CD; isohdpfx добавляет BIOS-загрузку с USB-носителя.
+  local ISOHDPFX=""
+  if [ -f "${TREE_DIR}/isolinux/isohdpfx.bin" ]; then
+    ISOHDPFX="${TREE_DIR}/isolinux/isohdpfx.bin"
+    log "сырой факт: isohdpfx.bin — из дерева образа"
+  elif [ -f /usr/lib/ISOLINUX/isohdpfx.bin ]; then
+    ISOHDPFX=/usr/lib/ISOLINUX/isohdpfx.bin
+    log "сырой факт: isohdpfx.bin — из пакета isolinux сборочного каркаса (в дереве образа его нет)"
+  elif [ -f /usr/lib/syslinux/modules/bios/isohdpfx.bin ]; then
+    ISOHDPFX=/usr/lib/syslinux/modules/bios/isohdpfx.bin
+    log "сырой факт: isohdpfx.bin — из syslinux-пакетов сборочного каркаса (в дереве образа его нет)"
+  fi
+
+  if [ -f "${TREE_DIR}/isolinux/isolinux.bin" ] && [ -n "${ISOHDPFX}" ] \
      && [ -f "${TREE_DIR}/boot/grub/efi.img" ]; then
-    log "сырой факт: isolinux/ + boot/grub/efi.img найдены — полный рецепт спеки 04 (BIOS+UEFI)"
+    log "сырой факт: isolinux.bin + isohdpfx + efi.img — полный рецепт спеки 04 (BIOS+UEFI, CD+USB)"
     xorriso_args=( -as mkisofs -r -J -joliet-long
-      -isohybrid-mbr "${TREE_DIR}/isolinux/isohdpfx.bin"
+      -isohybrid-mbr "${ISOHDPFX}"
+      -c isolinux/boot.cat
+      -b isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table
+      -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot
+      -isohybrid-gpt-basdat
+      -o "${OUT_ISO}" "${TREE_DIR}" )
+  elif [ -f "${TREE_DIR}/isolinux/isolinux.bin" ] && [ -f "${TREE_DIR}/boot/grub/efi.img" ]; then
+    warn "сырой факт: isolinux.bin есть, isohdpfx.bin НЕ найден (ни в дереве, ни в syslinux-common) — ISO будет BIOS+UEFI с CD, но BIOS-загрузка с USB недоступна; для USB-загрузки доставьте syslinux-common"
+    xorriso_args=( -as mkisofs -r -J -joliet-long
       -c isolinux/boot.cat
       -b isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table
       -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot
       -isohybrid-gpt-basdat
       -o "${OUT_ISO}" "${TREE_DIR}" )
   elif [ -f "${TREE_DIR}/boot/grub/efi.img" ]; then
-    warn "сырой факт: isolinux/ в дереве отсутствует — сборка GRUB-only по фактам дерева"
+    warn "сырой факт: isolinux.bin в дереве отсутствует — сборка GRUB-only по фактам дерева"
     run_logged find "${TREE_DIR}/boot" -maxdepth 2 -print || true
     if [ -f "${TREE_DIR}/boot/grub/i386-pc/eltorito.img" ]; then
       warn "сырой факт: найден boot/grub/i386-pc/eltorito.img — BIOS El Torito из grub-образа дерева (отклонение от эталона спеки 04 по факту дерева; загрузку проверить на железе)"
