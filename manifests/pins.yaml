@@ -6,13 +6,13 @@ meta:
 
 actions: # полное имя action → тег + commit-SHA (проверено scripts/pin_action.sh)
   actions/checkout:
-    tag: v5.0.0
-    sha: "08c6903cd8c0fde910a37f88322edcfb5dd907a8"
+    tag: v7.0.1
+    sha: "3d3c42e5aac5ba805825da76410c181273ba90b1"
     verified_at: "2026-10-29"
     method: "git ls-remote с дереференсом тега"
   actions/setup-python:
-    tag: v6.0.0
-    sha: "e797f83bcb11b83ae66e0230d6156d7c80228e7c"
+    tag: v7.1.0
+    sha: "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0"
     verified_at: "2026-10-29"
     method: "git ls-remote с дереференсом тега"
   actions/upload-artifact:
@@ -21,8 +21,8 @@ actions: # полное имя action → тег + commit-SHA (проверен�
     verified_at: "2026-10-29"
     method: "git ls-remote (лёгкий тег)"
   actions/attest-build-provenance:
-    tag: v2.3.0
-    sha: "db473fddc028af60658334401dc6fa3ffd8669fd"
+    tag: v4.2.2
+    sha: "4d101475d8b20a2381f78447822ac1eab6504dd8"
     verified_at: "2026-10-29"
     method: "git ls-remote с дереференсом тега"
   pre-commit/pre-commit-hooks:
