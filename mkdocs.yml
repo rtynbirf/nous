@@ -25,6 +25,8 @@ nav:
   - Витрина: index.md
   - Начало:
       - bootstrap: getting-started/01-bootstrap.md
+  - Генеалогия:
+      - Ревизия-0 (аудит и дифф): genesis/revision-0.md
   - Практика:
       - Новый субъект: guides/new-subject.md
       - Ветка исполнения: guides/execution-branch.md
@@ -54,6 +56,8 @@ nav:
       - 0006 manifests как калибровка: decisions/0006-manifests-pins.md
       - 0007 Ветка исполнения агентов: decisions/0007-agents-branch-dispatch.md
       - 0008 actions.lock позже: decisions/0008-actions-lock-deferred.md
+      - 0009 CI-раннер = одноразовый хост: decisions/0009-ci-forge-runner.md
+      - 0010 pins.yaml — единственный lockfile: decisions/0010-pins-yaml-single-lockfile.md
   - Референс:
       - Структура: reference/structure.md
       - Команды: reference/commands.md

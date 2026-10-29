@@ -41,6 +41,18 @@ REQUIRED_FILES = [
     "manifests/pins.yaml", "manifests/safe-defaults.yaml",
     "state/README.md", "tasks/README.md", "tasks/done/.gitkeep",
     "src/forge/README.md", "templates/README.md",
+    # территория форжа (v0.2.0, revision-0 §4)
+    "src/lib/common.sh", "src/lib/verify-iso.sh",
+    "src/forge/probe/probe.sh", "src/forge/forge.sh", "src/forge/forge.ps1",
+    "src/forge/win/build.ps1", "src/forge/win/fetch-fido.ps1",
+    "src/forge/win/autounattend.template.xml",
+    "src/forge/linux/build.sh",
+    "src/forge/linux/templates/debian12.preseed",
+    "src/forge/linux/templates/ubuntu-24.04/user-data",
+    "src/forge/linux/templates/ubuntu-24.04/meta-data",
+    ".github/workflows/forge.yml",
+    "tests/test_forge_win.py", "tests/test_forge_linux.py", "tests/test_forge_probe.py",
+    "docs/genesis/revision-0.md",
 ]
 
 REQUIRED_DIRS = [
@@ -69,14 +81,21 @@ class TestStructure(unittest.TestCase):
             self.assertGreater(len(text), 500, f"{name} подозрительно пуст")
 
     def test_task_numbering_continuous(self):
-        nums = sorted(
-            int(m.group(1))
-            for p in (ROOT / "tasks" / "open").glob("*.md")
-            if (m := re.match(r"(\d{4})", p.name))
-        )
+        # Очередь поглощается: done ∪ open обязаны быть непрерывны 1..N
+        # (тикет уезжает в done/, номер продолжает работать в генеалогии).
+        def nums_of(d):
+            return sorted(
+                int(m.group(1))
+                for p in (ROOT / "tasks" / d).glob("*.md")
+                if (m := re.match(r"(\d{4})", p.name))
+            )
+        nums = sorted(nums_of("open") + nums_of("done"))
         self.assertGreaterEqual(len(nums), 5)
         self.assertEqual(nums, list(range(1, len(nums) + 1)),
-                         "нумерация тикетов tasks/open разорвана")
+                         "нумерация тикетов (done+open) разорвана")
+        open_nums = nums_of("open")
+        self.assertGreaterEqual(len(open_nums), 3,
+                                "в очереди воли должно оставаться ≥3 открытых тикета")
 
     def test_pins_not_stale(self):
         from datetime import date, datetime
