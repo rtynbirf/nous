@@ -261,6 +261,9 @@ phase_extract() {
   if ! run_logged xorriso -osirrox on -indev "${ISO_PATH}" -extract / "${TREE_DIR}"; then
     die "xorriso -extract не удался — структура образа не совпала с картой; сырой вывод выше"
   fi
+  # ISO хранит read-only права части файлов; без u+w фазы RENDER/INJECT не
+  # смогут перезаписать isolinux.cfg/grub.cfg (упавший прогон 40865639337).
+  chmod -R u+w "${TREE_DIR}"
   local files mib
   files="$(find "${TREE_DIR}" -type f 2>/dev/null | wc -l || true)"
   mib="$(du -sm "${TREE_DIR}" 2>/dev/null | awk '{print $1}' || true)"
