@@ -39,4 +39,43 @@ pyver=$(python3 -c 'import sys; print(f"{sys.version_info[0]}.{sys.version_info[
   echo "| Python | ${pyver} |"
 } > "${out}"
 
-echo "[state] снимок записан: ${out}"
+# --- Машиночитаемый слой: организм читает сам себя (аксиома 6, ревизия-0 §4-C) ---
+fresh_pins=$(python3 - <<'PY' 2>/dev/null || echo '{"error":"pins недоступны"}'
+import json, yaml
+from datetime import date, datetime
+data = yaml.safe_load(open("manifests/pins.yaml", encoding="utf-8"))
+today = date.today()
+out = {}
+for section in ("actions", "tools"):
+    for name, pin in (data.get(section) or {}).items():
+        checked = str(pin.get("verified_at", ""))
+        age = (today - datetime.strptime(checked, "%Y-%m-%d").date()).days if checked else None
+        out[f"{section}/{name}"] = {"age_days": age, "stale": bool(age is None or age >= 90)}
+forge = data.get("forge") or {}
+out["forge"] = {name: {"status": pin.get("status"), "sha256_fixed": bool(pin.get("iso_sha256") or pin.get("sha256"))}
+                for name, pin in forge.items()}
+print(json.dumps(out, ensure_ascii=False))
+PY
+)
+
+cat > "state/state-${datestamp}.json" <<JSON
+{
+  "schema": 1,
+  "generated": "${datestamp}",
+  "commit": "${commit}",
+  "branch": "${branch}",
+  "metrics": {
+    "adr": ${adr_count},
+    "agent_contracts": ${agents},
+    "workflows": ${workflows},
+    "tasks_open": ${open_tasks},
+    "tasks_done": ${done_tasks},
+    "docs": ${docs_count},
+    "scripts": ${scripts_count},
+    "python": "${pyver}"
+  },
+  "pins_freshness": ${fresh_pins}
+}
+JSON
+
+echo "[state] снимки записаны: ${out} + state/state-${datestamp}.json"

@@ -4,8 +4,8 @@
 > НОУС (греч. Νοῦς — мировой Разум): порядок, вносимый в хаос. Здесь порядок вносится контуром
 > «контракт → исполнение → верификация → память».
 
-**Статус:** приватное репо-конституция · ветка исполнения: `agents/execution` · версия скелета: `0.1.0`
-**Проверено:** 2026-10-29 · все внешние пины — в [`manifests/pins.yaml`](manifests/pins.yaml)
+**Статус:** приватное репо-конституция + живая территория форжа · ветка исполнения: `agents/execution` · версия: `0.2.0`
+**Проверено:** 2026-10-29 · все внешние пины — в [`manifests/pins.yaml`](manifests/pins.yaml) · генеалогия гейта — [`docs/genesis/revision-0.md`](docs/genesis/revision-0.md)
 
 ---
 
@@ -33,6 +33,17 @@ bash scripts/bootstrap.sh   # среда: инструменты, pre-commit hoo
 bash scripts/verify.sh      # карта сверяется с территорией: тесты, lint, секреты, docs
 ```
 
+### Форж (территория, v0.2.0)
+
+```bash
+bash src/forge/forge.sh probe            # обследование хоста (только чтение)
+NOUS_PW_HASH="$(openssl passwd -6)" bash src/forge/forge.sh debian12
+NOUS_PW_HASH="$(openssl passwd -6)" bash src/forge/forge.sh ubuntu-2404
+# Windows-ветка — на Windows-хосте:
+#   pwsh -File src/forge/forge.ps1 -Target win
+# CI: workflow forge.yml — ночью и вручную (ADR-0009)
+```
+
 ## Карта тела
 
 | Путь | Орган | Зачем |
@@ -41,14 +52,14 @@ bash scripts/verify.sh      # карта сверяется с территор�
 | `.claude/agents/*.md` | Генофонд субъектов | контракты: роль/права/граница/запреты/отчёт |
 | `docs/` | Знание | Диатаксис + ADR (решения с «ПОЧЕМУ ТОЛЬКО ТАК») |
 | `docs/spec/` | ТЗ + дорожная карта + пакет реализации | что и в каком порядке строят агенты |
-| `src/forge/` | Целевая инстанциация | форж ISO (Windows/Linux) по ТЗ |
+| `src/forge/` | Территория (v0.2.0) | форж ISO: probe · win (Fido+autounattend+oscdimg) · linux (preseed/autoinstall+xorriso) · `src/lib/` (каркас+верификатор) |
 | `tests/` | Иммунитет | структура, workflows, связи документов — исполняемые |
 | `scripts/` | Рефлексы | bootstrap / verify / state — по одной команде на задачу |
 | `manifests/` | Калибровка | пины версий, SHA, безопасные дефолты |
 | `tasks/` | Очередь воли | тикеты для субъектов: open → done |
 | `state/` | Самоощущение | снимки измеренного состояния (эмерджентный слой) |
 | `templates/` | Размножение | репо порождает репо (copier — R6) |
-| `.github/workflows/` | Нервная система | `ci` (верификация) и `release` (отделён, OIDC) |
+| `.github/workflows/` | Нервная система | `ci` (верификация) · `forge` (исполнение Linux-форжа, ADR-0009) · `release` (отделён, OIDC) |
 
 ## Исполнение агентами
 

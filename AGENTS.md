@@ -19,15 +19,17 @@ AGENTS.md            ← ты здесь: конституция
 .claude/agents/      ← контракты субъектов (роль/права/граница/протокол отчёта)
 docs/                ← Diátaxis: getting-started / guides / concepts / reference
 docs/decisions/      ← ADR: каждое архитектурное решение + «ПОЧЕМУ ТОЛЬКО ТАК»
+docs/genesis/        ← ревизия-0: аудит, дифф с Вердиктом-1, вердикт гейта
 docs/spec/           ← ТЗ форжа, дорожная карта (roadmap), пакет реализации 01–07
-src/forge/           ← целевой код (пока спеки; рождают агенты по тикетам)
-tests/               ← исполняемая карта: структура, workflows, связи документов
+src/forge/           ← ТЕРРИТОРИЯ (v0.2.0): probe · win · linux + единая точка входа
+src/lib/             ← общий каркас (common.sh) и верификатор артефакта (verify-iso.sh)
+tests/               ← исполняемая карта: структура, workflows, связи, гейты форжа
 scripts/             ← bootstrap.sh / verify.sh / state.sh / gen_llms.sh / pin_action.sh
-manifests/           ← pins.yaml (версии+SHA+даты) и safe-defaults.yaml (опасные дефолты)
-tasks/               ← open/ done/ — очередь воли; формат тикета описан внутри
+manifests/           ← pins.yaml (единственный lockfile, ADR-0010) и safe-defaults.yaml
+tasks/               ← open/ done/ — очередь воли (поглощается: done+open непрерывны)
 state/               ← снимки состояния (эмерджентный слой; пишет scripts/state.sh)
 templates/           ← самокопирование (R6)
-.github/workflows/   ← ci.yml (верификация) · release.yml (отделён; OIDC; теги v*)
+.github/workflows/   ← ci.yml (верификация) · forge.yml (исполнение Linux-форжа, ADR-0009) · release.yml (отделён; OIDC; теги v*)
 ```
 
 ## 3. Команды (единственный интерфейс)
@@ -35,9 +37,14 @@ templates/           ← самокопирование (R6)
 ```bash
 bash scripts/bootstrap.sh   # подготовка среды (идемпотентно)
 bash scripts/verify.sh      # ВСЕ проверки: тесты + shellcheck + секреты + zizmor + mkdocs --strict
-bash scripts/state.sh       # снимок состояния → state/
+bash scripts/state.sh       # снимок состояния → state/ (md + JSON)
 bash scripts/pin_action.sh <owner/repo> <tag>   # резолв SHA для пина
 make bootstrap | verify | state
+
+# Территория форжа (Linux-хост):
+bash src/forge/forge.sh probe                    # обследование (только чтение)
+NOUS_PW_HASH="$(openssl passwd -6)" bash src/forge/forge.sh debian12    # или ubuntu-2404
+# Windows-хост: pwsh -File src/forge/forge.ps1 -Target win
 ```
 
 Если `verify.sh` красный — твоя задача не завершена. Незавершённое не коммитится.
@@ -47,7 +54,8 @@ make bootstrap | verify | state
 1. **Карта = территория.** Не пиши непроверяемое. Утверждение — исполнимое (код/тест) или
    помечено гипотезой. Отчёт обязан содержать сырые выводы команд, не пересказ.
 2. **Пины — только через `manifests/pins.yaml`.** Новая внешняя зависимость: сначала пин
-   (`scripts/pin_action.sh`), потом использование. Actions — только по полному 40-символьному SHA.
+   (`scripts/pin_action.sh`), потом использование. Actions — только по полному 40-символьному SHA,
+   и SHA обязан совпадать с пином (тест-гейт ADR-0010). Выдуманные хеши запрещены: null → TOFU.
 3. **Опасные дефолты пассивны.** Запрещено: стирание дисков/разделов, `rm -rf` вне рабочей
    копии, push в чужие репы, создание публичных реп, изменение workflows в ветке исполнения
    без ADR. Полный список — `manifests/safe-defaults.yaml`.
@@ -75,4 +83,5 @@ make bootstrap | verify | state
 - Как устроен контур эмерджентности: `docs/concepts/emergence.md`
 - ТЗ форжа (цель всего): `docs/spec/tz-nous-forge.md`
 - Дорожная карта и текущая фаза: `docs/spec/roadmap.md`
+- Генеалогия (аудит/дифф): `docs/genesis/revision-0.md`
 - Полный референс структуры: `docs/reference/structure.md`
