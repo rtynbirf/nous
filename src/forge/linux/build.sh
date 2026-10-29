@@ -22,9 +22,10 @@
 set -Eeuo pipefail
 
 # --- Корень репо из собственного пути (детерминированно, без вызова git); каркас — common.sh
+# src/forge/linux/ → корень = ТРИ подъёма (linux → forge → src → <репо>).
 FORGE_SELF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [ -z "${NOUS_ROOT:-}" ]; then
-  NOUS_ROOT="$(cd "${FORGE_SELF_DIR}/../.." && pwd)"
+  NOUS_ROOT="$(cd "${FORGE_SELF_DIR}/../../.." && pwd)"
 fi
 if [ ! -f "${NOUS_ROOT}/src/lib/common.sh" ]; then
   printf '[forge] FAIL: каркас не найден: %s/src/lib/common.sh (проверьте NOUS_ROOT)\n' "${NOUS_ROOT}" >&2
