@@ -27,6 +27,7 @@ nav:
       - bootstrap: getting-started/01-bootstrap.md
   - Генеалогия:
       - Ревизия-0 (аудит и дифф): genesis/revision-0.md
+      - Аудит 15 репо (2026-10-29): genesis/audit-2026-10-29.md
   - Практика:
       - Новый субъект: guides/new-subject.md
       - Ветка исполнения: guides/execution-branch.md
