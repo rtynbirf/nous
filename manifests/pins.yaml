@@ -51,9 +51,12 @@ forge: # калибровка R1 (тикет 0001). Протокол TOFU (ADR-0
   # сверяется принудительно; выдуманные хеши в реестре запрещены (аксиома 2).
   # URL — только официальные каналы (спека 01: зеркалам нет).
   debian-netinst:
-    status: calibrated-url
-    channel: "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/"
-    pattern: "debian-12.*-amd64-netinst.iso"
+    status: calibrated-live
+    # ТОЧНАЯ версия, не current/: Debian 12 ушёл в архив (current = 13.7.0,
+    # живой прогон 40865005039 поймал раскалибровку). Детерминизм артефакта
+    # важнее автодогоняния свежих точечных релизов (аксиома 2, ADR-0006).
+    channel: "https://cdimage.debian.org/cdimage/archive/12.15.0/amd64/iso-cd/"
+    pattern: "debian-12.15.0-amd64-netinst.iso"
     checksums: "SHA256SUMS в том же каталоге официального канала"
     signing: "gpg-подпись SHA256SUMS (debian-cd); fingerprint ключа фиксируется TOFU при первом прогоне"
     iso_sha256: null
@@ -61,9 +64,11 @@ forge: # калибровка R1 (тикет 0001). Протокол TOFU (ADR-0
     verified_at: "2026-10-29"
     method: "URL и формат сверены по официальному каталогу cdimage.debian.org; SHA256/ключ — первый прогон forge-linux"
   ubuntu-server:
-    status: calibrated-url
+    status: calibrated-live
+    # Точная точечная версия (философия debian-netinst): сортировка индекса
+    # не должна выбирать «старшую из найденных» — артефакт детерминирован.
     channel: "https://releases.ubuntu.com/24.04/"
-    pattern: "ubuntu-24.04.*-live-server-amd64.iso"
+    pattern: "ubuntu-24.04.5-live-server-amd64.iso"
     checksums: "SHA256SUMS + SHA256SUMS.gpg в том же каталоге официального канала"
     signing: "gpg-подпись; fingerprint ключа фиксируется TOFU при первом прогоне"
     iso_sha256: null
