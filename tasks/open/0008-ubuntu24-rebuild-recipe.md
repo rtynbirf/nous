@@ -35,7 +35,7 @@ forge-architect (рецепт), forge-builder-linux (реализация), forg
 3. Фаза VERIFY: дополнительно сверить раскладку каталога с эталоном (BIOS 4
    сектора no-emul; UEFI ~10160 секторов no-emul).
 
-## Граница
+## Границы
 
 Разрешено: `src/forge/linux/build.sh` (ветка ubuntu), `.github/workflows/forge.yml`
 (шаг инструментов), `tests/test_forge_linux.py`, `state/`, этот тикет.
