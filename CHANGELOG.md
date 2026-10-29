@@ -2,6 +2,33 @@
 
 Формат: Keep a Changelog · версии: SemVer · до внедрения release-please (R6) — руками, по Conventional Commits.
 
+## [0.3.0] — 2026-10-29
+
+### Added
+- Живое доказательство: forge.yml собрал debian12-ISO в CI (артефакт 863MB,
+  BIOS+UEFI El Torito, верификатор спеки 05 зелёный; прогон 40868854559).
+- Аудит 15 репо аккаунта + ревизия security через API: DepAlerts+AutoFixes
+  на 13 репо, secret-scanning на всех публичных, защита main на 10 публичных
+  (`docs/genesis/audit-2026-10-29.md`).
+- Пины доведены до грунта: debian-12.15.0 (архив, TOFU sha256+fingerprint,
+  сверены с debian.org/CD/verify), ubuntu-24.04.5; actions checkout v7.0.1 /
+  setup-python v7.1.0 / attest v4.2.2.
+- Тикет 0008 (ubuntu-24.04 рецепт пересборки): полный грунт-факт раскладки
+  каталога официального ISO.
+
+### Fixed
+- NOUS_ROOT: три подъёма из src/forge/linux (прогон 40864125668) и экспорт
+  NOUS_ROOT/NOUS_TARGET_DIR python-потомкам (прогон 40864534651).
+- read-only права после извлечения ISO: chmod -R u+w (linux), IsReadOnly=false
+  (win) — прогон 40865639337.
+- Рецепт BIOS+UEFI по фактам дерева: isohdpfx.bin из пакета isolinux каркаса
+  (в дереве Debian 12.15 его нет; локальная E2E-репетиция + верификатор зелёные).
+
+### Security
+- 7 dependabot-PR закрыты с причинами (суперседены SHA-пинами ADR-0004/0010).
+- Находка: Google API Key в публичном singulyar (алерт #1, HEAD + история) —
+  решение владельца (ограничить/отозвать); алерт честно остаётся открытым.
+
 ## [0.2.0] — 2026-10-29
 
 ### Added
