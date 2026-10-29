@@ -59,10 +59,12 @@ forge: # калибровка R1 (тикет 0001). Протокол TOFU (ADR-0
     pattern: "debian-12.15.0-amd64-netinst.iso"
     checksums: "SHA256SUMS в том же каталоге официального канала"
     signing: "gpg-подпись SHA256SUMS (debian-cd); fingerprint ключа фиксируется TOFU при первом прогоне"
-    iso_sha256: null
-    key_fingerprint: null
+    # TOFU-фиксация прогона 40865639337 (FETCH сверил сумму с официальным SHA256SUMS);
+    # отпечаток сверен с официальной страницей debian.org/CD/verify — «Debian CD signing key»
+    iso_sha256: "cd4462c06aa8892e692c0c4b9c17802f38c8ab8690e85cbfb5ccaa5956e9af17"
+    key_fingerprint: "DF9B9C49EAA9298432589D76DA87E80D6294BE9B"
     verified_at: "2026-10-29"
-    method: "URL и формат сверены по официальному каталогу cdimage.debian.org; SHA256/ключ — первый прогон forge-linux"
+    method: "канал/файл/сумма/ключ: живой прогон FETCH + debian.org/CD/verify"
   ubuntu-server:
     status: calibrated-live
     # Точная точечная версия (философия debian-netinst): сортировка индекса
