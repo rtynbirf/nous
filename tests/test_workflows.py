@@ -1,4 +1,5 @@
-"""НОУС · воркфлоу-гейты: пины по SHA (ADR-0004), права, опасные триггеры."""
+"""НОУС · воркфлоу-гейты: пины по SHA (ADR-0004), права, опасные триггеры;
+pins.yaml — единственный lockfile для actions (ADR-0010)."""
 import re
 import unittest
 from pathlib import Path
@@ -70,6 +71,42 @@ class TestWorkflows(unittest.TestCase):
                             f"{path.name}: checkout без persist-credentials: false",
                         )
             self.assertTrue(found, f"{path.name}: не найден checkout")
+
+    def test_pins_yaml_is_single_lockfile(self):
+        """ADR-0010: каждый (repo, sha) из uses-строк всех workflows обязан быть
+        в manifests/pins.yaml (секция actions) с тем же sha — репо не держит
+        вторых, расходящихся реестров пинов."""
+        pins = yaml.safe_load(
+            (ROOT / "manifests" / "pins.yaml").read_text(encoding="utf-8")
+        )
+        actions = pins.get("actions", {})
+        checked = 0
+        for path in self.files:
+            for line in path.read_text(encoding="utf-8").splitlines():
+                stripped = line.strip()
+                if not stripped.startswith("uses:") or "@" not in stripped:
+                    continue
+                ref = stripped.split("uses:", 1)[1].strip().split()[0]
+                repo, sha = ref.split("@", 1)
+                self.assertRegex(
+                    sha, SHA_RE,
+                    f"{path.name}: {repo} — sha не 40-символьный ({sha})",
+                )
+                entry = actions.get(repo)
+                self.assertIsNotNone(
+                    entry,
+                    f"{path.name}: {repo} нет в manifests/pins.yaml — "
+                    "ADR-0010: pins.yaml единственный lockfile",
+                )
+                self.assertEqual(
+                    entry.get("sha"), sha,
+                    f"{path.name}: SHA {repo} расходится с manifests/pins.yaml",
+                )
+                checked += 1
+        self.assertGreater(
+            checked, 0,
+            "workflows потеряли uses-пины — проверка lockfile стала пустой",
+        )
 
     def test_release_is_separate_and_gated(self):
         data = yaml.safe_load((WF / "release.yml").read_text(encoding="utf-8"))

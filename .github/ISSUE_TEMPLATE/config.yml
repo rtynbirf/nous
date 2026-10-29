@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Очередь воли в репо
+    url: https://github.com/rtynbirf/nous/blob/main/tasks/README.md
+    about: Воля владельца оформляется тикетами-файлами в tasks/open/ (один тикет = один субъект = одна цель).
   - name: Уязвимость / безопасность
     url: https://github.com/rtynbirf/nous/security/advisories/new
     about: Только приватное сообщение о безопасности. Секреты в issue не публикуются.

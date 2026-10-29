@@ -1,0 +1,84 @@
+name: forge-linux
+
+# ФОРЖ LINUX В CI (ADR-0009): ночная сборка обеих целей + ручной прогон выбранной.
+# Safe-defaults (manifests/safe-defaults.yaml): auto_publish=false — артефакты
+# остаются только в артефактах этого прогона (retention 14 дней), не в релизах
+# и не в ветках. Правила безопасности: пины по полному SHA (ADR-0004; единственный
+# lockfile — manifests/pins.yaml, ADR-0010), persist-credentials: false,
+# минимальные permissions, continue-on-error нет: честный красный лучше зелёной лжи.
+# Пароль установки рождается на раннере (openssl rand) и умирает с раннером:
+# в репо, в логах и в артефактах его нет — хеш живёт только в окружении job'а.
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Цель форжа: ручной прогон собирает только её; ночной — обе'
+        type: choice
+        required: true
+        default: debian12
+        options:
+          - debian12
+          - ubuntu-2404
+  schedule:
+    # 02:37 UTC — ночная сборка: нечётное время против пиков (шаблонные кроны бьют в :00)
+    - cron: '37 2 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  forge-linux:
+    name: forge-linux — ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: read
+    strategy:
+      # провал одной цели не отменяет вторую: обе диагностики ценны
+      fail-fast: false
+      matrix:
+        target: [debian12, ubuntu-2404]
+    steps:
+      - name: checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+
+      - name: инструменты форжа (xorriso — гибрид ISO, gnupg — подписи SHA256SUMS)
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xorriso gnupg curl
+
+      - name: python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version: '3.12'
+
+      - name: deps (pyyaml для генераторов форжа)
+        run: python -m pip install --disable-pip-version-check pyyaml
+
+      - name: одноразовый пароль (живёт только в раннере, в репо и лог не попадает)
+        shell: bash
+        run: |
+          echo "NOUS_PW_HASH=$(openssl passwd -6 -salt nous-ephemeral "$(openssl rand -base64 24)")" >> "$GITHUB_ENV"
+
+      # ручной прогон собирает выбранную цель (inputs.target); ночной (schedule) — обе
+      - name: форж ${{ matrix.target }} → dist/
+        if: github.event_name == 'schedule' || matrix.target == inputs.target
+        shell: bash
+        run: NOUS_TARGET_DIR=${{ github.workspace }}/dist bash src/forge/linux/build.sh ${{ matrix.target }}
+
+      - name: верификация артефакта (спека 05; glob раскрывает bash — без совпадений честный FAIL)
+        if: github.event_name == 'schedule' || matrix.target == inputs.target
+        shell: bash
+        run: bash src/lib/verify-iso.sh dist/linux/*/*.iso
+
+      - name: артефакты прогона (auto_publish=false — не релиз и не ветка)
+        if: github.event_name == 'schedule' || matrix.target == inputs.target
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: forge-linux-${{ matrix.target }}
+          path: dist/
+          retention-days: 14

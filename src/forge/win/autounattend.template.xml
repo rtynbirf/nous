@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  НОУС · src/forge/win/autounattend.template.xml — шаблон ответа установки Windows 11 (24H2+).
+  Спека: docs/spec/implementation/03-windows-iso.md · Инвариант: manifests/safe-defaults.yaml
+  → oobe_will_wipe_disk = false (сборщик не стирает носители).
+
+  Токены (заменяет фаза render в src/forge/win/build.ps1, нативный string replace):
+    __LOCALE__     — UserLocale/SystemLocale/InputLocale (по умолчанию ru-RU)
+    __UI_LANG__    — язык интерфейса установщика и ОС (по умолчанию ru-RU)
+    __TIMEZONE__   — часовой пояс Windows (по умолчанию Russian Standard Time)
+    __KEY_INDEX__  — индекс редакции Windows 11 Pro в install.wim (по умолчанию 6;
+                     сверяйте: DISM /Get-WimInfo /WimFile:<диск>\sources\install.wim)
+  Других токенов нет: верификатор отклоняет неизвестные значения такого вида.
+
+  Правило секрета: пароли, учётные записи и серийные номера в шаблоне ОТСУТСТВУЮТ
+  сознательно (ТЗ §7) — тесты-гейты ищут их подстроки и обязаны находить чистый файл.
+-->
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+
+  <!-- ============================================================
+       Проход windowsPE: текстовый режим установки до первого перезапуска.
+       ============================================================ -->
+  <settings pass="windowsPE">
+
+    <!-- Локали и язык установщика (Microsoft-Windows-International-Core-WinPE).
+         ВАЖНО: у этой схемы НЕТ настройки TimeZone (проверено по ADK) — часовой
+         пояс задаётся в specialize (Microsoft-Windows-Shell-Setup), см. ниже. -->
+    <component name="Microsoft-Windows-International-Core-WinPE"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS"
+               xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <!-- Язык интерфейса самой программы установки -->
+      <SetupUILanguage>
+        <UILanguage>__UI_LANG__</UILanguage>
+      </SetupUILanguage>
+      <!-- Раскладки ввода по умолчанию -->
+      <InputLocale>__LOCALE__</InputLocale>
+      <!-- Форматы системных программ (даты, сортировка) -->
+      <SystemLocale>__LOCALE__</SystemLocale>
+      <!-- Язык интерфейса установленной системы -->
+      <UILanguage>__UI_LANG__</UILanguage>
+      <!-- Стандарты пользователя (валюта, единицы) -->
+      <UserLocale>__LOCALE__</UserLocale>
+    </component>
+
+    <!-- Ход установки: разметка, устанавливаемый образ, условия EULA. -->
+    <component name="Microsoft-Windows-Setup"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS"
+               xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+      <!-- КОНФИГУРАЦИЯ ДИСКА — инвариант безопасных дефолтов (спека 06):
+           ЯВНО WillWipeDisk=false, разделы НЕ создаём и НЕ форматируем.
+           Установка идёт в существующий подходящий раздел
+           (InstallToAvailablePartition=true) — деструктив по умолчанию исключён. -->
+      <DiskConfiguration>
+        <Disk wcm:action="add">
+          <DiskID>0</DiskID>
+          <WillWipeDisk>false</WillWipeDisk>
+        </Disk>
+      </DiskConfiguration>
+
+      <!-- Устанавливаемый образ: редакция фиксируется ДВУМЯ признаками сразу
+           (индекс + имя «Windows 11 Pro») — при расхождении установка честно
+           падает вместо тихой установки другой редакции. -->
+      <ImageInstall>
+        <OSImage>
+          <InstallFrom>
+            <MetaData wcm:action="add">
+              <Key>/IMAGE/INDEX</Key>
+              <Value>__KEY_INDEX__</Value>
+            </MetaData>
+            <MetaData wcm:action="add">
+              <Key>/IMAGE/NAME</Key>
+              <Value>Windows 11 Pro</Value>
+            </MetaData>
+          </InstallFrom>
+          <!-- Существующий подходящий раздел выбирает программа установки;
+               разметка и форматирование НЕ выполняются (см. DiskConfiguration). -->
+          <InstallToAvailablePartition>true</InstallToAvailablePartition>
+        </OSImage>
+      </ImageInstall>
+
+      <!-- Данные пользователя: EULA принимаем автоматически, имя владельца —
+           нейтральный плейсхолдер без персональных данных. -->
+      <UserData>
+        <AcceptEula>true</AcceptEula>
+        <FullName>NOUS Owner</FullName>
+        <Organization>NOUS Forge</Organization>
+        <!-- ЛИЦЕНЗИРОВАНИЕ (ТЗ §7): серийный номер НЕ вшивается сознательно —
+             ключ пустой; лицензирование — зона ответственности владельца.
+             Владелец вписывает ключ сам или вводит его на этапе OOBE. -->
+        <ProductKey>
+          <Key></Key>
+        </ProductKey>
+      </UserData>
+
+    </component>
+  </settings>
+
+  <!-- ============================================================
+       Проход specialize: конфигурация уже устанавливаемой системы.
+       ============================================================ -->
+  <settings pass="specialize">
+
+    <component name="Microsoft-Windows-Shell-Setup"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS"
+               xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <!-- Имя хоста: «*» — сгенерировать нейтральное автоматически (без привязки к владельцу) -->
+      <ComputerName>*</ComputerName>
+      <!-- CopyProfile: профиль администратора становится шаблоном для новых пользователей -->
+      <CopyProfile>true</CopyProfile>
+      <!-- Часовой пояс Windows (id из tzres). Здесь, а не в windowsPE:
+           у International-Core-WinPE настройки TimeZone в схеме нет. -->
+      <TimeZone>__TIMEZONE__</TimeZone>
+    </component>
+
+  </settings>
+
+  <!-- ============================================================
+       Проход oobeSystem: первый вход.
+
+       ЧЕСТНОЕ ПРАВИЛО НОУС: учётные записи НЕ создаём и пароли НЕ вшиваем —
+       мастер OOBE полностью ведёт пользователь; учётки — решение владельца
+       (спека 06: UserAccounts не генерируются без параметров).
+       Обходы экрана учётной записи Microsoft (bypass-флаги, скрипты реестра)
+       сознательно НЕ включены — вне зоны ТЗ §7.
+       Поэтому проход пуст: только этот комментарий.
+       ============================================================ -->
+  <settings pass="oobeSystem" />
+
+</unattend>

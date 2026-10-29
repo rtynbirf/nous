@@ -1,0 +1,69 @@
+name: Тикет субъекта
+description: Задача для агента-субъекта. Один тикет = один субъект = одна цель. Протокол — tasks/README.md.
+title: '[NNNN] <роль>: <суть>'
+labels: [task]
+body:
+  - type: dropdown
+    id: role
+    attributes:
+      label: Роль-исполнитель
+      description: Контракт роли — .claude/agents/<роль>.md. Нет твоей роли — не берёшь.
+      options:
+        - forge-architect
+        - forge-builder-win
+        - forge-builder-linux
+        - forge-verifier
+        - forge-librarian
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Цель (карта)
+      description: Что должно существовать после исполнения. Измеримо — файлы, команды, зелёный verify.
+    validations:
+      required: true
+
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Границы (территория)
+      description: Пути, разрешённые к изменению; что трогать запрещено. Контракт роли усиливает.
+      placeholder: |
+        Разрешено: путь/к путь/**
+        Запрещено: …
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Критерии приёмки
+      description: Чек-лист доказательств; дополняй под цель, базовый инвариант ниже.
+      value: |
+        - [ ] `bash scripts/verify.sh` зелёный (сырой вывод приложен)
+        - [ ] Каждый пункт цели имеет доказательство (коммит/вывод/SHA256)
+        - [ ] Пины новых зависимостей внесены в `manifests/pins.yaml`
+        - [ ] Отчёт: сырые выводы команд, не пересказ
+        - [ ] Что НЕ проверено — указано явно
+    validations:
+      required: true
+
+  - type: textarea
+    id: why-only-this-way
+    attributes:
+      label: ПОЧЕМУ ТОЛЬКО ТАК / ПО ДРУГОМУ НЕТ
+      description: Почему задача и порядок именно такие и почему альтернатива хуже (одной-двумя строками).
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence-plan
+    attributes:
+      label: Доказательства-план
+      description: Какие команды и их сырые выводы подтвердят исполнение (коммит/вывод/SHA256).
+      placeholder: |
+        команда → ожидаемый вывод
+    validations:
+      required: false

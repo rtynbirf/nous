@@ -1,5 +1,7 @@
 # Среда разработки и верификации НОУС. Ставится scripts/bootstrap.sh и ci.yml.
-pyyaml>=6.0,<7
-pre-commit>=4.0
-mkdocs-material>=9.5
-zizmor>=1.0
+# Точные пины (A3 — воспроизводимость; версии подтверждены dependabot-PR от 2026-10-28):
+# Dependabot предлагает обновления; ослабление до >= без ADR запрещено.
+pyyaml==6.0.3
+pre-commit==4.7.0
+mkdocs-material==9.8.0
+zizmor==1.31.1

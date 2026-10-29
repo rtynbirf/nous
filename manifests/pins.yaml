@@ -46,12 +46,42 @@ tools:
     verified_at: "2026-10-29"
     method: ".mise.toml (локально); CI использует предустановленный shellcheck раннера — калибровка при смене образа"
 
-forge: # R1 (тикет 0001): заполняется калибровкой; сейчас — сознательно pending
-  windows-image:
-    status: pending-calibration
-  fido:
-    status: pending-calibration
-    note: "источник pbatard/Fido, пин по релизу + SHA256"
+forge: # калибровка R1 (тикет 0001). Протокол TOFU (ADR-0006, спека 01):
+  # значение с пометкой null фиксируется ПЕРВЫМ реальным прогоном и далее
+  # сверяется принудительно; выдуманные хеши в реестре запрещены (аксиома 2).
+  # URL — только официальные каналы (спека 01: зеркалам нет).
   debian-netinst:
-    status: pending-calibration
-    note: "официальный netinst 12 (non-free-firmware включён)"
+    status: calibrated-url
+    channel: "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/"
+    pattern: "debian-12.*-amd64-netinst.iso"
+    checksums: "SHA256SUMS в том же каталоге официального канала"
+    signing: "gpg-подпись SHA256SUMS (debian-cd); fingerprint ключа фиксируется TOFU при первом прогоне"
+    iso_sha256: null
+    key_fingerprint: null
+    verified_at: "2026-10-29"
+    method: "URL и формат сверены по официальному каталогу cdimage.debian.org; SHA256/ключ — первый прогон forge-linux"
+  ubuntu-server:
+    status: calibrated-url
+    channel: "https://releases.ubuntu.com/24.04/"
+    pattern: "ubuntu-24.04.*-live-server-amd64.iso"
+    checksums: "SHA256SUMS + SHA256SUMS.gpg в том же каталоге официального канала"
+    signing: "gpg-подпись; fingerprint ключа фиксируется TOFU при первом прогоне"
+    iso_sha256: null
+    key_fingerprint: null
+    verified_at: "2026-10-29"
+    method: "URL и формат сверены по официальному releases.ubuntu.com; SHA256/ключ — первый прогон forge-linux"
+  fido:
+    status: pending-first-run
+    repo: "pbatard/Fido"
+    pin: "релиз-тег + SHA256 скрипта фиксируются при первом прогоне (TOFU), далее сверка"
+    tag: null
+    sha256: null
+    verified_at: "2026-10-29"
+    method: "репозиторий подтверждён (официальное происхождение, спека 03); тег/SHA — первый прогон forge-win"
+  windows-image:
+    status: pending-first-run
+    channel: "официальный канал образов Microsoft через Fido (спека 03)"
+    edition: "Windows 11 Pro x64"
+    iso_sha256: null
+    verified_at: "2026-10-29"
+    method: "SHA256 ISO фиксируется TOFU при первом форже; oscdimg — ADK на хосте владельца"
