@@ -377,15 +377,28 @@ inject_ubuntu() {
   if ! run_logged grep -n "autoinstall" "${grub}"; then
     die "grub.cfg: после правки строка autoinstall не найдена — правка не применилась"
   fi
+  # --- Серийный терминал + видимое меню — доказуемость загрузки (QEMU-гейт тикета 0008);
+  # входы меню уже получили autoinstall (выше), поэтому выбор по умолчанию = установка;
+  # на железе без COM-порта grub-команды serial дают предупреждение, меню остаётся на VGA
+  if ! grep -q "terminal_output serial console" "${grub}"; then
+    printf '\n# НОУС: серийная консоль + таймаут меню (доказуемость загрузки, тикет 0008)\nserial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\nterminal_input serial console\nterminal_output serial console\nset timeout=10\n' >> "${grub}"
+    log "grub.cfg: добавлены серийный терминал и таймаут меню 10с (QEMU-гейт; входы уже autoinstall)"
+    run_logged tail -n 8 "${grub}"
+  fi
 }
 
 # ============================== ФАЗА BUILD ==============================
-# xorriso-рецепт спеки 04 (двойной загрузчик BIOS+UEFI). Для ubuntu-2404 — сборка по
-# ФАКТАМ дерева: полный рецепт при isolinux/; иначе GRUB-only без BIOS-флагов
-# (raw-факт в лог); при наличии grub-BIOS-образа дерева — BIOS El Torito из него.
+# xorriso-рецепт спеки 04 (двойной загрузчик BIOS+UEFI). Для ubuntu-2404 — отдельный
+# рецепт тикета 0008 (раскладка принципиально иная: isolinux/ и efi.img в дереве
+# ОТСУТСТВУЮТ; ESP — appended-раздел, BIOS — grub-eltorito из дерева).
 phase_build() {
   OUT_ISO="${WORK_DIR}/${ISO_NAME%.iso}-nous.iso"
   local -a xorriso_args=()
+
+  if [ "${TARGET}" = "ubuntu-2404" ]; then
+    phase_build_ubuntu
+    return 0
+  fi
 
   # isohdpfx.bin (isohybrid-MBR для BIOS-загрузки с USB): в современных Debian ISO
   # (12.x) его в дереве НЕТ (прогон 40866199152 + локальное воспроизведение) —
@@ -452,6 +465,62 @@ phase_build() {
   log "сырой факт: выход ${OUT_ISO} — $(stat -c '%s' "${OUT_ISO}") байт"
 }
 
+# --- Рецепт ubuntu-2404 (тикет 0008): ESP-конструирование + сборка семейства
+# grub-mkrescue. Грунт-факты дерева: isolinux/ и boot/grub/efi.img ОТСУТСТВУЮТ;
+# boot/grub/i386-pc/eltorito.img ЕСТЬ (31KB, BIOS El Torito); EFI/boot/* — для ESP.
+# Официальный образ: «MBR protective-msdos-label grub2-mbr cyl-align-off GPT»,
+# UEFI-запись каталога указывает на appended-раздел (~20MB), а не на файл дерева.
+# Рецепт проверен экспериментом (2026-10-29): синтаксис сокращённого интервала
+# --interval:appended_partition_2:::all:: подтверждён xorriso 1.5.6, system area
+# совпала с эталоном официального образа, все гейты спеки 05 зелёные.
+phase_build_ubuntu() {
+  # --- Инструменты каркаса: mtools (ESP vfat) + grub-pc-bin (grub2-mbr для BIOS с USB)
+  nous::require_tools mformat mcopy
+  local BOOT_HYBRID=""
+  local c
+  for c in /usr/lib/grub/i386-pc/boot_hybrid.img /usr/lib/GRUB/i386-pc/boot_hybrid.img; do
+    if [ -f "${c}" ]; then BOOT_HYBRID="${c}"; break; fi
+  done
+  [ -n "${BOOT_HYBRID}" ] || die "boot_hybrid.img не найден (пакет grub-pc-bin) — без него BIOS-загрузка с USB не собирается (рецепт тикета 0008); установите: apt-get install grub-pc-bin"
+  log "сырой факт: boot_hybrid.img — из пакета grub-pc-bin сборочного каркаса: ${BOOT_HYBRID}"
+
+  # --- Цели правки — по грунт-фактам дерева; расхождение — честный отказ
+  [ -f "${TREE_DIR}/boot/grub/i386-pc/eltorito.img" ] || die "в дереве нет boot/grub/i386-pc/eltorito.img — раскладка официального образа изменилась, тикет калибровки (грунт-факты тикета 0008)"
+  [ -d "${TREE_DIR}/EFI/boot" ] || die "в дереве нет EFI/boot/ — раскладка изменилась"
+  [ -f "${TREE_DIR}/EFI/boot/bootx64.efi" ] || die "в дереве нет EFI/boot/bootx64.efi — раскладка изменилась"
+
+  # --- ESP ~20MiB vfat из EFI/boot/ дерева (в официальном образе ESP — appended-раздел;
+  # мы конструируем равный ему по содержимому и размеру)
+  local ESP="${WORK_DIR}/esp.img"
+  truncate -s 20M "${ESP}"
+  mformat -i "${ESP}" -C -T 40960 ::
+  mmd -i "${ESP}" ::/EFI ::/EFI/boot
+  mcopy -i "${ESP}" "${TREE_DIR}"/EFI/boot/* ::/EFI/boot/
+  log "сырой факт: ESP собран — 20MiB vfat из EFI/boot/ дерева:"
+  run_logged mdir -i "${ESP}" ::/EFI/boot/
+
+  # --- Рецепт семейства grub-mkrescue: BIOS = El Torito из дерева + grub2-mbr (USB);
+  # UEFI = appended-раздел 0xEF (GPT), каталог через сокращённый интервал
+  xorriso_args=( -as mkisofs -r -J -joliet-long
+    --grub2-mbr "${BOOT_HYBRID}"
+    --grub2-boot-info
+    -partition_offset 16
+    -appended_part_as_gpt
+    -c boot/boot.cat
+    -b boot/grub/i386-pc/eltorito.img -no-emul-boot -boot-load-size 4 -boot-info-table
+    -append_partition 2 0xef "${ESP}"
+    -eltorito-alt-boot
+    -e '--interval:appended_partition_2:::all::'
+    -no-emul-boot
+    -o "${OUT_ISO}" "${TREE_DIR}" )
+
+  if ! run_logged xorriso "${xorriso_args[@]}"; then
+    die "xorriso завершился с ошибкой (рецепт тикета 0008) — сырой вывод выше"
+  fi
+  [ -f "${OUT_ISO}" ] || die "xorriso не создал ${OUT_ISO}"
+  log "сырой факт: выход ${OUT_ISO} — $(stat -c '%s' "${OUT_ISO}") байт"
+}
+
 # ============================== ФАЗА VERIFY ==============================
 # Верификатор артефакта (спека 05): BIOS+UEFI El Torito, размер, injected-файлы, SHA256SUMS.
 phase_verify() {
@@ -468,13 +537,105 @@ phase_verify() {
   if ! run_logged bash "${NOUS_ROOT}/src/lib/verify-iso.sh" "${final_iso}" "${expected[@]}"; then
     die "верификатор спеки 05 отклонил артефакт: ${final_iso} — отчёт: ${final_iso}.eltorito-report.txt"
   fi
+  # --- Каталог-эталон тикета 0008 (ubuntu-2404): BIOS no-emul load-size 4;
+  # UEFI no-emul указывает на appended-раздел (ESP), а не на файл дерева
+  if [ "${TARGET}" = "ubuntu-2404" ]; then
+    local rep="${final_iso}.eltorito-report.txt"
+    grep -q -- '-b ' "${rep}" || die "каталог: нет BIOS-записи (эталон тикета 0008)"
+    grep -q -- '-boot-load-size 4' "${rep}" || die "каталог: BIOS-запись без load-size 4 (эталон тикета 0008)"
+    grep -q "interval:appended_partition_2" "${rep}" || die "каталог: UEFI-запись не указывает на appended-раздел ESP (эталон тикета 0008; сырой отчёт: ${rep})"
+    grep -q -- '-e ' "${rep}" || die "каталог: нет UEFI-записи (эталон тикета 0008)"
+    log "каталог-эталон тикета 0008 — ОК (BIOS 4 сектора no-emul; UEFI = appended ESP)"
+    # --- System area: эталон официального образа «protective-msdos-label grub2-mbr … GPT»
+    local sysarea
+    sysarea="$(xorriso -indev "${final_iso}" -report_system_area plain 2>/dev/null | sed -n '2p' || true)"
+    log "сырой факт — system area: ${sysarea}"
+    printf '%s' "${sysarea}" | grep -q "grub2-mbr" && printf '%s' "${sysarea}" | grep -q "GPT" \
+      || die "system area не совпала с эталоном официального образа (protective MBR + grub2-mbr + GPT): ${sysarea}"
+    log "system area-эталон (grub2-mbr + GPT) — ОК"
+    # --- QEMU-гейт (тикет 0008): доказательство загрузки до меню GRUB, BIOS и UEFI
+    boot_test_qemu "${final_iso}" bios
+    boot_test_qemu "${final_iso}" uefi
+  fi
   # SHA256SUMS рядом с артефактом (спека 04: вывод = ISO + SHA256SUMS + лог)
   printf '%s  %s\n' "$(nous::sha256 "${final_iso}")" "$(basename "${final_iso}")" >> "${EMIT_DIR}/SHA256SUMS"
   log "SHA256SUMS дополнен: ${EMIT_DIR}/SHA256SUMS"
   log "АРТЕФАКТ: ${final_iso}"
   log "АРТЕФАКТ: размер $(stat -c '%s' "${final_iso}") байт"
   log "АРТЕФАКТ: sha256 $(nous::sha256 "${final_iso}")"
-  log "ВНИМАНИЕ: реальная загрузочная проверка — первый прогон на целевом железе владельца (CI ISO не загружает)"
+  if [ "${TARGET}" = "debian12" ]; then
+    log "ВНИМАНИЕ: реальная загрузочная проверка — первый прогон на целевом железе владельца (CI ISO не загружает)"
+  fi
+}
+
+# --- QEMU-гейт загрузки (тикет 0008): TCG, до меню GRUB по серийному порту.
+# NOUS_BOOTTEST=0 — осознанный пропуск (WARN в лог); =1 без qemu — честный отказ;
+# не задано и qemu нет — WARN (локальный прогон), CI ставит пакеты — гейт выполняется.
+boot_test_qemu() {
+  local iso="$1" mode="$2"
+  local slog="${EMIT_DIR}/boot-${mode}-serial.log"
+  local -a qemu_args=(-machine "pc,accel=tcg" -m 2048 -smp 2 -display none
+                      -no-reboot -serial "file:${slog}" -cdrom "${iso}")
+  if [ "${mode}" = "uefi" ]; then
+    local ovmf_code="" ovmf_vars="" f
+    for f in /usr/share/OVMF/OVMF_CODE_4M.fd /usr/share/OVMF/OVMF_CODE.fd; do
+      if [ -f "${f}" ]; then ovmf_code="${f}"; break; fi
+    done
+    for f in /usr/share/OVMF/OVMF_VARS_4M.fd /usr/share/OVMF/OVMF_VARS.fd; do
+      if [ -f "${f}" ]; then ovmf_vars="${f}"; break; fi
+    done
+    if [ -n "${ovmf_code}" ] && [ -n "${ovmf_vars}" ]; then
+      qemu_args=(-machine "q35,accel=tcg" -m 2048 -smp 2 -display none
+                 -no-reboot -serial "file:${slog}" -cdrom "${iso}"
+                 -drive "if=pflash,format=raw,readonly=on,file=${ovmf_code}"
+                 -drive "if=pflash,format=raw,file=${WORK_DIR}/OVMF_VARS.fd")
+      cp -- "${ovmf_vars}" "${WORK_DIR}/OVMF_VARS.fd"
+    elif [ -f /usr/share/ovmf/OVMF.fd ]; then
+      qemu_args=(-machine "q35,accel=tcg" -m 2048 -smp 2 -display none
+                 -no-reboot -serial "file:${slog}" -cdrom "${iso}"
+                 -bios /usr/share/ovmf/OVMF.fd)
+      log "сырой факт: OVMF в форме единого образа (-bios) — vars неперсистентны"
+    else
+      if [ "${NOUS_BOOTTEST:-}" = "1" ]; then
+        die "QEMU-гейт UEFI: OVMF не найден (пакет ovmf) — NOUS_BOOTTEST=1 требует доказательства; установите: apt-get install ovmf"
+      fi
+      warn "QEMU-гейт UEFI пропущен: OVMF не найден (пакет ovmf) — доказательства загрузки UEFI НЕТ"
+      return 0
+    fi
+  fi
+  if ! command -v qemu-system-x86_64 >/dev/null 2>&1; then
+    if [ "${NOUS_BOOTTEST:-}" = "1" ]; then
+      die "QEMU-гейт ${mode}: qemu-system-x86_64 не найден, а NOUS_BOOTTEST=1 требует доказательства; установите: apt-get install qemu-system-x86"
+    fi
+    warn "QEMU-гейт ${mode} пропущен: qemu-system-x86_64 не найден — доказательства загрузки НЕТ (в CI пакеты ставятся и гейт выполняется)"
+    return 0
+  fi
+  if [ "${NOUS_BOOTTEST:-}" = "0" ]; then
+    warn "QEMU-гейт ${mode} пропущен: NOUS_BOOTTEST=0 — артефакт без доказательства загрузки"
+    return 0
+  fi
+
+  log "QEMU-гейт ${mode}: запуск TCG, ожидание меню GRUB по серийному порту (до 300с)…"
+  rm -f "${slog}"
+  qemu-system-x86_64 "${qemu_args[@]}" &
+  local pid=$!
+  local seen=""
+  local i
+  for i in $(seq 1 100); do
+    if grep -q "GNU GRUB" "${slog}" 2>/dev/null; then seen="yes"; break; fi
+    kill -0 "${pid}" 2>/dev/null || break
+    sleep 3
+  done
+  kill "${pid}" 2>/dev/null || true
+  wait "${pid}" 2>/dev/null || true
+  if [ "${seen}" = "yes" ]; then
+    log "QEMU-гейт ${mode} — ОК: меню GRUB достигнуто (доказательство в ${slog}):"
+    grep -a "GNU GRUB" "${slog}" | head -2 | while IFS= read -r line; do log "serial: ${line}"; done
+  else
+    log "сырой хвост серийного лога (${slog}):"
+    tail -n 15 "${slog}" 2>/dev/null | while IFS= read -r line; do log "serial| ${line}"; done
+    die "QEMU-гейт ${mode}: меню GRUB не достигнуто за 300с — загрузка НЕ доказана (raw-факты выше)"
+  fi
 }
 
 # ============================== ЗАПУСК ==============================

@@ -45,11 +45,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: инструменты форжа (xorriso — гибрид ISO, gnupg — подписи SHA256SUMS)
+      - name: инструменты форжа (xorriso, gnupg, isolinux; grub-pc-bin+mtools — ESP тикета 0008; qemu+ovmf — boot-гейт)
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y xorriso gnupg curl isolinux
+          sudo apt-get install -y xorriso gnupg curl isolinux grub-pc-bin mtools dosfstools qemu-system-x86 ovmf
 
       - name: python
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
