@@ -27,19 +27,34 @@ nav:
       - bootstrap: getting-started/01-bootstrap.md
   - Генеалогия:
       - Ревизия-0 (аудит и дифф): genesis/revision-0.md
+      - Аудит 15 репо (2026-10-29): genesis/audit-2026-10-29.md
+      - Синтез «Public Repo Synthesis»: genesis/sintez-public-repo-synthesis.md
   - Практика:
       - Новый субъект: guides/new-subject.md
       - Ветка исполнения: guides/execution-branch.md
       - Релиз: guides/release.md
+      - Эксплуатация устройства LLM=ИИ: guides/llm-device-operation.md
   - Понятия:
       - Аксиомы: concepts/axioms.md
       - Карта = территория: concepts/map-territory.md
       - N=СУБЪЕКТ≠ИНДИВИД: concepts/subjects.md
       - Эмерджентный контур: concepts/emergence.md
       - Безопасные дефолты: concepts/safe-defaults.md
+  - SINGULARIS:
+      - О контуре: singularis/index.md
+      - Манифест: singularis/manifest.md
+      - Видение: singularis/vision.md
+      - Аксиомы 2.0: singularis/axioms-v2.md
+      - Архитектура: singularis/architecture.md
+      - Безопасность: singularis/safety-governance.md
   - Спеки:
       - ТЗ форжа: spec/tz-nous-forge.md
       - Дорожная карта: spec/roadmap.md
+      - ТЗ SINGULARIS: spec/singularis/tz-singularis.md
+      - Runtime субъектов: spec/singularis/runtime-spec.md
+      - Evidence-протокол: spec/singularis/evidence-protocol.md
+      - Схема контракта: spec/singularis/contract-schema.md
+      - Дорожная карта SINGULARIS: spec/roadmap-singularis.md
       - Реализация 01 Источники: spec/implementation/01-sources.md
       - Реализация 02 Probe: spec/implementation/02-probe.md
       - Реализация 03 Windows ISO: spec/implementation/03-windows-iso.md
@@ -58,7 +73,12 @@ nav:
       - 0008 actions.lock позже: decisions/0008-actions-lock-deferred.md
       - 0009 CI-раннер = одноразовый хост: decisions/0009-ci-forge-runner.md
       - 0010 pins.yaml — единственный lockfile: decisions/0010-pins-yaml-single-lockfile.md
+      - 0011 Журнал доказательств: decisions/0011-evidence-ledger.md
+      - 0012 Доктрина секретов: decisions/0012-secrets-doctrine.md
+      - 0013 Принятие SINGULARIS: decisions/0013-singularis-adoption.md
   - Референс:
       - Структура: reference/structure.md
+      - Верификация LLM=ИИ: reference/llm-device-verification.md
       - Команды: reference/commands.md
       - Базовый уровень безопасности: reference/security-baseline.md
+      - Каталог инструментов: reference/tools-catalog.md
