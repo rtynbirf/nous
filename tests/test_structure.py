@@ -67,6 +67,17 @@ REQUIRED_FILES = [
     "docs/spec/roadmap-singularis.md",
     "docs/decisions/0013-singularis-adoption.md",
     "tests/test_singularis.py",
+    # runtime-harness MVA-H (ADR-0014, тикет 0017): контур исполнения субъектов
+    "src/runtime/README.md",
+    "src/runtime/harness/__init__.py",
+    "src/runtime/harness/receipts.py",
+    "src/runtime/harness/governor.py",
+    "src/runtime/harness/tools.py",
+    "src/runtime/harness/loop.py",
+    "src/runtime/harness/confession_test.py",
+    "docs/decisions/0014-runtime-harness-mvah.md",
+    "docs/reference/harness.md",
+    "tests/test_harness.py",
 ]
 
 REQUIRED_DIRS = [
