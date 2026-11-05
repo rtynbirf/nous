@@ -63,6 +63,13 @@ python3 -c "import json,glob;[json.load(open(f)) for f in glob.glob('schemas/*.s
 # runtime субъектов — тикеты 0010–0015 (roadmap: docs/spec/roadmap-singularis.md)
 ```
 
+### Runtime-harness (MVA-H v0.1, ADR-0014)
+
+```bash
+python3 src/runtime/harness/confession_test.py   # живой прогон 7 фаз: фабрикации, scope, бюджет, сбой, подделка журнала
+# LLM не входит в TCB: гейт считает код, доказательства — журнал и мир (docs/reference/harness.md)
+```
+
 ## Карта тела
 
 | Путь | Орган | Зачем |
@@ -73,6 +80,7 @@ python3 -c "import json,glob;[json.load(open(f)) for f in glob.glob('schemas/*.s
 | `docs/spec/` | ТЗ + дорожная карта + пакет реализации | что и в каком порядке строят агенты |
 | `src/forge/` | Территория (v0.2.0) | форж ISO: probe · win (Fido+autounattend+oscdimg) · linux (preseed/autoinstall+xorriso) · `src/lib/` (каркас+верификатор+журнал ADR-0011) |
 | `src/scan/` | Сенсор (v0.4.0) | анонимный скан публичных репо: allowlist, чистая среда, статусы, журнал |
+| `src/runtime/` | Runtime субъектов | MVA-H harness: receipts+governor+tools+loop, LLM вне TCB (ADR-0014) |
 | `docs/singularis/` | Онтология 2.0 (v0.5.0) | SINGULARIS: манифест, аксиомы A7/A8, контур, L0–L4 (ADR-0013) |
 | `schemas/` | Генофонд машинночитаемый | JSON-схемы: контракт субъекта, evidence-запись, тикет |
 | `tests/` | Иммунитет | структура, workflows, связи документов — исполняемые |

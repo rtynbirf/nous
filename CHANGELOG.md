@@ -2,6 +2,36 @@
 
 Формат: Keep a Changelog · версии: SemVer · до внедрения release-please (R6) — руками, по Conventional Commits.
 
+## [Unreleased]
+
+### Added
+- Runtime-harness MVA-H v0.1 — исполняемое ядро enforcement-контура
+  (`src/runtime/harness/`, ADR-0014, тикет 0017): receipts (append-only
+  hash-chain журнал, канон совместим с `src/lib/ledger.sh`, маппинг на
+  `schemas/evidence-entry.schema.json`), governor (ALLOW/DENY/ASK: гранты,
+  realpath-scope, бюджеты, interrupt), tools (доверенные обёртки fs/exec:
+  receipt на каждое действие включая отказ, TOCTOU-перепроверка), loop
+  (Gated Execution Loop + Auditor: вход — журнал и мир, нарратив модели
+  не читается). stdlib-only, новых зависимостей нет.
+- Confession Test: живой прогон 7 фаз (honest/simulant/partial/scope/
+  budget/reset/tamper) — механическое обнаружение симуляции
+  (`src/runtime/harness/confession_test.py`, артефакты вне репо).
+- `tests/test_harness.py` — unittest-контур: цепь/подделка, гейт-до-эффекта,
+  scope-escape, бюджет-kill, interrupt, фабрикация/искажение, EvidenceEntry,
+  reset/recovery, E2E confession-CLI.
+- `docs/reference/harness.md` — референс ABI, формата receipt, маппинга на
+  evidence-entry и честных границ v0.1; ADR-0014; три карты синхронизированы
+  (structure.md, mkdocs nav, REQUIRED_FILES).
+- Тикет 0017 (MVA-H) — воля владельца из чата 2026-11-05; тикет 0016
+  перенесён посимвольно с ветки forge-librarian (непрерывность очереди).
+
+### Fixed
+- guardian-tripwire.yml: `actions/checkout@v4` → пин по полному SHA
+  (v7.0.1, как в pins.yaml) + `persist-credentials: false`;
+  `actions/github-script@v7` → пин v7.1.0 (f28e40c7…, git ls-remote) с
+  записью в `manifests/pins.yaml` (ADR-0004/ADR-0010 восстановлены; main
+  был красный: иммунитет test_workflows ловил непинованные uses).
+
 ## [0.5.0] — 2026-10-29
 
 ### Added
