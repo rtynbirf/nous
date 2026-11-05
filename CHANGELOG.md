@@ -2,6 +2,114 @@
 
 Формат: Keep a Changelog · версии: SemVer · до внедрения release-please (R6) — руками, по Conventional Commits.
 
+## [Unreleased]
+
+### Added
+- Runtime-harness MVA-H v0.1 — исполняемое ядро enforcement-контура
+  (`src/runtime/harness/`, ADR-0014, тикет 0017): receipts (append-only
+  hash-chain журнал, канон совместим с `src/lib/ledger.sh`, маппинг на
+  `schemas/evidence-entry.schema.json`), governor (ALLOW/DENY/ASK: гранты,
+  realpath-scope, бюджеты, interrupt), tools (доверенные обёртки fs/exec:
+  receipt на каждое действие включая отказ, TOCTOU-перепроверка), loop
+  (Gated Execution Loop + Auditor: вход — журнал и мир, нарратив модели
+  не читается). stdlib-only, новых зависимостей нет.
+- Confession Test: живой прогон 7 фаз (honest/simulant/partial/scope/
+  budget/reset/tamper) — механическое обнаружение симуляции
+  (`src/runtime/harness/confession_test.py`, артефакты вне репо).
+- `tests/test_harness.py` — unittest-контур: цепь/подделка, гейт-до-эффекта,
+  scope-escape, бюджет-kill, interrupt, фабрикация/искажение, EvidenceEntry,
+  reset/recovery, E2E confession-CLI.
+- `docs/reference/harness.md` — референс ABI, формата receipt, маппинга на
+  evidence-entry и честных границ v0.1; ADR-0014; три карты синхронизированы
+  (structure.md, mkdocs nav, REQUIRED_FILES).
+- Тикет 0017 (MVA-H) — воля владельца из чата 2026-11-05; тикет 0016
+  перенесён посимвольно с ветки forge-librarian (непрерывность очереди).
+
+### Fixed
+- guardian-tripwire.yml: `actions/checkout@v4` → пин по полному SHA
+  (v7.0.1, как в pins.yaml) + `persist-credentials: false`;
+  `actions/github-script@v7` → пин v7.1.0 (f28e40c7…, git ls-remote) с
+  записью в `manifests/pins.yaml` (ADR-0004/ADR-0010 восстановлены; main
+  был красный: иммунитет test_workflows ловил непинованные uses).
+
+## [0.5.0] — 2026-10-29
+
+### Added
+- SINGULARIS: онтологический контур 2.0 влит в организм (ADR-0013). Прототип
+  (`nous-singularis-prototype.zip`, онтигаллюцинация + синтез практик 2025–2026) больше не
+  внешний ZIP — теперь это органы репо, покрытые иммунитетом:
+  - `docs/singularis/` — манифест, видение (4 слоя организма), аксиомы 2.0 (A7 эволюция
+    под контролем, A8 budget-закон — кандидаты до Фазы 1), архитектура контура
+    (orchestrator → subjects → verifier → evidence), уровни автономии L0–L4, threat model.
+  - `docs/spec/singularis/` — ТЗ (FR-1…FR-7), runtime-спека (DISPATCH→EXECUTE→PROPOSE→
+    VERIFY→COMMIT), evidence-before-effect протокол (эволюция ADR-0011 на ledger.sh),
+    схема контракта субъекта.
+  - `schemas/` — машиночитаемые JSON-схемы (draft 2020-12): subject-contract,
+    evidence-entry, task-ticket; иммунитет следит: `tests/test_singularis.py` +
+    органы в REQUIRED_FILES (`tests/test_structure.py`).
+  - `docs/spec/roadmap-singularis.md` — 5 фаз 2026-Q4→2027-Q2; Фаза 0 закрыта этим релизом.
+- Тикеты 0010–0015 (очередь воли под Фазу 1–4): runtime MVP, evidence-gate,
+  status-самоощущение, closed-loop scan→тикет, contract-schema CI, provenance.
+- forge-linux (тикет 0008): рецепт ubuntu-2404 семейства grub-mkrescue — ESP 20MiB
+  из EFI/boot/ дерева, BIOS grub2-mbr + eltorito из дерева, серийная консоль grub
+  (доказуемость загрузки); CI-инструменты: qemu-system-x86, ovmf, grub-pc-bin, mtools.
+
+## [0.4.0] — 2026-10-29
+
+### Added
+- Синтез архива «Public Repo Synthesis» коллег: разбор 9 файлов, честный вердикт,
+  что принято/отвергнуто и почему (`docs/genesis/sintez-public-repo-synthesis.md`).
+- Журнал доказательств с цепочкой хешей: `src/lib/ledger.sh` (append/verify/weakest,
+  формат совместим с журналом коллег) — ADR-0011; 7 тестов (`tests/test_ledger.py`):
+  подделка и удаление строки ловятся.
+- Сенсор территории: `src/scan/scan.sh` — анонимный скан публичных репо (allowlist,
+  чистая среда git: HOME подменён, credential.helper пуст, ssh выключен, токены
+  вырезаны; инвентарь; статусы GAP<UNKNOWN<PARTIAL<CONFIRMED; журнал в каждый прогон).
+  E2E: 2 реальных клона CONFIRMED, 2 отказа фильтра, цепь 8 записей целостна.
+  4 теста (`tests/test_scan.py`) без сети, кроме осознанных отказов.
+- Каталог инструментов НОУСа с ролями/статусами/методами (21 узел) —
+  `docs/reference/tools-catalog.md` (противо-пример лексикону 2444 позиций коллег).
+- Доктрина секретов: классы A/B/C находок, порядок «СЛОМАЕТ?», правило
+  «ротация до чистки HEAD», запрет тестирования чужих ключей — ADR-0012.
+- Тикет 0009: singulyar — вынос публичной константы Innertube из HEAD + резолв
+  алерта #1 (класс B, false_positive с доказательствами).
+
+### Fixed
+- README: версия статуса 0.2.0 → 0.4.0 (карта отставала от территории).
+
+### Security
+- Разбор спора про ключ: доказательная цепь (живая страница YouTube содержит
+  ключ в ytcfg; GitHub code search — 894 публичных файла) закрыла вопрос
+  «ограничить/отозвать»: ключ — публичная константа клиента WEB, действия
+  в чужой Google Cloud Console неприменимы. Подробно — ADR-0012 + синтез-док §5.
+
+## [0.3.0] — 2026-10-29
+
+### Added
+- Живое доказательство: forge.yml собрал debian12-ISO в CI (артефакт 863MB,
+  BIOS+UEFI El Torito, верификатор спеки 05 зелёный; прогон 40868854559).
+- Аудит 15 репо аккаунта + ревизия security через API: DepAlerts+AutoFixes
+  на 13 репо, secret-scanning на всех публичных, защита main на 10 публичных
+  (`docs/genesis/audit-2026-10-29.md`).
+- Пины доведены до грунта: debian-12.15.0 (архив, TOFU sha256+fingerprint,
+  сверены с debian.org/CD/verify), ubuntu-24.04.5; actions checkout v7.0.1 /
+  setup-python v7.1.0 / attest v4.2.2.
+- Тикет 0008 (ubuntu-24.04 рецепт пересборки): полный грунт-факт раскладки
+  каталога официального ISO.
+
+### Fixed
+- NOUS_ROOT: три подъёма из src/forge/linux (прогон 40864125668) и экспорт
+  NOUS_ROOT/NOUS_TARGET_DIR python-потомкам (прогон 40864534651).
+- read-only права после извлечения ISO: chmod -R u+w (linux), IsReadOnly=false
+  (win) — прогон 40865639337.
+- Рецепт BIOS+UEFI по фактам дерева: isohdpfx.bin из пакета isolinux каркаса
+  (в дереве Debian 12.15 его нет; локальная E2E-репетиция + верификатор зелёные).
+
+### Security
+- 7 dependabot-PR закрыты с причинами (суперседены SHA-пинами ADR-0004/0010).
+- Находка: Google API Key в публичном singulyar (алерт #1, HEAD + история) —
+  решение владельца (ограничить/отозвать); алерт честно остаётся открытым.
+
 ## [0.2.0] — 2026-10-29
 
 ### Added

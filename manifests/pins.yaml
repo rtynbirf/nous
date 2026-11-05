@@ -1,18 +1,18 @@
 # НОУС · manifests/pins.yaml — канонический реестр пинов (ADR-0006)
 # Правило: код не содержит пинов; каждая запись имеет source/версию, SHA, дату и метод проверки.
 meta:
-  last_calibration: "2026-10-29"
+  last_calibration: "2026-11-05"
   policy: "обновление только через тикет калибровки; дата и метод обязательны"
 
 actions: # полное имя action → тег + commit-SHA (проверено scripts/pin_action.sh)
   actions/checkout:
-    tag: v5.0.0
-    sha: "08c6903cd8c0fde910a37f88322edcfb5dd907a8"
+    tag: v7.0.1
+    sha: "3d3c42e5aac5ba805825da76410c181273ba90b1"
     verified_at: "2026-10-29"
     method: "git ls-remote с дереференсом тега"
   actions/setup-python:
-    tag: v6.0.0
-    sha: "e797f83bcb11b83ae66e0230d6156d7c80228e7c"
+    tag: v7.1.0
+    sha: "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0"
     verified_at: "2026-10-29"
     method: "git ls-remote с дереференсом тега"
   actions/upload-artifact:
@@ -21,8 +21,8 @@ actions: # полное имя action → тег + commit-SHA (проверен�
     verified_at: "2026-10-29"
     method: "git ls-remote (лёгкий тег)"
   actions/attest-build-provenance:
-    tag: v2.3.0
-    sha: "db473fddc028af60658334401dc6fa3ffd8669fd"
+    tag: v4.2.2
+    sha: "4d101475d8b20a2381f78447822ac1eab6504dd8"
     verified_at: "2026-10-29"
     method: "git ls-remote с дереференсом тега"
   pre-commit/pre-commit-hooks:
@@ -35,6 +35,11 @@ actions: # полное имя action → тег + commit-SHA (проверен�
     sha: "83d9cd684c87d95d656c1458ef04895a7f1cbd8e"
     verified_at: "2026-10-29"
     method: "git ls-remote с дереференсом тега"
+  actions/github-script:
+    tag: v7.1.0
+    sha: "f28e40c7f34bde8b3046d885e986cb6290c5673b"
+    verified_at: "2026-11-05"
+    method: "git ls-remote (лёгкий тег v7.1.0 = commit); калибровка тикета 0017"
 
 tools:
   python:
@@ -51,19 +56,26 @@ forge: # калибровка R1 (тикет 0001). Протокол TOFU (ADR-0
   # сверяется принудительно; выдуманные хеши в реестре запрещены (аксиома 2).
   # URL — только официальные каналы (спека 01: зеркалам нет).
   debian-netinst:
-    status: calibrated-url
-    channel: "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/"
-    pattern: "debian-12.*-amd64-netinst.iso"
+    status: calibrated-live
+    # ТОЧНАЯ версия, не current/: Debian 12 ушёл в архив (current = 13.7.0,
+    # живой прогон 40865005039 поймал раскалибровку). Детерминизм артефакта
+    # важнее автодогоняния свежих точечных релизов (аксиома 2, ADR-0006).
+    channel: "https://cdimage.debian.org/cdimage/archive/12.15.0/amd64/iso-cd/"
+    pattern: "debian-12.15.0-amd64-netinst.iso"
     checksums: "SHA256SUMS в том же каталоге официального канала"
     signing: "gpg-подпись SHA256SUMS (debian-cd); fingerprint ключа фиксируется TOFU при первом прогоне"
-    iso_sha256: null
-    key_fingerprint: null
+    # TOFU-фиксация прогона 40865639337 (FETCH сверил сумму с официальным SHA256SUMS);
+    # отпечаток сверен с официальной страницей debian.org/CD/verify — «Debian CD signing key»
+    iso_sha256: "cd4462c06aa8892e692c0c4b9c17802f38c8ab8690e85cbfb5ccaa5956e9af17"
+    key_fingerprint: "DF9B9C49EAA9298432589D76DA87E80D6294BE9B"
     verified_at: "2026-10-29"
-    method: "URL и формат сверены по официальному каталогу cdimage.debian.org; SHA256/ключ — первый прогон forge-linux"
+    method: "канал/файл/сумма/ключ: живой прогон FETCH + debian.org/CD/verify"
   ubuntu-server:
-    status: calibrated-url
+    status: calibrated-live
+    # Точная точечная версия (философия debian-netinst): сортировка индекса
+    # не должна выбирать «старшую из найденных» — артефакт детерминирован.
     channel: "https://releases.ubuntu.com/24.04/"
-    pattern: "ubuntu-24.04.*-live-server-amd64.iso"
+    pattern: "ubuntu-24.04.5-live-server-amd64.iso"
     checksums: "SHA256SUMS + SHA256SUMS.gpg в том же каталоге официального канала"
     signing: "gpg-подпись; fingerprint ключа фиксируется TOFU при первом прогоне"
     iso_sha256: null

@@ -89,6 +89,58 @@ class TestPreseed(unittest.TestCase):
         self.assertIn("__PW_HASH__", self.text, "криптохеш обязан быть токеном")
 
 
+class TestUbuntuRecipeTicket0008(unittest.TestCase):
+    """Тикет 0008: рецепт ubuntu-2404 = семейство grub-mkrescue (грунт-факты дерева)."""
+
+    def setUp(self):
+        self.text = BUILD.read_text(encoding="utf-8")
+
+    def test_grub_mkrescue_family_recipe_args(self):
+        for flag in (
+            "--grub2-mbr", "--grub2-boot-info", "-partition_offset 16",
+            "-appended_part_as_gpt", "-append_partition 2 0xef",
+            "--interval:appended_partition_2:::all::", "-eltorito-alt-boot",
+        ):
+            self.assertIn(flag, self.text, f"рецепт тикета 0008: нет {flag}")
+
+    def test_esp_construction_from_tree(self):
+        # ESP конструируется из EFI/boot/ дерева (не выдумывается): mformat/mcopy
+        for tool in ("mformat", "mcopy", "mmd", "mdir"):
+            self.assertIn(tool, self.text, f"ESP-конструирование тикета 0008: нет {tool}")
+        self.assertIn("EFI/boot", self.text, "ESP: источник EFI/boot/ дерева")
+        self.assertIn("esp.img", self.text, "ESP: файл esp.img")
+
+    def test_boot_hybrid_from_carcase_only(self):
+        # boot_hybrid.img — из пакета каркаса, с указанием пакета при отказе
+        self.assertIn("boot_hybrid.img", self.text)
+        self.assertIn("grub-pc-bin", self.text, "при отказе назван пакет grub-pc-bin")
+
+    def test_tree_facts_gates(self):
+        # Цели правки по грунт-фактам дерева; расхождение — честный отказ
+        self.assertIn("boot/grub/i386-pc/eltorito.img", self.text)
+        self.assertIn("EFI/boot/bootx64.efi", self.text)
+
+    def test_catalog_etalon_gates(self):
+        # VERIFY сверяет раскладку каталога с эталоном тикета 0008
+        self.assertIn("interval:appended_partition_2", self.text,
+                      "эталон: UEFI-запись каталога = appended ESP")
+        self.assertIn("-boot-load-size 4", self.text, "эталон: BIOS load-size 4")
+        self.assertIn("grub2-mbr", self.text, "эталон: system area grub2-mbr")
+        self.assertIn("report_system_area", self.text, "эталон: сверка system area")
+
+    def test_qemu_boot_gate(self):
+        # QEMU-гейт: доказательство загрузки до меню GRUB, BIOS и UEFI (OVMF)
+        self.assertIn("qemu-system-x86_64", self.text)
+        self.assertIn("GNU GRUB", self.text, "маркер меню GRUB в серийном логе")
+        self.assertIn("OVMF", self.text, "UEFI-режим через OVMF")
+        self.assertIn("NOUS_BOOTTEST", self.text, "осознанное управление гейтом")
+        self.assertIn("accel=tcg", self.text, "TCG — воспроизводимый режим без KVM")
+
+    def test_serial_directives_for_boot_proof(self):
+        # grub.cfg получает серийную консоль (идемпотентно; входы уже autoinstall)
+        self.assertIn("terminal_output serial console", self.text)
+
+
 class TestAutoinstall(unittest.TestCase):
     def setUp(self):
         self.assertTrue(USER_DATA.is_file(), "user-data отсутствует")

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "generated": "2026-10-29",
+  "commit": "04edd322eb33f7cc987f190122dd3eb1a05c9573",
+  "branch": "main",
+  "metrics": {
+    "adr": 13,
+    "agent_contracts": 5,
+    "workflows": 3,
+    "tasks_open": 13,
+    "tasks_done": 2,
+    "docs": 50,
+    "scripts": 5,
+    "python": "3.12"
+  },
+  "pins_freshness": {"actions/actions/checkout": {"age_days": 0, "stale": false}, "actions/actions/setup-python": {"age_days": 0, "stale": false}, "actions/actions/upload-artifact": {"age_days": 0, "stale": false}, "actions/actions/attest-build-provenance": {"age_days": 0, "stale": false}, "actions/pre-commit/pre-commit-hooks": {"age_days": 0, "stale": false}, "actions/gitleaks/gitleaks": {"age_days": 0, "stale": false}, "tools/python": {"age_days": 0, "stale": false}, "tools/shellcheck": {"age_days": 0, "stale": false}, "forge": {"debian-netinst": {"status": "calibrated-live", "sha256_fixed": true}, "ubuntu-server": {"status": "calibrated-live", "sha256_fixed": false}, "fido": {"status": "pending-first-run", "sha256_fixed": false}, "windows-image": {"status": "pending-first-run", "sha256_fixed": false}}}
+}
