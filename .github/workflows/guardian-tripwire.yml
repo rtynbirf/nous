@@ -8,6 +8,9 @@ name: guardian-tripwire
 # Добавлен 2026-11-01 по мандату TH-GH-02.
 # Удаление или правка этого файла без мандата Хозяина = нарушение доктрины
 # (04-конвенции-агентов.md, §2 «Правило аддитивности»).
+# 2026-11-05: пин по полному SHA + persist-credentials: false — восстановление
+# ADR-0004 (коммит добавил workflow с @v4, иммунитет test_workflows поймал;
+# мандат владельца на дожим, тикет 0017 «Изменения» от 2026-11-05).
 
 on:
   push:
@@ -37,9 +40,10 @@ jobs:
           echo "история целая (forced=$FORCED, ref=$REF)"
 
       - name: Checkout (полная история)
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Скан пуша на секреты
         run: |
@@ -61,7 +65,7 @@ jobs:
       - name: ALARM — открыть issue
         if: failure()
         continue-on-error: true
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         with:
           script: |
             const kind = '${{ github.event.forced }}' === 'true' ? 'FORCE-PUSH' : 'СЕКРЕТ В ПУШЕ';

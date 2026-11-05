@@ -1,7 +1,7 @@
 # НОУС · manifests/pins.yaml — канонический реестр пинов (ADR-0006)
 # Правило: код не содержит пинов; каждая запись имеет source/версию, SHA, дату и метод проверки.
 meta:
-  last_calibration: "2026-10-29"
+  last_calibration: "2026-11-05"
   policy: "обновление только через тикет калибровки; дата и метод обязательны"
 
 actions: # полное имя action → тег + commit-SHA (проверено scripts/pin_action.sh)
@@ -35,6 +35,11 @@ actions: # полное имя action → тег + commit-SHA (проверен�
     sha: "83d9cd684c87d95d656c1458ef04895a7f1cbd8e"
     verified_at: "2026-10-29"
     method: "git ls-remote с дереференсом тега"
+  actions/github-script:
+    tag: v7.1.0
+    sha: "f28e40c7f34bde8b3046d885e986cb6290c5673b"
+    verified_at: "2026-11-05"
+    method: "git ls-remote (лёгкий тег v7.1.0 = commit); калибровка тикета 0017"
 
 tools:
   python:
