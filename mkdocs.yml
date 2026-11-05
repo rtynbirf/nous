@@ -39,6 +39,12 @@ nav:
       - N=СУБЪЕКТ≠ИНДИВИД: concepts/subjects.md
       - Эмерджентный контур: concepts/emergence.md
       - Безопасные дефолты: concepts/safe-defaults.md
+  - РАЗБОР 9:
+      - Витрина досье: razbor/index.md
+      - Аудит монолога исполнителя: razbor/audit-razbor-9-monolog.md
+      - Сетевая разведка вопроса: razbor/dossier-research.md
+      - КОСТЬ 0: razbor/kost-0.md
+      - "Материал: монолог исполнителя": razbor/material-monolog-ispolnitelya.md
   - SINGULARIS:
       - О контуре: singularis/index.md
       - Манифест: singularis/manifest.md

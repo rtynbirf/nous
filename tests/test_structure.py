@@ -78,6 +78,8 @@ REQUIRED_FILES = [
     "docs/decisions/0014-runtime-harness-mvah.md",
     "docs/reference/harness.md",
     "tests/test_harness.py",
+    # досье РАЗБОР 9 (тикет 0018): аудит монолога исполнителя, разведка, КОСТЬ 0
+    "docs/razbor/index.md",
 ]
 
 REQUIRED_DIRS = [

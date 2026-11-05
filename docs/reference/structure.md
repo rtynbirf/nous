@@ -35,6 +35,7 @@
 | `docs/spec/` | ТЗ, roadmap, реализация 01–07 |
 | `docs/decisions/` | ADR (MADR-подобные, непрерывная нумерация) |
 | `docs/reference/` | этот референс, команды, security baseline |
+| `docs/razbor/` | досье РАЗБОР 9: аудит монолога исполнителя, сетевая разведка, КОСТЬ 0 (тикет 0018) |
 | `src/forge/` | целевой код форжа (появляется по тикетам R2–R4) |
 | `src/runtime/` | контур исполнения субъектов: harness MVA-H (receipts+governor+tools+loop, ADR-0014, тикет 0017) |
 | `tests/` | исполняемая карта: test_structure, test_workflows, test_docs |
