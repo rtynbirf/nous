@@ -2,6 +2,15 @@
 
 Формат: Keep a Changelog · версии: SemVer · до внедрения release-please (R6) — руками, по Conventional Commits.
 
+## [Unreleased] — 2026-11-07
+
+### Added
+- GENESIS-доки сессии «Железо · Стек · Рантайм» влиты в main из ветки
+  agents/execution (аддитивно, чужая орбита PR#10 не тронута):
+  `docs/genesis/runtime-protocol.md` (исполнимая модель динамики узла: уравнение
+  ρ̇, фазовая машина GENESIS_EXEC), `invariant-minimal.md`, `session-decomposition.md`
+  — источник клетки runtime-protocol (TH-RTP-01/03, пин в cell-swarm d23d548).
+
 ## [0.5.0] — 2026-10-29
 
 ### Added
