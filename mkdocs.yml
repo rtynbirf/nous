@@ -43,6 +43,12 @@ nav:
       - Runtime Protocol: genesis/runtime-protocol.md
       - Инвариант минимальный: genesis/invariant-minimal.md
       - Декомпозиция сессии: genesis/session-decomposition.md
+  - РАЗБОР 9:
+      - Витрина досье: razbor/index.md
+      - Аудит монолога исполнителя: razbor/audit-razbor-9-monolog.md
+      - Сетевая разведка вопроса: razbor/dossier-research.md
+      - КОСТЬ 0: razbor/kost-0.md
+      - "Материал: монолог исполнителя": razbor/material-monolog-ispolnitelya.md
   - SINGULARIS:
       - О контуре: singularis/index.md
       - Манифест: singularis/manifest.md
@@ -79,8 +85,10 @@ nav:
       - 0011 Журнал доказательств: decisions/0011-evidence-ledger.md
       - 0012 Доктрина секретов: decisions/0012-secrets-doctrine.md
       - 0013 Принятие SINGULARIS: decisions/0013-singularis-adoption.md
+      - 0014 Runtime-harness MVA-H: decisions/0014-runtime-harness-mvah.md
   - Референс:
       - Структура: reference/structure.md
       - Команды: reference/commands.md
+      - Runtime-harness MVA-H: reference/harness.md
       - Базовый уровень безопасности: reference/security-baseline.md
       - Каталог инструментов: reference/tools-catalog.md

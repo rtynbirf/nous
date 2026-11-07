@@ -25,6 +25,7 @@ docs/singularis/     ← онтология 2.0 (SINGULARIS, ADR-0013): мани
 schemas/             ← машиночитаемые контракты, evidence, тикеты (SINGULARIS)
 src/forge/           ← ТЕРРИТОРИЯ (v0.2.0): probe · win · linux + единая точка входа
 src/lib/             ← общий каркас (common.sh) и верификатор артефакта (verify-iso.sh)
+src/runtime/         ← контур исполнения субъектов: harness MVA-H (ADR-0014, тикет 0017)
 tests/               ← исполняемая карта: структура, workflows, связи, гейты форжа
 scripts/             ← bootstrap.sh / verify.sh / state.sh / gen_llms.sh / pin_action.sh
 manifests/           ← pins.yaml (единственный lockfile, ADR-0010) и safe-defaults.yaml
