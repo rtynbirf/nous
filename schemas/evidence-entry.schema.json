@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nous.local/schemas/evidence-entry.schema.json",
+  "title": "EvidenceEntry",
+  "type": "object",
+  "required": ["evidence_id", "run_id", "subject_id", "timestamp", "type", "claim", "hash"],
+  "properties": {
+    "evidence_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "subject_id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "type": { "type": "string", "enum": ["proposal", "intermediate", "final", "verifier_decision", "abort"] },
+    "claim": { "type": "string", "minLength": 5 },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["op"],
+        "properties": {
+          "op": { "type": "string" },
+          "path": { "type": "string" },
+          "hash": { "type": "string" }
+        }
+      }
+    },
+    "supporting": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind"],
+        "properties": {
+          "kind": { "type": "string" },
+          "path": { "type": "string" },
+          "name": { "type": "string" },
+          "result": { "type": "string" },
+          "hash": { "type": "string" }
+        }
+      }
+    },
+    "prev_hash": { "type": "string" },
+    "hash": { "type": "string" },
+    "verifier_decision": { "type": "string", "enum": ["ACCEPT", "REJECT", "ESCALATE"] }
+  },
+  "additionalProperties": true
+}

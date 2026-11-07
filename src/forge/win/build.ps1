@@ -154,6 +154,11 @@ try {
   $srcRoot = "$($volume.DriveLetter):\"
   Log "Copy-Item $srcRoot* → $extractDir (несколько ГиБ)"
   Copy-Item -Path (Join-Path $srcRoot '*') -Destination $extractDir -Recurse -Force
+  # ISO носит ReadOnly-атрибут части файлов; Copy-Item копирует его, а -Force
+  # перезапись read-only не перебивает — фазы render/inject упали бы тем же
+  # отказом, что поймал linux-прогон 40865639337.
+  Log "снятие ReadOnly с копии дерева (Get-ChildItem -Recurse)"
+  Get-ChildItem -LiteralPath $extractDir -Recurse -File | ForEach-Object { $_.IsReadOnly = $false }
 } finally {
   if ($mounted) {
     try { Dismount-DiskImage -ImagePath $script:IsoPath | Out-Null; Log "Dismount-DiskImage — ОК" }

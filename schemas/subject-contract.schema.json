@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nous.local/schemas/subject-contract.schema.json",
+  "title": "SubjectContract",
+  "type": "object",
+  "required": ["id", "version", "role", "scope", "tools", "budget", "report_protocol"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "version": { "type": "string" },
+    "role": { "type": "string", "minLength": 10 },
+    "scope": {
+      "type": "object",
+      "required": ["allow"],
+      "properties": {
+        "allow": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "deny": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "tools": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "budget": {
+      "type": "object",
+      "required": ["max_steps"],
+      "properties": {
+        "max_steps": { "type": "integer", "minimum": 1, "maximum": 200 },
+        "max_tokens": { "type": "integer", "minimum": 1000 },
+        "max_cost_usd": { "type": "number", "minimum": 0 },
+        "max_wall_time_sec": { "type": "integer", "minimum": 60 }
+      }
+    },
+    "report_protocol": { "type": "string", "minLength": 20 },
+    "forbidden": { "type": "array", "items": { "type": "string" } },
+    "verifier": { "type": "string", "default": "default-structural" }
+  },
+  "additionalProperties": false
+}

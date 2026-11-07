@@ -21,8 +21,11 @@ docs/                ← Diátaxis: getting-started / guides / concepts / refere
 docs/decisions/      ← ADR: каждое архитектурное решение + «ПОЧЕМУ ТОЛЬКО ТАК»
 docs/genesis/        ← ревизия-0: аудит, дифф с Вердиктом-1, вердикт гейта
 docs/spec/           ← ТЗ форжа, дорожная карта (roadmap), пакет реализации 01–07
+docs/singularis/     ← онтология 2.0 (SINGULARIS, ADR-0013): манифест/аксиомы/контур
+schemas/             ← машиночитаемые контракты, evidence, тикеты (SINGULARIS)
 src/forge/           ← ТЕРРИТОРИЯ (v0.2.0): probe · win · linux + единая точка входа
 src/lib/             ← общий каркас (common.sh) и верификатор артефакта (verify-iso.sh)
+src/runtime/         ← контур исполнения субъектов: harness MVA-H (ADR-0014, тикет 0017)
 tests/               ← исполняемая карта: структура, workflows, связи, гейты форжа
 scripts/             ← bootstrap.sh / verify.sh / state.sh / gen_llms.sh / pin_action.sh
 manifests/           ← pins.yaml (единственный lockfile, ADR-0010) и safe-defaults.yaml
@@ -83,5 +86,6 @@ NOUS_PW_HASH="$(openssl passwd -6)" bash src/forge/forge.sh debian12    # или
 - Как устроен контур эмерджентности: `docs/concepts/emergence.md`
 - ТЗ форжа (цель всего): `docs/spec/tz-nous-forge.md`
 - Дорожная карта и текущая фаза: `docs/spec/roadmap.md`
+- Онтология 2.0 (SINGULARIS): `docs/singularis/index.md`
 - Генеалогия (аудит/дифф): `docs/genesis/revision-0.md`
 - Полный референс структуры: `docs/reference/structure.md`

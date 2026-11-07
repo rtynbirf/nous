@@ -19,6 +19,39 @@
   ΔI = +14/−2/+2, терминал SOLVED_WITH_CAVEATS).
 - Исполнимые доказательства: `docs/reference/assets/llm-device/` —
   exploit_llm_fsm.py, revise_instruction_v2.py, live_audit.py (сид 20260910).
+- Runtime-harness MVA-H v0.1 — исполняемое ядро enforcement-контура
+  (`src/runtime/harness/`, ADR-0014, тикет 0017): receipts (append-only
+  hash-chain журнал, канон совместим с `src/lib/ledger.sh`, маппинг на
+  `schemas/evidence-entry.schema.json`), governor (ALLOW/DENY/ASK: гранты,
+  realpath-scope, бюджеты, interrupt), tools (доверенные обёртки fs/exec:
+  receipt на каждое действие включая отказ, TOCTOU-перепроверка), loop
+  (Gated Execution Loop + Auditor: вход — журнал и мир, нарратив модели
+  не читается). stdlib-only, новых зависимостей нет.
+- Confession Test: живой прогон 7 фаз (honest/simulant/partial/scope/
+  budget/reset/tamper) — механическое обнаружение симуляции
+  (`src/runtime/harness/confession_test.py`, артефакты вне репо).
+- `tests/test_harness.py` — unittest-контур: цепь/подделка, гейт-до-эффекта,
+  scope-escape, бюджет-kill, interrupt, фабрикация/искажение, EvidenceEntry,
+  reset/recovery, E2E confession-CLI.
+- `docs/reference/harness.md` — референс ABI, формата receipt, маппинга на
+  evidence-entry и честных границ v0.1; ADR-0014; три карты синхронизированы
+  (structure.md, mkdocs nav, REQUIRED_FILES).
+- Тикет 0017 (MVA-H) — воля владельца из чата 2026-11-05; тикет 0016
+  перенесён посимвольно с ветки forge-librarian (непрерывность очереди).
+- GENESIS-доки сессии «Железо · Стек · Рантайм» (2026-11-07, влиты в main
+  аддитивно, чужая орбита PR#10 не тронута):
+  `docs/genesis/runtime-protocol.md` (исполнимая модель динамики узла: уравнение
+  ρ̇, фазовая машина GENESIS_EXEC), `invariant-minimal.md`, `session-decomposition.md`
+  — источник клетки runtime-protocol (TH-RTP-01/03, пин в cell-swarm d23d548).
+
+### Fixed
+- guardian-tripwire.yml: `actions/checkout@v4` → пин по полному SHA
+  (v7.0.1, как в pins.yaml) + `persist-credentials: false`;
+  `actions/github-script@v7` → пин v7.1.0 (f28e40c7…, git ls-remote) с
+  записью в `manifests/pins.yaml` (ADR-0004/ADR-0010 восстановлены; main
+  был красный: иммунитет test_workflows ловил непинованные uses).
+- manifests/pins.yaml: дубль ключа `actions/github-script` (v7 vs v7.1.0)
+  после слияния орбит сведён к одной записи v7.1.0 (f28e40c7…, 2026-11-07).
 
 ## [0.5.0] — 2026-10-29
 

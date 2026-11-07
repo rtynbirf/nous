@@ -38,10 +38,20 @@ title_of() {
     echo "- [$(title_of "${f}")](${f})"
   done
   echo
+  echo "## SINGULARIS (онтология 2.0)"
+  echo
+  for f in docs/singularis/*.md; do
+    echo "- [$(title_of "${f}")](${f})"
+  done
+  echo
   echo "## Спеки и реализация"
   echo
   echo "- [ТЗ форжа](docs/spec/tz-nous-forge.md)"
   echo "- [Дорожная карта](docs/spec/roadmap.md)"
+  for f in docs/spec/singularis/*.md; do
+    echo "- [$(title_of "${f}")](${f})"
+  done
+  echo "- [Дорожная карта SINGULARIS](docs/spec/roadmap-singularis.md)"
   for f in docs/spec/implementation/*.md; do
     echo "- [$(title_of "${f}")](${f})"
   done

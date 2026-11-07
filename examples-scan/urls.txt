@@ -1,0 +1,11 @@
+# Пример списка для сенсора территории (src/scan/scan.sh).
+# Запуск: NOUS_TARGET_DIR=dist bash src/scan/scan.sh examples-scan/urls.txt
+# Правила: только https, по одному URL на строку, # — комментарий.
+# Свои хосты (Forgejo/Gitea) — флагом --allow-host git.example.org
+
+# Прародитель НОУСа (публичный дом батника)
+https://github.com/rtynbirf/os-forge.git
+
+# Детали каталога инструментов НОУСа (docs/reference/tools-catalog.md)
+https://github.com/ggml-org/whisper.cpp.git
+https://github.com/LibreTranslate/LibreTranslate.git
