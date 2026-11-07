@@ -24,6 +24,11 @@
   (structure.md, mkdocs nav, REQUIRED_FILES).
 - Тикет 0017 (MVA-H) — воля владельца из чата 2026-11-05; тикет 0016
   перенесён посимвольно с ветки forge-librarian (непрерывность очереди).
+- GENESIS-доки сессии «Железо · Стек · Рантайм» (2026-11-07, влиты в main
+  аддитивно, чужая орбита PR#10 не тронута):
+  `docs/genesis/runtime-protocol.md` (исполнимая модель динамики узла: уравнение
+  ρ̇, фазовая машина GENESIS_EXEC), `invariant-minimal.md`, `session-decomposition.md`
+  — источник клетки runtime-protocol (TH-RTP-01/03, пин в cell-swarm d23d548).
 
 ### Fixed
 - guardian-tripwire.yml: `actions/checkout@v4` → пин по полному SHA
@@ -31,6 +36,8 @@
   `actions/github-script@v7` → пин v7.1.0 (f28e40c7…, git ls-remote) с
   записью в `manifests/pins.yaml` (ADR-0004/ADR-0010 восстановлены; main
   был красный: иммунитет test_workflows ловил непинованные uses).
+- manifests/pins.yaml: дубль ключа `actions/github-script` (v7 vs v7.1.0)
+  после слияния орбит сведён к одной записи v7.1.0 (f28e40c7…, 2026-11-07).
 
 ## [0.5.0] — 2026-10-29
 
