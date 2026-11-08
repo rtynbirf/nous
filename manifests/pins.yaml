@@ -11,10 +11,10 @@ actions: # полное имя action → тег + commit-SHA (проверен�
     verified_at: "2026-10-29"
     method: "git ls-remote с дереференсом тега"
   actions/github-script:
-    tag: v9.0.0
-    sha: "3a2844b7e9c422d3c10d287c895573f7108da1b3"
+    tag: v7.1.0
+    sha: "f28e40c7f34bde8b3046d885e986cb6290c5673b"
     verified_at: "2026-11-08"
-    method: "git ls-remote; аннотированный тег v9.0.0 дереференцирован API git/tags → commit 3a2844b7; калибровка тикета 0018: dependabot-группа actions подняла пин в guardian-tripwire.yml, реестр приведён к факту (v7.1.0 → v9.0.0)"
+    method: "git ls-remote с дереференсом тега (аннотированный v7.1.0 → commit f28e40c7); исправление калибровки тикета 0018: прежняя запись 3a2844b7 не является коммитом тега v9.0.0 (v9.0.0 = d746ffe3), пин guardian-tripwire.yml f28e40c7 подтверждён живым ls-remote 2026-11-08"
   actions/setup-python:
     tag: v7.1.0
     sha: "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0"
