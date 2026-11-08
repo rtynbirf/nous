@@ -1,0 +1,48 @@
+# nous
+> НОУС — эмерджентное сингулярное репо: конституция для человека и агентов, ТЗ форжа ISO, дорожная карта, контур исполнения
+
+Автоген 2026-11-08 · источник: живой GitHub API (номера и файлы не руками) · владелец rtynbirf · ветка `main`
+
+## Мембрана
+- README.md — для человека (НОУС)
+- AGENTS.md — есть
+- LICENSE — MIT
+- topics: agents-md, ai-agents, debian, github-actions, iso-builder, reproducible-builds, russian, safe-defaults, supply-chain-security, swarm-agents, ubuntu, windows-iso
+
+## Карта корня
+- .claude/
+- .cursor/
+- .devcontainer/
+- .editorconfig
+- .envrc.example
+- .gitattributes
+- .github/
+- .gitignore
+- .mise.toml
+- .pre-commit-config.yaml
+- AGENTS.md
+- AI_POLICY.md
+- CHANGELOG.md
+- CODE_OF_CONDUCT.md
+- CONTRIBUTING.md
+- … ещё 17
+
+## Метаболизм (make)
+- make SHELL
+- make bootstrap
+- make verify
+- make state
+- make release
+- make help
+
+## CI
+- workflow: ci
+- workflow: forge
+- workflow: guardian-tripwire
+- workflow: release
+- workflow: self-audit
+
+## Ссылки
+- [GitHub](https://github.com/rtynbirf/nous)
+- [README](https://github.com/rtynbirf/nous/blob/main/README.md)
+- [raw llms.txt](https://raw.githubusercontent.com/rtynbirf/nous/main/llms.txt)
