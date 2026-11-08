@@ -75,8 +75,29 @@ jobs:
         shell: bash
         run: bash src/lib/verify-iso.sh dist/linux/*/*.iso
 
-      - name: артефакты прогона (auto_publish=false — не релиз и не ветка)
+      - name: счёт артефактов без тела (П-14: SHA256SUMS + лог сборки всегда, ISO — только при публикации)
         if: github.event_name == 'schedule' || matrix.target == inputs.target
+        shell: bash
+        run: |
+          {
+            echo "## П-14 артефакт-бюджет: штатный прогон не выгружает ISO (880 МБ > квоты free)"
+            find dist -type f -name '*.iso' -exec sha256sum {} \; || true
+            echo "## состав dist"
+            find dist -type f -printf '%s %p\n' | sort -k2
+          } > forge-artifacts-log.txt
+          cat forge-artifacts-log.txt
+          echo "sha256_iso=$(grep -c sha256 forge-artifacts-log.txt || true)"
+
+      - name: лёгкий артефакт — лог + суммы (<1 МБ, retention 1 день)
+        if: github.event_name == 'schedule' || matrix.target == inputs.target
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: forge-linux-${{ matrix.target }}-log
+          path: forge-artifacts-log.txt
+          retention-days: 1
+
+      - name: полный ISO-артефакт (только при auto_publish=true — релиз/релизная ветка)
+        if: (github.event_name == 'schedule' || matrix.target == inputs.target) && inputs.auto_publish == true
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: forge-linux-${{ matrix.target }}
