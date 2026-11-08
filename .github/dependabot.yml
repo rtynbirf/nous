@@ -7,3 +7,8 @@ updates:
     cooldown:
       default-days: 7
     labels: [deps, actions]
+    # ADR-0010/тикет 0018: пин actions/github-script меняется только живым
+    # ls-remote с калибровкой pins.yaml (dependabot-бампы этого экосистемного
+    # экшена неоднократно приносили SHA, не соответствующий тегу: 3a2844b7 ≠ v9.0.0).
+    ignore:
+      - dependency-name: actions/github-script
