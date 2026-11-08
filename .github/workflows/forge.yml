@@ -20,6 +20,11 @@ on:
         options:
           - debian12
           - ubuntu-2404
+      auto_publish:
+        description: 'П-14: ISO-артефакт выгружается только при true (релиз/релизная ветка); штатный прогон несёт лог+SHA256SUMS'
+        type: boolean
+        required: false
+        default: false
   schedule:
     # 02:37 UTC — ночная сборка: нечётное время против пиков (шаблонные кроны бьют в :00)
     - cron: '37 2 * * *'
