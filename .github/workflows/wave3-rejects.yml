@@ -1,0 +1,32 @@
+# Волна ×3 · добивание (W3-C1) · issue rtynbirf/nous#20 «Журнал отвержений»
+# Конституция: отказ без критерия пересмотра не принимается; карточка неизменяема
+# (пломба sha256 в INDEX.md), пересмотр — только новая карточка с supersedes.
+name: wave3-rejects
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "rejects/**"
+      - "scripts/rejects_pulse.py"
+      - ".github/workflows/wave3-rejects.yml"
+permissions:
+  contents: read
+jobs:
+  rejects:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: линтер журнала + гейт свежести индекса
+        run: |
+          if [ ! -d rejects ]; then
+            echo "Каталог rejects/ отсутствует — журнал ещё не заложен (гейт спит)."
+            echo "Активация: python3 scripts/rejects_pulse.py seed rejects, затем index rejects, и коммит карточек с INDEX.md."
+            exit 0
+          fi
+          python3 scripts/rejects_pulse.py lint rejects
+          python3 scripts/rejects_pulse.py index rejects
+          if [ -n "$(git status --porcelain -- rejects/INDEX.md)" ]; then
+            echo "rejects/INDEX.md протух или не закоммичен — пересчёт и коммит:"
+            git diff -- rejects/INDEX.md || true
+            exit 1
+          fi

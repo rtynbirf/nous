@@ -1,0 +1,61 @@
+# Волна ×3 · W3-B · issue 17 — джоба guard-leases: матрица §5 как код.
+#
+# Протокол (сводка): перед мутацией агент дописывает строку-аренду в
+# leases/LEASES.jsonl {lease_id, agent, repo, zone, t_start, t_end, intent,
+# sha_before}; после — release {lease_id, status: done|conflict}.
+# Заявил окно → сделал → release. Чужие зоны (релизы, теги v*, dependabot/*)
+# не арендуются: «409: перечитай §5». При 409 ретрая нет — берёшь окно позже.
+#
+# Режим по умолчанию — report: вердикты печатаются в лог, джоба не красит репо.
+# Блокирующий режим включается вручную (Run workflow → enforce=true) — решение
+# владельца, чтобы не красить репо до включения закона.
+# Существующие workflows (ci/forge/guardian-tripwire/release/self-audit) не тронуты.
+
+name: wave3-lease-guard
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      enforce:
+        description: 'true = падать на нарушении аренды (409); false = только отчёт'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: read
+
+jobs:
+  guard-leases:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Самопроверка стража аренд (детерминированная)
+        run: python3 leases/guard.py --selftest
+
+      - name: Затронутые пути мутации
+        run: |
+          if [ -n "${{ github.event.pull_request.base.sha }}" ]; then
+            base="${{ github.event.pull_request.base.sha }}"
+          else
+            base="${{ github.event.before }}"
+          fi
+          if [ -z "$base" ] || [[ "$base" =~ ^0+$ ]]; then
+            base="$(git rev-list --max-parents=0 HEAD | tail -1)"
+          fi
+          git diff --name-only "$base" "${{ github.sha }}" > changed.txt || true
+
+      - name: Вердикт guard-leases
+        run: |
+          ev="${{ github.event_name }}"
+          if [ "$ev" != "push" ] && [ "$ev" != "pull_request" ]; then ev="push"; fi
+          args=""
+          while IFS= read -r p; do
+            [ -n "$p" ] && args="$args --paths $p"
+          done < changed.txt
+          python3 leases/guard.py --event "$ev" --repo "${{ github.repository }}" \
+            $args --mode "${{ inputs.enforce == 'true' && 'enforce' || 'report' }}"

@@ -1,0 +1,55 @@
+# Волна ×3 · W3-B · issue 16 — «Evidence-пломба» вердиктов, усиленная до hash-chain.
+#
+# После зелёного прогона: sha256 файла вердикта → append-строка evidence.log
+# {seq, ts, run_id, verdict_sha256, prev_sha256, artifact_url}; рядом кладётся
+# сайдкар <verdict>.seal.json с evidence_sha256 и run_id. Файл вердикта не
+# переписывается (append-only дух) — пломба живёт в леджере и сайдкаре.
+# verify_evidence.py ловит ретушь: изменение байта → красный, дыра в seq → красный.
+#
+# Границы волны: attestation через actions/attest — сторонний экшен, по правилам
+# волны не подключается (разрешён только checkout); run_id уже вшит в леджерную
+# строку, подключение attestation — решение владельца. Чтобы леджер жил в репо,
+# добавьте шаг коммита с contents: write (решение владельца; чужие файлы не тронуты).
+
+name: wave3-evidence-seal
+
+on:
+  workflow_dispatch:
+    inputs:
+      verdict_path:
+        description: 'Путь к JSON-файлу вердикта последнего зелёного прогона'
+        required: false
+        default: 'state/evidence/verdict.json'
+      run_id:
+        description: 'run-id прогона, к которому относится вердикт (пусто — подставится manual-…)'
+        required: false
+        default: ''
+      artifact_url:
+        description: 'URL артефакта прогона (пусто — поле останется пустым)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  seal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Самопроверки пломбы и верификатора (детерминированные)
+        run: |
+          python3 scripts/seal_evidence.py --selftest
+          python3 scripts/verify_evidence.py --selftest
+
+      - name: Пломбирование вердикта (если файл существует)
+        run: |
+          python3 scripts/seal_evidence.py --seal \
+            --ledger state/evidence/evidence.log \
+            --verdict "${{ inputs.verdict_path || 'state/evidence/verdict.json' }}" \
+            --run-id "${{ inputs.run_id || format('manual-{0}', github.run_id) }}" \
+            --artifact-url "${{ inputs.artifact_url }}"
+
+      - name: Верификация evidence-леджера
+        run: python3 scripts/verify_evidence.py --ledger state/evidence/evidence.log

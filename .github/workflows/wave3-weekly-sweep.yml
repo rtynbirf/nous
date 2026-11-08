@@ -1,0 +1,29 @@
+# Волна ×3 · W3-B · issue 13 — weekly-свип «Календаря организма».
+# Слот: воскресенье 09:11 UTC (таблица слотов — docs/organism-calendar.md).
+# 7 пунктов одним проходом; строка-отчёт — в лог джобы и append-строкой в
+# state/sweep/log.jsonl (в рантайме); при красноте > 72 ч — state/freeze/active.json.
+# Существующие кроны (06:17 зрение, 09:00 финишер/страж) не тронуты:
+# правило «один слот — один агент».
+
+name: wave3-weekly-sweep
+
+on:
+  schedule:
+    # воскресенье 09:11 UTC — слот weekly-свипа (конституция расписаний, issue 13)
+    - cron: '11 9 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Самопроверка свипа (детерминированная, без сети)
+        run: python3 scripts/weekly_sweep.py --selftest
+
+      - name: Weekly-свип — 7 пунктов, одна строка-отчёт
+        run: python3 scripts/weekly_sweep.py --repo-root .

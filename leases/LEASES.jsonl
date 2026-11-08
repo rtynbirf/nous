@@ -1,0 +1,2 @@
+{"lease_id": "L-2026-11-09-w3b-genesis", "agent": "wave3-B", "repo": "rtynbirf/nous", "zone": {"paths": ["leases/**"], "refs": []}, "t_start": "2026-11-09T00:00:00Z", "t_end": "2026-11-10T00:00:00Z", "intent": "засев протокола аренд: запись-прародитель (issue 17, волна W3-B); sha_before null допустим только здесь", "sha_before": null}
+{"type": "release", "lease_id": "L-2026-11-09-w3b-genesis", "status": "done", "ts": "2026-11-09T00:00:00Z", "note": "засев выполнен коммитом волны W3-B"}

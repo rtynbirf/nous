@@ -1,0 +1,44 @@
+# Волна ×3 · W3-B · issue 12 — «Зелёный страж с error budget» (аддитивно).
+#
+# Закон бюджета: 🔴 точка красная > 24 ч подряд = инцидент.
+# Инцидент автоматически даёт: append-строку в incidents-леджере,
+# пост-мортем-каркас в post-mortems/, burn rate 7 дней в отчёте стража.
+#
+# Границы: сам вердикт-крон спроектирован в карте и живёт отдельным промптом
+# (слот 09:00 по календарю организма, docs/organism-calendar.md, если принят).
+# Этот воркфлоу — только бюджетное крыло: запускается вручную или из стража;
+# при полном зелёном (15/15) не диспатчит ничего; rerun — только красных точек.
+# Существующие workflows (ci/forge/guardian-tripwire/release/self-audit) не тронуты.
+
+name: wave3-green-guard
+
+on:
+  workflow_dispatch:
+    inputs:
+      verdict_log:
+        description: 'JSONL-лог вердиктов: ts, checkpoint, status, run_id'
+        required: false
+        default: 'state/green-guard/verdicts.jsonl'
+      strict:
+        description: 'true = джоба краснеет при инциденте > 24 ч'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: read
+
+jobs:
+  budget:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Самопроверка стража (детерминированная, без сети)
+        run: python3 scripts/green_guard_budget.py --selftest
+
+      - name: Сводка бюджета по живому вердикт-логу
+        run: >-
+          python3 scripts/green_guard_budget.py
+          --log "${{ inputs.verdict_log || 'state/green-guard/verdicts.jsonl' }}"
+          --report
+          ${{ inputs.strict == 'true' && '--strict' || '' }}

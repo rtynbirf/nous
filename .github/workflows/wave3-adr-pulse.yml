@@ -1,0 +1,32 @@
+# Волна ×3 · добивание (W3-C1) · issue rtynbirf/nous#19 «ADR-конвейер (adr-pulse)»
+# Гейт канона ADR: линтер + автогенерируемый индекс, который не может протухнуть.
+# Пока каталога adr/ нет, гейт спит; активируется первым ADR и закоммиченным INDEX.md.
+name: wave3-adr-pulse
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "adr/**"
+      - "scripts/adr_pulse.py"
+      - ".github/workflows/wave3-adr-pulse.yml"
+permissions:
+  contents: read
+jobs:
+  adr-pulse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: линтер канона + гейт свежести индекса
+        run: |
+          if [ ! -d adr ]; then
+            echo "Каталог adr/ отсутствует — гейт в спящем режиме (нулевой ADR)."
+            echo "Активация: первый ADR в adr/ + python3 scripts/adr_pulse.py index adr + коммит INDEX.md."
+            exit 0
+          fi
+          python3 scripts/adr_pulse.py lint adr
+          python3 scripts/adr_pulse.py index adr
+          if [ -n "$(git status --porcelain -- adr/INDEX.md)" ]; then
+            echo "adr/INDEX.md протух или не закоммичен — индекс не может протухнуть:"
+            git diff -- adr/INDEX.md || true
+            exit 1
+          fi

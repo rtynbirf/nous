@@ -1,0 +1,63 @@
+# Инвентарь святого · sacred/INVENTORY.yaml
+# Волна ×3 · W3-B · issue 18 — реестр нетрогаемых объектов (матрица §5 как данные).
+#
+# Схема записи: {id, kind: repo|ref-pattern|path|secret, owner, why,
+#                tier: restricted|confidential|internal,
+#                guard: [no-push, no-delete, no-rename, no-automation],
+#                exception, pattern}
+# pattern — glob путей или рефов, по которому страж находит касание
+# (для kind: repo паттерн не нужен — совпадение по id/имени репо).
+#
+# Append-only: запись не удаляется и не переписывается; отмена — только поле
+# superseded_by со ссылкой на запись-преемника. «Заявленное не выбрасывается» —
+# обратная сторона A02 «незаявленное не достраивается».
+# human_override — только ручной шаг Хозяина (--override human_override).
+# Автоматика святого не касается.
+
+inventory:
+  - id: media-vault
+    kind: repo
+    owner: Хозяин
+    why: "личный архив владельца (по карте §5: 426 МБ личных данных)"
+    tier: restricted
+    guard: [no-push, no-delete, no-rename, no-automation]
+    exception: null
+  - id: beacon-key
+    kind: secret
+    owner: Хозяин
+    why: ключ Маяка
+    tier: restricted
+    guard: [no-push, no-delete, no-automation]
+    exception: null
+  - id: tags-v-star
+    kind: ref-pattern
+    owner: Хозяин
+    why: релизы — СВЯТОЕ; фейковые теги v* не создавать
+    tier: restricted
+    guard: [no-push, no-delete, no-rename, no-automation]
+    exception: null
+    pattern: refs/tags/v*
+  - id: dependabot-branches
+    kind: ref-pattern
+    owner: Хозяин
+    why: Dependabot — не пушить в его ветки (матрица §5)
+    tier: internal
+    guard: [no-push, no-delete, no-automation]
+    exception: null
+    pattern: refs/heads/dependabot/*
+  - id: genome-pins
+    kind: path
+    owner: Хозяин
+    why: пины генома 0.1.9 — цепь доверия и воспроизводимость
+    tier: confidential
+    guard: [no-push, no-delete, no-automation]
+    exception: null
+    pattern: manifests/pins.yaml
+  - id: ruvson-texts
+    kind: path
+    owner: Хозяин
+    why: тексты RUVSON
+    tier: confidential
+    guard: [no-push, no-delete, no-rename, no-automation]
+    exception: null
+    pattern: null   # путь уточняется владельцем; до этого страж эту запись не матчит
