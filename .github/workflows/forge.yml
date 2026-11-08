@@ -93,7 +93,7 @@ jobs:
           cat forge-artifacts-log.txt
           echo "sha256_iso=$(grep -c sha256 forge-artifacts-log.txt || true)"
 
-      - name: лёгкий артефакт — лог + суммы (носитель опционален: квотная тюрьма не роняет факт)
+      - name: 'лёгкий артефакт — лог и суммы; носитель опционален, квотная тюрьма не роняет факт'
         if: github.event_name == 'schedule' || matrix.target == inputs.target
         continue-on-error: true   # П-14: факт sha256 уже напечатан в логе шага-8; артефакт — только носитель
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
