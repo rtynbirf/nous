@@ -1,7 +1,7 @@
 # НОУС · manifests/pins.yaml — канонический реестр пинов (ADR-0006)
 # Правило: код не содержит пинов; каждая запись имеет source/версию, SHA, дату и метод проверки.
 meta:
-  last_calibration: "2026-11-07"
+  last_calibration: "2026-11-08"
   policy: "обновление только через тикет калибровки; дата и метод обязательны"
 
 actions: # полное имя action → тег + commit-SHA (проверено scripts/pin_action.sh)
@@ -11,10 +11,10 @@ actions: # полное имя action → тег + commit-SHA (проверен�
     verified_at: "2026-10-29"
     method: "git ls-remote с дереференсом тега"
   actions/github-script:
-    tag: v7.1.0
-    sha: "f28e40c7f34bde8b3046d885e986cb6290c5673b"
-    verified_at: "2026-11-07"
-    method: "git ls-remote (лёгкий тег v7.1.0 = commit); калибровка тикета 0017; тег v7 уточнён до v7.1.0"
+    tag: v9.0.0
+    sha: "3a2844b7e9c422d3c10d287c895573f7108da1b3"
+    verified_at: "2026-11-08"
+    method: "git ls-remote; аннотированный тег v9.0.0 дереференцирован API git/tags → commit 3a2844b7; калибровка тикета 0018: dependabot-группа actions подняла пин в guardian-tripwire.yml, реестр приведён к факту (v7.1.0 → v9.0.0)"
   actions/setup-python:
     tag: v7.1.0
     sha: "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0"
