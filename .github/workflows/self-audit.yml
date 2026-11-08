@@ -164,8 +164,14 @@ jobs:
           cat PULSE.md
 
       - name: Запись пульса — ритм без шума
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
+          # persist-credentials: false (канон безопасности) — поэтому токен
+          # для push подставляется явно: без этого git push падает
+          # «could not read Username» (живой лог 42516341871).
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           # Существенность: сравнение с HEAD без учёта строки даты замера и бакета свежести
           # (raw fresh_days растёт +7 еженедельно даже на покойном репо — нормализуем до бакета,
           # иначе «ритм без шума» течёт и keepalive недостижим)
