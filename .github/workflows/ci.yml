@@ -87,4 +87,4 @@ jobs:
           path: |
             site/
             llms.txt
-          retention-days: 14
+          retention-days: 3
