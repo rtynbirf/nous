@@ -36,7 +36,9 @@ jobs:
   seal:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Самопроверки пломбы и верификатора (детерминированные)
         run: |
@@ -44,12 +46,16 @@ jobs:
           python3 scripts/verify_evidence.py --selftest
 
       - name: Пломбирование вердикта (если файл существует)
+        env:
+          SEAL_VERDICT: ${{ inputs.verdict_path || 'state/evidence/verdict.json' }}
+          SEAL_RUN_ID: ${{ inputs.run_id || format('manual-{0}', github.run_id) }}
+          SEAL_ARTIFACT_URL: ${{ inputs.artifact_url }}
         run: |
           python3 scripts/seal_evidence.py --seal \
             --ledger state/evidence/evidence.log \
-            --verdict "${{ inputs.verdict_path || 'state/evidence/verdict.json' }}" \
-            --run-id "${{ inputs.run_id || format('manual-{0}', github.run_id) }}" \
-            --artifact-url "${{ inputs.artifact_url }}"
+            --verdict "$SEAL_VERDICT" \
+            --run-id "$SEAL_RUN_ID" \
+            --artifact-url "$SEAL_ARTIFACT_URL"
 
       - name: Верификация evidence-леджера
         run: python3 scripts/verify_evidence.py --ledger state/evidence/evidence.log

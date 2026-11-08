@@ -94,3 +94,7 @@ nav:
       - Runtime-harness MVA-H: reference/harness.md
       - Базовый уровень безопасности: reference/security-baseline.md
       - Каталог инструментов: reference/tools-catalog.md
+  - Волна ×3:
+      - Календарь организма: organism-calendar.md
+      - TOFU-пломба первого огня: tofu-first-burn.md
+      - Evidence-gate Ф1: evidence-gate-f1.md

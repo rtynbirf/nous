@@ -31,14 +31,18 @@ jobs:
   budget:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Самопроверка стража (детерминированная, без сети)
         run: python3 scripts/green_guard_budget.py --selftest
 
       - name: Сводка бюджета по живому вердикт-логу
+        env:
+          VERDICT_LOG: ${{ inputs.verdict_log || 'state/green-guard/verdicts.jsonl' }}
         run: >-
           python3 scripts/green_guard_budget.py
-          --log "${{ inputs.verdict_log || 'state/green-guard/verdicts.jsonl' }}"
+          --log "$VERDICT_LOG"
           --report
           ${{ inputs.strict == 'true' && '--strict' || '' }}
