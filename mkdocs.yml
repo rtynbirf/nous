@@ -44,6 +44,7 @@ nav:
       - Runtime Protocol: genesis/runtime-protocol.md
       - Инвариант минимальный: genesis/invariant-minimal.md
       - Декомпозиция сессии: genesis/session-decomposition.md
+      - Метрики ρ̇ (операционализация): genesis/metrics-operationalization.md
   - РАЗБОР 9:
       - Витрина досье: razbor/index.md
       - Аудит монолога исполнителя: razbor/audit-razbor-9-monolog.md
