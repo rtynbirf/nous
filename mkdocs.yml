@@ -46,6 +46,8 @@ nav:
       - Декомпозиция сессии: genesis/session-decomposition.md
       - Метрики ρ̇ (операционализация): genesis/metrics-operationalization.md
       - Мост в cell-swarm: genesis/cell-swarm-binding.md
+      - Дайджест мировых трендов (волна-2): genesis/world-trends-digest.md
+      - ρ-Governor (v0.1): genesis/semantic-governor.md
   - РАЗБОР 9:
       - Витрина досье: razbor/index.md
       - Аудит монолога исполнителя: razbor/audit-razbor-9-monolog.md
