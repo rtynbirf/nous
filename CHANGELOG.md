@@ -4,6 +4,19 @@
 
 ## [Unreleased]
 
+- Мембрана выпуска (тикет 0023, ADR-0016): `scripts/release_membrane.py`
+  — self-check свежего набора, gate против последнего изданного релиза
+  (пересчёт хэшей ассетов + SBOM-drift с акком в `state/sbom-ack.json`),
+  `sbom-diff`; коды отказа 2/3/4/5/6; шаги между SHA256SUMS и
+  аттестацией; по тегу `v*` релиз дособирается до GitHub Release;
+  `tests/test_release_membrane.py` (тест-крест с exact-set).
+- Тренд-радар (тикет 0024, ADR-0017): `scripts/trend_radar.py` —
+  еженедельный механический съём сырых фактов с 5 первоисточников мира
+  (SLSA, Scorecard, agents.md, actions/runner, github.blog changelog),
+  fingerprint, режимы first-run/stable/moved, катящийся тред
+  `trend-radar`; `.github/workflows/trend-radar.yml` (среда 06:03 UTC);
+  `state/trend-radar.json` — история показаний в git;
+  `tests/test_trend_radar.py`.
 - Релизный SBOM двух форматов (тикет 0022, ADR-0015):
   `scripts/gen_sbom.py` — CycloneDX 1.6 + SPDX 2.3.1 по tracked-файлам
   (диск — истина; два кода отказа: missing_on_disk / modified_vs_index),

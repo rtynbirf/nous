@@ -1,0 +1,61 @@
+name: "ТРЕНД-РАДАР — пульс мировых практик"
+
+# Мандат владельца «идти впереди их всех» — механически: еженедельный съём
+# показаний с фиксированного списка первоисточников (SLSA, OpenSSF
+# Scorecard, agents.md, GitHub changelog, actions/runner). Радар пишет
+# ТОЛЬКО сырые факты (ADR-0017): интерпретация и превращение сигнала в
+# работу — тикет, а не скрипт. Ритм без шума: state-файл перезаписывается
+# только при реальном сдвиге показаний.
+
+on:
+  schedule:
+    - cron: "3 6 * * 3"
+  workflow_dispatch:
+
+concurrency:
+  group: trend-radar
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  radar:
+    name: Съём показаний мира
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: checkout (пин по SHA — канон OpenSSF)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: радар — сырые факты мира
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/trend_radar.py --issue --report "$GITHUB_STEP_SUMMARY"
+      - name: запись показаний — ритм без шума
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- state/trend-radar.json)" ]; then
+            echo "показания не изменились — коммита нет"
+            exit 0
+          fi
+          git config user.name "radar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/trend-radar.json
+          git commit -m "radar: мир сдвинулся — показания обновлены [skip ci]"
+          # persist-credentials: false (канон безопасности) — токен для push
+          # подставляется явно; иначе git push падает «could not read
+          # Username» (живой лог 42516341871; паттерн ПУЛЬС v2)
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" 2>/dev/null || true
+          git push

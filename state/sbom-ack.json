@@ -1,0 +1,7 @@
+[
+  {
+    "prev_sums_sha256": "2885ca70b43287b35417ba18cfb6c2535cfcd953411694f19063699e9659dfe6",
+    "ticket": "0023/0024",
+    "reason": "волна ADR-0016/0017: в организм входят release_membrane.py, trend_radar.py, trend-radar.yml, 2 теста, 2 ADR, 2 тикета, state/trend-radar.json, state/sbom-ack.json; owner-mandate chat 2026-11-10"
+  }
+]
