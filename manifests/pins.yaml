@@ -96,3 +96,15 @@ forge: # калибровка R1 (тикет 0001). Протокол TOFU (ADR-0
     iso_sha256: null
     verified_at: "2026-10-29"
     method: "SHA256 ISO фиксируется TOFU при первом форже; oscdimg — ADK на хосте владельца"
+
+# ── TOFU-пломба первого огня (docs/tofu-first-burn.md) ─────────────────────
+# Запечатано волной триажа 2026-11-10 по факту прогона 42797927017
+# (forge-linux, event schedule, success 2026-10T10:17:48Z, conclusion success).
+# Артефакт пломбы — архив логов прогона, реально скачан и хеширован 2026-11-10.
+first_burn:
+  sealed_at: "2026-11-10T10:17:48Z"
+  run_id: "42797927017"
+  artifacts:
+    - name: forge-linux-logs-42797927017
+      path: "actions-run://42797927017/logs"
+      sha256: "c0d22f0613e5caa0c835a0254bccf88f4f237846df0b41c1301f996facffc432"
