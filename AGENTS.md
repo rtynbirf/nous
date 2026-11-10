@@ -27,12 +27,12 @@ src/forge/           ← ТЕРРИТОРИЯ (v0.2.0): probe · win · linux + 
 src/lib/             ← общий каркас (common.sh) и верификатор артефакта (verify-iso.sh)
 src/runtime/         ← контур исполнения субъектов: harness MVA-H (ADR-0014, тикет 0017)
 tests/               ← исполняемая карта: структура, workflows, связи, гейты форжа
-scripts/             ← bootstrap.sh / verify.sh / state.sh / gen_llms.sh / pin_action.sh
+scripts/             ← bootstrap.sh / verify.sh / state.sh / gen_llms.sh / pin_action.sh / release_membrane.py (мембрана выпуска, ADR-0016) / trend_radar.py (радар мира, ADR-0017)
 manifests/           ← pins.yaml (единственный lockfile, ADR-0010) и safe-defaults.yaml
 tasks/               ← open/ done/ — очередь воли (поглощается: done+open непрерывны)
 state/               ← снимки состояния (эмерджентный слой; пишет scripts/state.sh)
 templates/           ← самокопирование (R6)
-.github/workflows/   ← ci.yml (верификация) · forge.yml (исполнение Linux-форжа, ADR-0009) · release.yml (отделён; OIDC; теги v*)
+.github/workflows/   ← ci.yml (верификация) · forge.yml (исполнение Linux-форжа, ADR-0009) · release.yml (отделён; OIDC; теги v*) · trend-radar.yml (пульс мировых практик, ADR-0017)
 ```
 
 ## 3. Команды (единственный интерфейс)

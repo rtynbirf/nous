@@ -1,49 +1,82 @@
-# nous
-> НОУС — эмерджентное сингулярное репо: конституция для человека и агентов, ТЗ форжа ISO, дорожная карта, контур исполнения
+# НОУС
 
-Автоген 2026-11-08 · источник: живой GitHub API (номера и файлы не руками) · владелец rtynbirf · ветка `main`
+> Эмерджентное сингулярное репо: конституция для человека и агентов, ТЗ форжа ISO, дорожная карта, контур исполнения. Язык документов — русский.
 
-## Мембрана
-- README.md — для человека (НОУС)
-- AGENTS.md — есть
-- LICENSE — MIT
-- topics: agents-md, ai-agents, debian, github-actions, iso-builder, reproducible-builds, russian, safe-defaults, supply-chain-security, swarm-agents, ubuntu, windows-iso
+## Конституция
 
-## Карта корня
-- .claude/
-- .cursor/
-- .devcontainer/
-- .editorconfig
-- .envrc.example
-- .gitattributes
-- .github/
-- .gitignore
-- .mise.toml
-- .pre-commit-config.yaml
-- AGENTS.md
-- AI_POLICY.md
-- CHANGELOG.md
-- CODE_OF_CONDUCT.md
-- CONTRIBUTING.md
-- … ещё 17
+- [AGENTS.md](AGENTS.md): правила субъектов, команды, железные правила, протокол тикета
+- [README](README.md): витрина, аксиомы кратко, quickstart
 
-## Метаболизм (make)
-- make SHELL
-- make bootstrap
-- make verify
-- make state
-- make release
-- make help
+## Начало
 
-## CI
-- workflow: ci
-- workflow: forge
-- workflow: guardian-tripwire
-- workflow: release
-- workflow: self-audit
+- [Учебник: от клона до зелёной верификации](docs/getting-started/01-bootstrap.md)
 
-## Ссылки
-- [GitHub](https://github.com/rtynbirf/nous)
-- [README](https://github.com/rtynbirf/nous/blob/main/README.md)
-- [raw llms.txt](https://raw.githubusercontent.com/rtynbirf/nous/main/llms.txt)
-- [PULSE.md](PULSE.md): живой пульс репозитория — прогоны, пломбы, здоровье.
+## Практика (guides)
+
+- [Как исполнять задачи в ветке `agents/execution`](docs/guides/execution-branch.md)
+- [Эксплуатация устройства LLM=ИИ — инструкция v2.0.1](docs/guides/llm-device-operation.md)
+- [Как добавить субъекта (агента)](docs/guides/new-subject.md)
+- [Как выпустить релиз](docs/guides/release.md)
+
+## Понятия
+
+- [Шесть аксиом НОУС](docs/concepts/axioms.md)
+- [Эмерджентный контур](docs/concepts/emergence.md)
+- [Карта = территория](docs/concepts/map-territory.md)
+- [Безопасные дефолты](docs/concepts/safe-defaults.md)
+- [N=СУБЪЕКТ≠ИНДИВИД](docs/concepts/subjects.md)
+
+## SINGULARIS (онтология 2.0)
+
+- [Архитектура организма SINGULARIS](docs/singularis/architecture.md)
+- [Аксиомы SINGULARIS v2.0](docs/singularis/axioms-v2.md)
+- [SINGULARIS — онтологический контур НОУС 2.0](docs/singularis/index.md)
+- [МАНИФЕСТ ЭМЕРДЖЕНТНОСТИ SINGULARIS](docs/singularis/manifest.md)
+- [Безопасность и Governance SINGULARIS](docs/singularis/safety-governance.md)
+- [Видение SINGULARIS](docs/singularis/vision.md)
+
+## Спеки и реализация
+
+- [ТЗ форжа](docs/spec/tz-nous-forge.md)
+- [Дорожная карта](docs/spec/roadmap.md)
+- [Схема контракта субъекта](docs/spec/singularis/contract-schema.md)
+- [Протокол доказательств (эволюция ADR-0011)](docs/spec/singularis/evidence-protocol.md)
+- [Спецификация Runtime субъектов](docs/spec/singularis/runtime-spec.md)
+- [ТЕХНИЧЕСКОЕ ЗАДАНИЕ](docs/spec/singularis/tz-singularis.md)
+- [Дорожная карта SINGULARIS](docs/spec/roadmap-singularis.md)
+- [01 — Источники и пины](docs/spec/implementation/01-sources.md)
+- [02 — Probe: обследование хоста](docs/spec/implementation/02-probe.md)
+- [03 — Windows-ветка: сборка ISO](docs/spec/implementation/03-windows-iso.md)
+- [04 — Linux-ветка: сборка ISO (равноправная)](docs/spec/implementation/04-linux-iso.md)
+- [05 — Верификация артефактов и лог-протокол](docs/spec/implementation/05-verify.md)
+- [06 — Безопасные дефолты форжа](docs/spec/implementation/06-safe-defaults.md)
+- [07 — Диспетчеризация субъектов](docs/spec/implementation/07-agent-dispatch.md)
+
+## Решения (ADR)
+
+- [ADR-0001: НОУС как SSOT-монорепо](docs/decisions/0001-ssot-monorepo.md)
+- [ADR-0002: AGENTS.md как конституция агентов](docs/decisions/0002-agents-md-constitution.md)
+- [ADR-0003: release отделён от ci](docs/decisions/0003-split-ci-release.md)
+- [ADR-0004: сторонние actions пинуются по полному SHA](docs/decisions/0004-pin-actions-by-sha.md)
+- [ADR-0005: русский язык документов, ASCII-пути](docs/decisions/0005-russian-language.md)
+- [ADR-0006: manifests — единая калибровка внешнего мира](docs/decisions/0006-manifests-pins.md)
+- [ADR-0007: ветка `agents/execution` как земля исполнения](docs/decisions/0007-agents-branch-dispatch.md)
+- [ADR-0008: actions.lock внедряется позже (R6), сейчас — SHA-пин](docs/decisions/0008-actions-lock-deferred.md)
+- [ADR-0009: CI-раннер как одноразовый хост — форж исполняется в CI](docs/decisions/0009-ci-forge-runner.md)
+- [ADR-0010: pins.yaml — единственный lockfile; сверка CI↔пины тестом](docs/decisions/0010-pins-yaml-single-lockfile.md)
+- [ADR-0011: Журнал доказательств с цепочкой хешей](docs/decisions/0011-evidence-ledger.md)
+- [ADR-0012: Доктрина секретов и классификация находок](docs/decisions/0012-secrets-doctrine.md)
+- [ADR-0013: Принятие SINGULARIS — онтологического контура 2.0](docs/decisions/0013-singularis-adoption.md)
+- [ADR-0014: runtime-harness MVA-H — гарантия исполнения, а не обещание](docs/decisions/0014-runtime-harness-mvah.md)
+- [ADR-0015: релиз несёт SBOM двух форматов и точный аттестуемый набор](docs/decisions/0015-release-sbom-exact-set.md)
+- [ADR-0016: мембрана выпуска — релиз сверяется с телом и с прошлым собой](docs/decisions/0016-release-membrane.md)
+- [ADR-0017: тренд-радар — мир снимается еженедельно и механически](docs/decisions/0017-trend-radar.md)
+
+## Референс
+
+- [Референс: команды](docs/reference/commands.md)
+- [Референс: runtime-harness MVA-H](docs/reference/harness.md)
+- [Верификация инструкции LLM=ИИ — референс](docs/reference/llm-device-verification.md)
+- [Референс: базовый уровень безопасности](docs/reference/security-baseline.md)
+- [Референс: структура репо](docs/reference/structure.md)
+- [Каталог инструментов НОУСа — сингулярные узлы (2026-10-29)](docs/reference/tools-catalog.md)

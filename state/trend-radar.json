@@ -1,0 +1,47 @@
+{
+  "fingerprint": "3cbc6fd552ccddd119759e7bf244700c5a3ca40c45ab4fa9939e3c219c9f628f",
+  "facts": {
+    "slsa": {
+      "tag": "v2.1.0",
+      "published_at": "2025-02-24T19:32:29Z"
+    },
+    "scorecard": {
+      "tag": "v5.6.0",
+      "published_at": "2026-10-12T00:21:01Z"
+    },
+    "agents-md": {
+      "sha": "d001185d792e",
+      "date": "2026-09-10T18:46:16Z",
+      "message": "Rename agents-md_Charter.pdf to Technical_Charter.pdf"
+    },
+    "actions-runner": {
+      "tag": "v2.338.2",
+      "published_at": "2026-10-26T14:45:12Z"
+    },
+    "gh-changelog": {
+      "items": [
+        {
+          "title": "Claude Fable 5.2 in GitHub Copilot",
+          "updated": "2026-11-09T22:48:07Z"
+        },
+        {
+          "title": "Secret scanning detects secrets in GitHub Actions workflow logs",
+          "updated": "2026-11-09T20:35:15Z"
+        },
+        {
+          "title": "Copilot code review: API management and review overview updates",
+          "updated": "2026-11-07T00:30:57Z"
+        },
+        {
+          "title": "Copilot impact dashboard adds chat and VS Code agent usage",
+          "updated": "2026-11-06T22:20:22Z"
+        },
+        {
+          "title": "GitHub Copilot weekly releases — November 2",
+          "updated": "2026-11-06T23:21:32Z"
+        }
+      ]
+    }
+  },
+  "updated": "2026-11-10 08:56 UTC"
+}
