@@ -71,3 +71,7 @@ title_of() {
 } > "${out}"
 
 echo "[gen_llms] записан ${out} ($(wc -l < "${out}" | tr -d ' ') строк)"
+
+# Гигиена конца файла: ровно один завершающий \n (гейт end-of-file-fixer).
+# $(cat) снимает ВСЕ хвостовые переводы, printf возвращает ровно один.
+printf '%s\n' "$(cat "${out}")" > "${out}.tmp" && mv "${out}.tmp" "${out}"
