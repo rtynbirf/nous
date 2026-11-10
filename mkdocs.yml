@@ -91,6 +91,7 @@ nav:
       - 0012 Доктрина секретов: decisions/0012-secrets-doctrine.md
       - 0013 Принятие SINGULARIS: decisions/0013-singularis-adoption.md
       - 0014 Runtime-harness MVA-H: decisions/0014-runtime-harness-mvah.md
+      - 0015 Релизный SBOM и точный набор: decisions/0015-release-sbom-exact-set.md
   - Референс:
       - Структура: reference/structure.md
       - Верификация LLM=ИИ: reference/llm-device-verification.md

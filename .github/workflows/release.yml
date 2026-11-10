@@ -32,27 +32,51 @@ jobs:
           python-version: '3.12'
       - name: deps
         run: python -m pip install --disable-pip-version-check -r requirements-dev.txt
+      - name: SBOM (CycloneDX 1.6 + SPDX 2.3.1) — ADR-0015
+        run: |
+          python3 scripts/gen_sbom.py gen --cyclonedx sbom-cyclonedx.json --spdx sbom-spdx.json
+          python3 scripts/gen_sbom.py verify --cyclonedx sbom-cyclonedx.json --spdx sbom-spdx.json
       - name: сборка docs
         run: |
           bash scripts/gen_llms.sh
           mkdocs build --strict
           cp llms.txt site/llms.txt
-      - name: архив + SHA256SUMS
+      - name: архив + SHA256SUMS (суммы пишутся последними)
         run: |
           tar -czf nous-docs-site.tar.gz -C site .
-          sha256sum nous-docs-site.tar.gz > SHA256SUMS.txt
+          sha256sum nous-docs-site.tar.gz sbom-cyclonedx.json sbom-spdx.json > SHA256SUMS.txt
           cat SHA256SUMS.txt
-      - name: аттестация провенанса (гейт ENABLE_ATTESTATION=1)
+      - name: аттестация 1/4 — nous-docs-site.tar.gz (гейт ENABLE_ATTESTATION=1)
         if: vars.ENABLE_ATTESTATION == '1'
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject_path: nous-docs-site.tar.gz
-          subject_name: nous-docs-site
-      - name: артефакты релиза
+          subject_name: nous-docs-site.tar.gz
+      - name: аттестация 2/4 — sbom-cyclonedx.json
+        if: vars.ENABLE_ATTESTATION == '1'
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject_path: sbom-cyclonedx.json
+          subject_name: sbom-cyclonedx.json
+      - name: аттестация 3/4 — sbom-spdx.json
+        if: vars.ENABLE_ATTESTATION == '1'
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject_path: sbom-spdx.json
+          subject_name: sbom-spdx.json
+      - name: аттестация 4/4 — SHA256SUMS.txt
+        if: vars.ENABLE_ATTESTATION == '1'
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject_path: SHA256SUMS.txt
+          subject_name: SHA256SUMS.txt
+      - name: артефакты релиза — точный набор (ADR-0015)
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: nous-release-${{ github.ref_name }}
           path: |
             nous-docs-site.tar.gz
+            sbom-cyclonedx.json
+            sbom-spdx.json
             SHA256SUMS.txt
           retention-days: 90

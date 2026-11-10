@@ -4,7 +4,19 @@
 
 ## [Unreleased]
 
-### Added
+- Релизный SBOM двух форматов (тикет 0022, ADR-0015):
+  `scripts/gen_sbom.py` — CycloneDX 1.6 + SPDX 2.3.1 по tracked-файлам
+  (диск — истина; два кода отказа: missing_on_disk / modified_vs_index),
+  `release.yml` — SBOM до архива, verify fail-closed, SHA256SUMS
+  последним, 4 attest-шага за гейтом ENABLE_ATTESTATION, выкладка
+  точного набора из 4 артефактов; `tests/test_release_sbom.py` —
+  exact-set/порядок/roundtrip/A2-коды.
+- Self-probe готовности к AI-агентам (тикет 0022, ADR-0015):
+  `scripts/agent_readiness.py` — 14 исполнимых проб по мировым
+  практикам 2026 (пины SHA, persist-credentials, минимальные
+  permissions, гейт аттестации, SBOM, суммы, свежесть пинов,
+  dependabot/CODEOWNERS, governance-триада, секреты), шаг в ci.yml
+  (verify), fail-closed.
 - Инструкция «Эксплуатация устройства LLM=ИИ» v2.0.1 (тикет 0016, внешняя
   интеграция по мандату владельца): `docs/guides/llm-device-operation.md` —
   §0–§9 (границы устройства, установка, запуск, цикл с 6 гарантами, семантика
