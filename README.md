@@ -2,6 +2,15 @@
   <img src="banner.png" alt="nous — Конституция для человека и роя" width="100%">
 </div>
 
+<!--ФОРЖ:МУЗА:НАЧАЛО-->
+<div align="center">
+  <img src="repo-muse.svg" width="100%" alt="Муза nous: картина кузни ПОЛИМАТ, раунд 9" />
+  <br/>
+  <img src="forge-divider.svg" width="62%" alt="разделитель кузни ПОЛИМАТ" />
+</div>
+<!--ФОРЖ:МУЗА:КОНЕЦ-->
+
+
 # НОУС
 
 > **Репо — не склад файлов, а машина, порождающая истину.**
@@ -112,3 +121,10 @@ python3 src/runtime/harness/confession_test.py   # живой прогон 7 ф�
 ## Лицензия
 
 [MIT](LICENSE) — © 2026 rtynbirf
+
+<!--ФОРЖ:ПОДВАЛ-->
+---
+
+<div align="center">
+  <sub>◆ картина и штандарт — ручная ковка <a href="https://github.com/rtynbirf">КУЗНИ ПОЛИМАТ</a> · ЧЕЛОВЕК=АККАУНТ=PID1 ◆</sub>
+</div>
