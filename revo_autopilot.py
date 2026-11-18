@@ -192,7 +192,8 @@ def collect_local():
 if __name__ == "__main__":
     facts = collect_local()
     svg = build_svg(facts)
-    open("revo-page.svg", "w", encoding="utf-8").write(svg)
+    with open("revo-page.svg", "w", encoding="utf-8") as fh:
+        fh.write(svg if svg.endswith("\n") else svg + "\n")  # end-of-file-fixer
     if os.path.exists("README.md"):
         md = open("README.md", encoding="utf-8").read()
         open("README.md", "w", encoding="utf-8").write(patch_readme(md, facts))
