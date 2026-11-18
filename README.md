@@ -1,18 +1,18 @@
 <div align="center">
-  <img src="banner.png" alt="nous — Конституция для человека и роя" width="100%">
+  <img src="https://cdn.jsdelivr.net/gh/rtynbirf/nous@main/banner.png" alt="nous — Конституция для человека и роя" width="100%">
 </div>
 
 <!--ФОРЖ:МУЗА:НАЧАЛО-->
 <div align="center">
-  <img src="repo-muse.svg" width="100%" alt="Муза nous: мастерская МАЛЕВИЧ · БЕЛОЕ, кузня ПОЛИМАТ, раунд 12 · REVE=РЕВО" />
+  <img src="https://cdn.jsdelivr.net/gh/rtynbirf/nous@main/repo-muse.svg" width="100%" alt="Муза nous: мастерская МАЛЕВИЧ · БЕЛОЕ, кузня ПОЛИМАТ, раунд 12 · REVE=РЕВО" />
   <br/>
-  <img src="forge-divider.svg" width="62%" alt="делитель мастерской МАЛЕВИЧ · БЕЛОЕ" />
+  <img src="https://cdn.jsdelivr.net/gh/rtynbirf/nous@main/forge-divider.svg" width="62%" alt="делитель мастерской МАЛЕВИЧ · БЕЛОЕ" />
 </div>
 <!--ФОРЖ:МУЗА:КОНЕЦ-->
 
 <!--ФОРЖ:ПАСПОРТ:НАЧАЛО-->
 <div align="center">
-  <img src="revo-page.svg" width="100%" alt="РЕВО-паспорт страницы nous: строение файлов, лексикон, числа — по фактическому контенту" />
+  <img src="https://cdn.jsdelivr.net/gh/rtynbirf/nous@main/revo-page.svg" width="100%" alt="РЕВО-паспорт страницы nous: строение файлов, лексикон, числа — по фактическому контенту" />
 </div>
 
 | ФАЙЛОВ | ПАПОК | КОММИТОВ | ОБНОВЛЕНО | РЕЛИЗОВ |
