@@ -1,0 +1,93 @@
+# rtynbirf — дом-полимат
+
+> 80 клеток на GitHub: канон с реестром решений (ADR) и улик, рой агентов,
+> формальные Lean-каноны (301 Lean-модуль + 11 machine-verified теорем),
+> медиа-станок СИНГУЛЯР. Верификация через исполнение; ни одного выдуманного числа;
+> строка, не имя; конец не предусмотрен. Пульс: 9493 коммита, ρ̇ > 0 (снимок 20 XI 2026).
+
+Черновик двери конвоя навигатора (дубль два, 20 XI 2026); полный живой реестр —
+клетки karta и inv-automat. Описания — снимок живого API, часть усечена.
+
+## Канон и протоколы
+
+- [nous](https://github.com/rtynbirf/nous): НОУС — эмерджентное репо-конституция: docs/decisions (ADR), AGENTS.md, тренд-радар, мембрана выпуска
+- [lex-naturae](https://github.com/rtynbirf/lex-naturae): claim/evidence ledger — наблюдение отделено от суждения структурой
+- [runtime-protocol](https://github.com/rtynbirf/runtime-protocol): исполнимая модель динамики узла роя (уравнение ρ̇)
+- [assembly-protocol](https://github.com/rtynbirf/assembly-protocol): верификация через исполнение: протокол сборки v7
+- [invariant-manifest](https://github.com/rtynbirf/invariant-manifest): манифест инварианта · FORK 3 · v0.2.3 · CONDITIONAL PASS
+- [dogovor](https://github.com/rtynbirf/dogovor): договор агента: правила, которыми рой связывает себя сам
+- [edinyy-svod](https://github.com/rtynbirf/edinyy-svod): Конституция Хозяина 4.2 — основной закон стенда
+- [repo-doctrine](https://github.com/rtynbirf/repo-doctrine): доктрина настройки GitHub-репозиториев
+- [github-doctrine](https://github.com/rtynbirf/github-doctrine): книга доктрины GitHub
+- [repo-seed](https://github.com/rtynbirf/repo-seed): зерно дома: шаблон новорождённой клетки (мембрана+CI+закон рождения)
+- [door-zero](https://github.com/rtynbirf/door-zero): дверь без контента: PID 0 системы
+- [fond-host](https://github.com/rtynbirf/fond-host): CORS-хост минус-фонда дома (Н-10 · ADR-0007)
+
+## Карта и сверка
+
+- [karta](https://github.com/rtynbirf/karta): КАРТА ВСЕЛЕННОЙ rtynbirf — генерируется из живых данных API
+- [index](https://github.com/rtynbirf/index): SSOT-хаб: реестр проектов, проверенные SHA, конституция веса
+- [inv-automat](https://github.com/rtynbirf/inv-automat): конечный автомат инвентаризации: живой GitHub API → claims
+- [khozyain](https://github.com/rtynbirf/khozyain): ХОЗЯИН ДОМА — аккаунт-уровневый автомат состояния
+- [agryp](https://github.com/rtynbirf/agryp): неспящий супервизор агентов уровня PID 1
+- [kb](https://github.com/rtynbirf/kb): знания дома: канон-тексты, гайды, досье
+- [code](https://github.com/rtynbirf/code): код дома: скрипты и снипеты
+
+## Рой и формальные каноны
+
+- [cell-swarm](https://github.com/rtynbirf/cell-swarm): РОЙ — сингулярная эмерджентная архитектура
+- [cell-rs](https://github.com/rtynbirf/cell-rs): первая Rust-клетка роя: ядро контура сверки
+- [polymath-multiagent](https://github.com/rtynbirf/polymath-multiagent): полимат = мультиагент — параллельная оркестрация
+- [polimat-hub](https://github.com/rtynbirf/polimat-hub): место сверок мультиагента-архитектора
+- [universal-agent](https://github.com/rtynbirf/universal-agent): UniversalAgent (TsUA) — single-brain holistic agent
+- [hologram](https://github.com/rtynbirf/hologram): осколок знает целое: Merkle-осколки + Рид-Соломон
+- [lean-canon](https://github.com/rtynbirf/lean-canon): книга Lean-канона
+- [POLYMATH-ATLAS-GESTALT-CANON](https://github.com/rtynbirf/POLYMATH-ATLAS-GESTALT-CANON): Lean 4 формальный канон: 301 Lean-модуль (README, дословно)
+- [polymath-stckg-core](https://github.com/rtynbirf/polymath-stckg-core): ST-CKG → Lean 4 bridge: 11 machine-verified теорем
+- [polymath-atlas-v107](https://github.com/rtynbirf/polymath-atlas-v107): honest evidence-audit framework
+
+## СИНГУЛЯР (медиа)
+
+- [singulyar](https://github.com/rtynbirf/singulyar): офлайн-вселенная караоке RUVSON: 68 песен · 197 языков (цель 200)
+- [rumu](https://github.com/rtynbirf/rumu): СИНГУЛЯР РУМУ — sovereign BL/GL streaming, P2P+autopilot
+- [ruvson](https://github.com/rtynbirf/ruvson): книга RUVSON
+- [ruvson-lyrics](https://github.com/rtynbirf/ruvson-lyrics): тексты 65 треков
+- [ruvson-rse2](https://github.com/rtynbirf/ruvson-rse2): RUVSON SINGULARITY ENGINE v2: станок одной песни
+- [singulyar-llm](https://github.com/rtynbirf/singulyar-llm): локальная модель СИНГУЛЯРА (GGUF)
+- [voice-atlas-llm](https://github.com/rtynbirf/voice-atlas-llm): атлас-LLM: модель-эксперт по клонированию голоса
+- [rtynbirf.github.io](https://github.com/rtynbirf/rtynbirf.github.io): ЛАКОРНИЯ · MEGA-PLAYER SINGULYAR
+- [karaoke-dream](https://github.com/rtynbirf/karaoke-dream): браузерное караоке: неон, гид-вокал, оценка голоса
+
+## Экспозиции и книги
+
+- [ekspozicii](https://github.com/rtynbirf/ekspozicii): книга экспозиций
+- [ekonomika](https://github.com/rtynbirf/ekonomika): книга экономики
+- [windows-chronicle](https://github.com/rtynbirf/windows-chronicle): полная хроника Microsoft Windows 1985–2026
+- [web-evolution-1991-2026](https://github.com/rtynbirf/web-evolution-1991-2026): эволюция Веба 1991→2026 — автономная HTML-экспозиция
+- [language-through-the-ages](https://github.com/rtynbirf/language-through-the-ages): язык сквозь эпохи — семь способов выжить языку
+- [global-practice-atlas](https://github.com/rtynbirf/global-practice-atlas): глобальный атлас практик 2026 (v1.6): 1145 живых позиций
+- [global-video-platforms-registry](https://github.com/rtynbirf/global-video-platforms-registry): верифицированный реестр 1071 видеоплатформ
+- [polymath-tools-atlas](https://github.com/rtynbirf/polymath-tools-atlas): каталог 665 AI-инструментов
+- [red-thread-debt-audit](https://github.com/rtynbirf/red-thread-debt-audit): красная нить — аудит динамики суверенного долга
+- [rent-mechanism-q43](https://github.com/rtynbirf/rent-mechanism-q43): рентный механизм: ядро Q43 v2, шесть законов L1–L6
+
+## Инструменты и браузеры
+
+- [polymath-os](https://github.com/rtynbirf/polymath-os): personal sovereign media-OS; 5-layer self-bootstrap
+- [uace](https://github.com/rtynbirf/uace): книга UACE
+- [uace-pml](https://github.com/rtynbirf/uace-pml): Universal AI Chat Exporter (Evidence First)
+- [free-man](https://github.com/rtynbirf/free-man): FREE MAN 0.2.2 — browser autonomy for Chrome MV3
+- [cell65-host](https://github.com/rtynbirf/cell65-host): антицензор (Chrome MV3): PAC/DNR/WebRTC-защита
+- [neutral-browser](https://github.com/rtynbirf/neutral-browser): нейтральный браузер пользователя
+- [combain-v2](https://github.com/rtynbirf/combain-v2): self-hosted messenger
+- [os-forge](https://github.com/rtynbirf/os-forge): OS-FORGE v0.1.1 — самодостаточный автономный батник
+- [release-vault](https://github.com/rtynbirf/release-vault): шифрованное хранилище релизных ассетов
+- [task-graph-propagator](https://github.com/rtynbirf/task-graph-propagator): Task Graph Engine: один пропагатор — все функции структуры
+- [lfs-core](https://github.com/rtynbirf/lfs-core): испытательный стенд автономного агента
+- [relomat](https://github.com/rtynbirf/relomat): канон типизированных отношений как конечный автомат
+- [domovoy-tweaker](https://github.com/rtynbirf/domovoy-tweaker): ДОМОВОЙ / MEGA=TWEAKER — Windows tweaker as a state
+
+## Optional
+
+- [Профиль дома](https://github.com/rtynbirf): человек=аккаунт=PID1 · полимат=мультиагент
+- [Карта вселенной](https://github.com/rtynbirf/karta): генерируется из живых данных API

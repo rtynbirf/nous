@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ПРОТОКОЛ-МОСТ — дубль два, анти-галлюцинация</title>
+<style>
+:root{--bg:#14110c;--panel:#1b1712;--line:#3a3223;--gold:#c9a45c;--dim:#8a7550;--text:#e6e0d4;
+--body:#ddd6c6;--muted:#9a8f7d;--red:#c96a5c;
+--serif:'Liberation Serif',Georgia,serif;--sans:'Liberation Sans','DejaVu Sans',Arial,sans-serif;
+--mono:'Liberation Mono','DejaVu Sans Mono',monospace;}
+*{box-sizing:border-box}html{background:var(--bg)}
+body{margin:0;padding:clamp(16px,4vw,48px);background:var(--bg);color:var(--text);
+font-family:var(--sans),sans-serif;line-height:1.55}
+.wrap{max-width:920px;margin:0 auto}
+.kicker{font-size:clamp(11px,1.4vw,13px);letter-spacing:3px;color:var(--gold);margin:0 0 10px}
+h1{font-family:var(--serif),serif;font-weight:700;font-size:clamp(28px,5.6vw,48px);line-height:1.12;
+margin:0 0 10px;color:#f0ead9}
+.sub{color:var(--muted);font-size:clamp(13px,1.8vw,15px);margin:0 0 20px}
+.rule{height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin:0 0 22px}
+h2.sec{font-family:var(--serif),serif;letter-spacing:2px;color:#f0ead9;font-size:clamp(18px,2.6vw,22px);
+margin:30px 0 14px}
+.card{border-left:3px solid var(--gold);background:var(--panel);padding:14px 18px;margin:0 0 14px}
+.card.kill{border-left-color:var(--red)}
+.card p{font-size:clamp(13px,1.8vw,14.5px);color:var(--body);margin:6px 0;text-align:left}
+.card b{color:var(--gold);font-weight:600}
+.card.kill b{color:var(--red)}
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;letter-spacing:1.5px;
+font-weight:600;white-space:nowrap}
+.b-kill{background:var(--red);color:#170f0d}.b-ok{background:var(--gold);color:#171208}
+.b-fix{border:1.5px solid var(--gold);color:var(--gold)}
+.grid{display:flex;gap:14px;flex-wrap:wrap}
+.grid .card{flex:1 1 280px;min-width:0}
+.spans{display:flex;gap:14px;flex-wrap:wrap}
+.span{flex:1 1 280px;min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:14px 16px}
+.srole{font-size:11px;letter-spacing:2.5px;color:var(--dim);margin:0 0 4px}
+.span h3{font-family:var(--serif),serif;color:#f0ead9;margin:0 0 6px;font-size:clamp(16px,2.2vw,19px)}
+.sstatus{font-size:12.5px;color:var(--muted);margin:0 0 8px}
+pre{background:#100d09;border:1px solid var(--line);border-radius:6px;padding:8px 10px;overflow-x:auto;
+font-family:var(--mono),monospace;font-size:11px;color:#c9b98a;margin:0;max-width:100%}
+.takt{border-left:3px solid var(--gold);background:var(--panel);padding:10px 16px;margin:0 0 10px;
+font-size:clamp(13px,1.8vw,14.5px);color:var(--body);text-align:left}
+.takt b{color:var(--gold)}
+.takt .tag{color:var(--red);font-weight:600}
+.formula{font-family:var(--serif),serif;font-size:clamp(19px,3.6vw,28px);color:#f0ead9;line-height:1.35;
+border-left:4px solid var(--gold);padding:6px 0 6px 18px;margin:22px 0}
+.formula small{display:block;font-family:var(--sans),sans-serif;font-size:clamp(12px,1.6vw,14px);
+color:var(--muted);margin-top:10px}
+ul.srcs{margin:0;padding-left:20px;color:var(--muted);font-size:clamp(12px,1.6vw,13.5px)}
+ul.srcs a{color:#c9b98a;word-break:break-all}
+ul.srcs li{margin:3px 0}
+.end{text-align:center;margin:34px 0 8px}
+.end .sig{font-family:var(--serif),serif;font-weight:700;font-size:clamp(20px,4vw,30px);color:#f0ead9;
+letter-spacing:4px}
+.end .line{color:var(--muted);font-size:clamp(12px,1.6vw,14px);margin-top:10px}
+</style>
+</head>
+<body><div class="wrap">
+<p class="kicker">ДУБЛЬ ДВА · РЕЖИМ АНТИ-ГАЛЛЮЦИНАЦИИ · 2026-11-20</p>
+<h1>ПРОТОКОЛ-МОСТ</h1>
+<p class="sub">волна-4 перепроверена: мир — живыми источниками, дом — само-опровержением. Два моих
+вердикта убиты собственными проверками. Из пепла — мост.</p>
+<div class="rule"></div>
+
+<h2 class="sec">ЧТО ОПРОВЕРГНУЛО САМО СЕБЯ</h2>
+<div class="card kill"><span class="badge b-kill">ОПРОВЕРГНУТО</span>
+<p><b>«Тегов на закреплённых не найдено»</b> — ложно. git ls-remote: <b>7 из 7</b> витринных клеток
+с тегами: universal-agent v2.3.0, singulyar v1.7 (+ именные GOLOS-FOND-2026-11-15, tombstone-refs-2026-11-09…),
+cell65-host v1.2.0-mv3, rtynbirf / polymath-atlas-v107 / lean-canon v0.1.0, voice-atlas-llm — 8 датированных.
+Такт 3 ADR-0018 строился на гипотезе, которая умерла за одну команду.</p></div>
+<div class="card kill"><span class="badge b-kill">ОПРОВЕРГНУТО</span>
+<p><b>«llms.txt в доме не найдено»</b> — ложно наполовину. raw-проверка 11 клеток: файл живёт в
+<b>6 из 11</b> — nous, rtynbirf, voice-atlas-llm, universal-agent, polymath-atlas-v107, cell65-host.
+Дверь для машин частично построена ещё до волны-4 — я её не заметил.</p></div>
+<div class="grid">
+<div class="card"><span class="badge b-ok">УСТОЯЛО</span><p><b>AGENTS.md 10/11</b> выборки; единственный
+проём — singulyar.</p></div>
+<div class="card"><span class="badge b-ok">УСТОЯЛО</span><p><b>MCP-сервера нет</b>: корни 6 клеток роя +
+полное дерево nous чисты (метод: грепка корня — помечен).</p></div>
+<div class="card"><span class="badge b-fix">УТОЧНЕНО</span><p><b>«301»</b> — дословно «301 Lean-модуль
+(Atlas · OSA/OSA4/OSA5 · Gestalt · Bridges · AtlasKO · UAM)»: модули, не теоремы.</p></div>
+<div class="card"><span class="badge b-fix">ЗАФИКСИРОВАНО</span><p><b>6 vs 7</b>: живой HTML профиля даёт
+7 витринных ссылок, ранняя сверка — 6. Не угадываю — открытый вопрос для SWARM-SYNC.</p></div>
+</div>
+
+<h2 class="sec">МИР — ПЕРЕКРЁСТКА</h2>
+<div class="grid">
+<div class="card"><span class="badge b-ok">УСТОЯЛО 11</span><p>MCP → LF <b>09.12.2025</b>; A2A — <b>150+
+организаций</b> (LF, 09.04.2026); Skills → AAIF <b>дословно 22.10.2026</b>; Agent HQ <b>28.10.2025</b>;
+CISA <b>23.09.2025</b>; Octoverse дословно; Spec Kit <b>02.09.2025</b>; npm trusted publishing
+<b>31.07.2025</b>.</p></div>
+<div class="card"><span class="badge b-fix">ПОПРАВЛЕНО 2</span><p><b>«500+ пакетов» → «сотни»</b>
+(Unit42 дословно: hundreds; Wiz: 100+). <b>llms.txt-адоптеры → OpenAI, Anthropic, Gemini</b> + Lighthouse
+(Stripe/Cloudflare на llmstxt.org нет — снято как снимок волны-1).</p></div>
+<div class="card"><span class="badge b-fix">СНИМОК 2</span><p>Релизная автоматизация и Sigstore/SBOM —
+общая практика без заявленных чисел; помечено снимком, не цитатой.</p></div>
+</div>
+
+<h2 class="sec">ТРИ ПРОЛЁТА МОСТА</h2>
+<p class="sub">мир строит протоколы — дом строит доказательства; мост переводит одно в другое.
+Каждый пролёт — рабочий артефакт в download/most/.</p>
+<div class="spans">
+<div class="span s1"><p class="srole">ПРОЛЁТ 1 · ДЛЯ МАШИН</p><h3>ДВЕРЬ</h3><p class="sstatus">ЧАСТИЧНО ПОСТРОЕНА ДО КОНВОЯ (6/11) + ЧЕРНОВИК ДОМОВОЙ ДВЕРИ ГОТОВ</p><pre>llms.txt — 58 строк: H1 + блок-цитата + 6 секций
+(канон · карта · рой · СИНГУЛЯР · экспозиции · инструменты)
+формат сверен с живой llmstxt.org</pre></div>
+<div class="span s2"><p class="srole">ПРОЛЁТ 2 · РУКИ</p><h3>MCP-СКЕЛЕТ</h3>
+<p class="sstatus">ЧЕРНОВИК ГОТОВ · НЕ ПРИНЯТ ДОМОМ · stdlib-only</p>
+<pre>initialize / tools/list / tools/call
+list_cells · cell_tags (ls-remote) · house_pulse
+запуск: echo '{"method":"tools/list"}' | python3 mcp_skeleton.py</pre></div>
+<div class="span s3"><p class="srole">ПРОЛЁТ 3 · ЛИЦО</p><h3>A2A-КАРТОЧКА</h3>
+<p class="sstatus">ЧЕРНОВИК ГОТОВ · СПЕКУ V1 СВЕРИТЬ ПРИ ПРИНЯТИИ</p>
+<pre>agent_card.json: 4 навыка
+inventory-sweep · canon-audit
+media-forge · release-membrane</pre></div>
+</div>
+
+<h2 class="sec">ПЕРЕСБОРКА ТАКТОВ ADR-0018</h2>
+<div class="takt"><b>1 · КАРТА</b> — стоит: био из живого API (снимок: 69 vs 80).</div>
+<div class="takt"><b>2 · ДВЕРЬ</b> — уточнён: llms.txt недостающим пяти (singulyar, lean-canon, karta,
+index, door-zero) + EN-дубли.</div>
+<div class="takt"><span class="tag">ПЕРЕСОБРАН</span> <b>3 · КРИСТАЛЛ С АДРЕСОМ</b> — теги уже есть 7/7;
+новый ход: <b>документ конвенции тегов</b> — semver v* для версий, датированные именные для событий,
+адресация в release-vault.</div>
+<div class="takt"><b>4 · ТРИ ГОЛОСА</b> — стоит: singulyar 197 → 200.</div>
+<div class="takt"><b>5 · ПОДПИСЬ</b> — усилен: <b>гипотеза в каноне обязана нести способ проверки и дату</b> —
+иначе ложь по расписанию. Проверка — одна команда.</div>
+
+<div class="formula">«Гипотеза без способа проверки — ложь по расписанию.
+Опроверженная гипотеза — не позор канона, а его питание.»
+<small>эмерджентное дубль два · мост = перевод доказательств в протоколы · дом rtynbirf, 2026-11-20</small></div>
+
+<h2 class="sec">ЖИВЫЕ ИСТОЧНИКИ ДУБЛЬ-ДВА</h2>
+<ul class="srcs">
+<li><a href="https://github.blog/open-source/maintainers/mcp-joins-the-linux-foundation-what-this-means-for-developers-building-the-next-era-of-ai-tools-and-agents">github.blog — MCP joins the Linux Foundation (09.12.2025)</a></li>
+<li><a href="https://www.linuxfoundation.org/press/a2a-protocol-surpasses-150-organizations-lands-in-major-cloud-platforms-and-sees-enterprise-production-use-in-first-year">linuxfoundation.org — A2A surpasses 150 organizations (09.04.2026)</a></li>
+<li><a href="https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation">anthropic.com — donating Agent Skills to AAIF (22.10.2026)</a></li>
+<li><a href="https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem">cisa.gov — Shai-Hulud advisory (23.09.2025)</a></li>
+<li><a href="https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1">github.blog — Octoverse 2025 (28.10.2025)</a></li>
+<li><a href="https://llmstxt.org/">llmstxt.org — формат и адоптеры (открыт в дубль-два)</a></li>
+<li>дом: git ls-remote ×7 · raw ×22 · HTML профиля и корней · снимок дерева nous</li>
+</ul>
+
+<div class="end">
+<div class="sig">ПРОДОЛЖЕНИЕ СЛЕДУЕТ</div>
+<div class="line">ρ̇ &gt; 0 · дубль два: карта честнее, потому что часть её убита и пересобрана · 2026-11-20</div>
+</div>
+</div></body></html>

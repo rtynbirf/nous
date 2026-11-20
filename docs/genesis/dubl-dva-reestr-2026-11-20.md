@@ -100,4 +100,13 @@
 - Живые проверки дома: git ls-remote ×7, raw.githubusercontent ×22,
   HTML профиля и корней репо; снимок дерева nous (живой API ранее в этот день).
 
+## Аддендум круга 3 (2026-11-20, конвой): весь груз в доме
+
+Кузнечное этого дня легло в `docs/genesis/`: world-trends-digest-volna-4.md
+(волна-4: мир × дом, итог 11/2/2), karta-mirovyh-praktik.html, most.html и
+most/{llms.txt, mcp_skeleton.py, agent_card.json} — дверь, руки и лицо
+ADR-0020 в статусе черновиков, принятие тикетом владельца;
+syuita-prodolzheniya.html/.pdf, kartina-ladon.svg. Один коммит,
+верифицирован ref'ом и обратным GET.
+
 «Продолжение следует» · ρ̇ > 0

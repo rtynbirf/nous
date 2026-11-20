@@ -1,0 +1,34 @@
+{
+  "_пометка": "ПРОТОКОЛ-МОСТ · пролёт «лицо»: черновик A2A-карточки дома rtynbirf. Статус: ЧЕРНОВИК КОНВОЯ (дубль два, 2026-11-20), не принят домом. Спека A2A v1 жива (Linux Foundation; 150+ организаций — пресс-релиз 09.04.2026), но дословно не открыта конвоем — поля сверить с живой спекой при принятии. Ни одного выдуманного числа в описаниях: пульс — снимок SWARM-SYNC 20 XI 2026.",
+  "name": "rtynbirf-house",
+  "description": "Дом-полимат: 80 клеток — канон, рой агентов, формальные Lean-каноны, медиа-станок СИНГУЛЯР. Верификация через исполнение; ни одного выдуманного числа; строка, не имя.",
+  "url": "https://github.com/rtynbirf",
+  "provider": { "organization": "rtynbirf (человек=аккаунт=PID1; полимат=мультиагент)" },
+  "protocolBinding": "A2A v1 (сверить при принятии)",
+  "skills": [
+    {
+      "id": "inventory-sweep",
+      "name": "Инвентаризация дома",
+      "description": "Живой срез клеток по GitHub API с реестром claims (inv-automat, karta: карта генерируется из живых данных).",
+      "tags": ["inventory", "github-api", "claims"]
+    },
+    {
+      "id": "canon-audit",
+      "name": "Сверка канона по строкам",
+      "description": "Проверка утверждений канона против улик (lex-naturae: claim/evidence ledger; polimat-task174: протокол проверки канона по строкам).",
+      "tags": ["audit", "evidence", "claims-evidence"]
+    },
+    {
+      "id": "media-forge",
+      "name": "Медиа-станок СИНГУЛЯР",
+      "description": "Офлайн-вселенная караоке: 68 песен · 197 языков (цель 200) — снимок описания клетки 20 XI 2026.",
+      "tags": ["media", "karaoke", "localization"]
+    },
+    {
+      "id": "release-membrane",
+      "name": "Мембрана выпуска",
+      "description": "Гейт релиза: пересчёт хэшей, SBOM-drift с акком, отказ с кодом (nous ADR-0016).",
+      "tags": ["release", "sbom", "attestation"]
+    }
+  ]
+}
