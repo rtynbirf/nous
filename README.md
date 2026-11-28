@@ -24,6 +24,18 @@
 
 # nous
 
+<div align="center">
+
+<a href="https://github.com/rtynbirf/nous"><img src="banner.png" width="100%" alt="nous — штандарт мастерской в каноне ORNAMENTAL MYTHO-REALISM"></a>
+
+</div>
+
+
+
+
+
+# nous
+
 <p align="center"><img src="https://cdn.jsdelivr.net/gh/rtynbirf/nous@main/.github/social-preview.png" alt="nous" width="100%"></p>
 
 <div align="center">
