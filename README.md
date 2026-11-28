@@ -1,5 +1,7 @@
 <div align="center">
-  <img src="https://cdn.jsdelivr.net/gh/rtynbirf/nous@main/banner.png" alt="nous — Конституция для человека и роя" width="100%">
+
+<a href="https://github.com/rtynbirf/nous"><img src="banner.png" width="100%" alt="nous — штандарт мастерской в каноне ORNAMENTAL MYTHO-REALISM"></a>
+
 </div>
 
 <!--ФОРЖ:МУЗА:НАЧАЛО-->
@@ -12,13 +14,25 @@
 
 <!--ФОРЖ:ПАСПОРТ:НАЧАЛО-->
 <div align="center">
-  <img src="https://cdn.jsdelivr.net/gh/rtynbirf/nous@main/revo-page.svg" width="100%" alt="РЕВО-паспорт страницы nous: строение файлов, лексикон, числа — по фактическому контенту" />
+  <img src="revo-page.svg" width="100%" alt="РЕВО-паспорт страницы nous №36 в каноне ORNAMENTAL MYTHO-REALISM: орнаментальная решётка, медальон-миф, строение файлов, лексикон — по фактическому контенту" />
 </div>
 
 | ФАЙЛОВ | ПАПОК | КОММИТОВ | ОБНОВЛЕНО | РЕЛИЗОВ |
 |---:|---:|---:|---|---:|
-| 235 | 42 | 132 | 2026-11-18 | 1 |
+| 261 | 48 | 1 | 2026-11-28 | 1 |
 <!--ФОРЖ:ПАСПОРТ:КОНЕЦ-->
+
+# nous
+
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/rtynbirf/nous@main/.github/social-preview.png" alt="nous" width="100%"></p>
+
+<div align="center">
+  <img src="https://cdn.jsdelivr.net/gh/rtynbirf/nous@main/banner.png" alt="nous — Конституция для человека и роя" width="100%">
+</div>
+
+
+
+
 
 
 
